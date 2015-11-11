@@ -64,5 +64,12 @@ public class Poule {
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
+
+    @Override
+    public String toString() {
+        return "Poule{" + "name=" + name + ", teams=" + teams + ", matches=" + matches + ", completed=" + completed + '}';
+    }
+    
+    
     
 }
