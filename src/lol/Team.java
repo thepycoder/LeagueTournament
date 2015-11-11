@@ -21,6 +21,11 @@ public class Team {
     {
     }
     
+    public Team (String Name) 
+    {
+        this.name= name;
+    }
+    
     public Team(String name, String region, String coach, ArrayList<String> members) {
         this.name = name;
         this.region = region;
