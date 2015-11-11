@@ -28,6 +28,16 @@ public class Tournament {
         
         Poule poule1 = new Poule();
         Poule poule2 = new Poule();
+    
+        Team FNC = new Team ("FNC") ;
+        Team C9 = new Team ("C9") ;
+        Team ORI = new Team ("ORI") ;
+        Team TSM = new Team ("TSM") ;
+        Team CLG= new Team ("CLG") ;
+        Team SKT = new Team ("SKT") ;
+        Team EDG = new Team ("EDG") ;
+        Team BKT= new Team ("BKT") ;
+        
     }
     
     public ArrayList<Poule> generatePoules(ArrayList<ArrayList<String>> teamlist) {
