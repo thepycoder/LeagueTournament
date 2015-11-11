@@ -19,8 +19,10 @@ public class Poule {
     
     //constructor
 
-    public Poule() 
+    public Poule(String name, ArrayList<Team> teams) 
     {
+        this.name = name;
+        this.teams = teams;
     }
     
     public Poule(String name, ArrayList<Team> teams, ArrayList<Match> matches, boolean completed) {
