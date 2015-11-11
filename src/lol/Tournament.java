@@ -20,27 +20,36 @@ public class Tournament {
     public static void main(String[] args) throws IOException {
         
         ArrayList<Team> teamlist = new ArrayList<Team>();
-        teamlist.add(team1);
-        teamlist.add(team2);
         
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
-        
-        Poule poule1 = new Poule();
-        Poule poule2 = new Poule();
     
-        Team FNC = new Team ("FNC") ;
-        Team C9 = new Team ("C9") ;
-        Team ORI = new Team ("ORI") ;
-        Team TSM = new Team ("TSM") ;
-        Team CLG= new Team ("CLG") ;
-        Team SKT = new Team ("SKT") ;
-        Team EDG = new Team ("EDG") ;
-        Team BKT= new Team ("BKT") ;
+        Team FNC = new Team ("FNC");
+        Team C9 = new Team ("C9");
+        Team ORI = new Team ("ORI");
+        Team TSM = new Team ("TSM");
+        Team CLG= new Team ("CLG");
+        Team SKT = new Team ("SKT");
+        Team EDG = new Team ("EDG");
+        Team BKT= new Team ("BKT");
+        
+        teamlist.add(FNC);
+        teamlist.add(C9);
+        teamlist.add(ORI);
+        teamlist.add(TSM);
+        teamlist.add(CLG);
+        teamlist.add(SKT);
+        teamlist.add(EDG);
+        teamlist.add(BKT);
         
     }
     
-    public ArrayList<Poule> generatePoules(ArrayList<ArrayList<String>> teamlist) {
-        
+    public ArrayList<Poule> generatePoules(ArrayList<Team> teamlist) {
+        ArrayList<Poule> poules = new ArrayList<Poule>();
+        Poule poule1 = new Poule("Poule 1", (ArrayList<Team>) teamlist.subList(0, 3));
+        Poule poule2 = new Poule("Poule 2", (ArrayList<Team>) teamlist.subList(4, 7));
+        poules.add(poule1);
+        poules.add(poule2);
+        return poules;
     }
 }
