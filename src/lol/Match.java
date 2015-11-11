@@ -14,6 +14,7 @@ public class Match {
     private Team team1;
     private Team team2;
     private String timeStamp;
+    private String official;
     
     //constructor
 
@@ -21,11 +22,12 @@ public class Match {
     {
     }
     
-    public Match(int matchID, Team team1, Team team2, String timeStamp) {
+    public Match(int matchID, Team team1, Team team2, String timeStamp, String official) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = timeStamp;
+        this.official = official;
     }
     
     //getter
@@ -46,6 +48,10 @@ public class Match {
         return timeStamp;
     }
     
+    public String getOfficial () {
+        return official;
+    }
+    
     //setter
 
     public void setMatchID(int matchID) {
@@ -64,5 +70,7 @@ public class Match {
         this.timeStamp = timeStamp;
     }
     
-    
+    public void setOfficial (String official) {
+        this.official = official;
+    }
 }

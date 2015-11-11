@@ -14,17 +14,17 @@ import java.util.ArrayList;
 public class Team {
     private String name;
     private String region;
-    private String official;
+    private String coach;
     private ArrayList <String> members;
 
     public Team ()
     {
     }
     
-    public Team(String name, String region, String official, ArrayList<String> members) {
+    public Team(String name, String region, String coach, ArrayList<String> members) {
         this.name = name;
         this.region = region;
-        this.official = official;
+        this.coach = coach;
         this.members = members;
     }
 
@@ -38,8 +38,8 @@ public class Team {
         return region;
     }
 
-    public String getOfficial() {
-        return official;
+    public String getCoach() {
+        return coach;
     }
 
     public ArrayList<String> getMembers() {
@@ -55,8 +55,8 @@ public class Team {
         this.region = region;
     }
 
-    public void setOfficial(String official) {
-        this.official = official;
+    public void setOfficial(String coach) {
+        this.coach = coach;
     }
 
     public void setMembers(ArrayList<String> members) {
