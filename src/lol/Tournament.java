@@ -30,7 +30,7 @@ public class Tournament {
         Poule poule2 = new Poule();
     }
     
-    public ArrayList<Poule> generatePoules(ArrayList<ArrayList<String>> teamlist) {
+    public ArrayList<Team> generatePoules(ArrayList<Team> teamlist) {
         
     }
 }
