@@ -6,6 +6,7 @@
 package lol;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,13 +14,13 @@ import java.util.ArrayList;
  */
 public class Poule {
     private String name;
-    private ArrayList <Team> teams;
+    private List<Team> teams;
     private ArrayList <Match> matches;
     private boolean completed;
     
     //constructor
 
-    public Poule(String name, ArrayList<Team> teams) 
+    public Poule(String name, List<Team> teams) 
     {
         this.name = name;
         this.teams = teams;
@@ -37,7 +38,7 @@ public class Poule {
         return name;
     }
 
-    public ArrayList<Team> getTeams() {
+    public List<Team> getTeams() {
         return teams;
     }
 
