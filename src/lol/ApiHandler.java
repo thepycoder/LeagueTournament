@@ -27,7 +27,7 @@ public class ApiHandler {
     public ApiHandler() {
         
     }
-    public String getMatch(String MatchID) throws MalformedURLException, IOException {
+    public JsonObject getMatch(String MatchID) throws MalformedURLException, IOException {
         String sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + MatchID + "?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5"; //just a string
 
         // Connect to the URL using java's native library
@@ -42,6 +42,7 @@ public class ApiHandler {
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String json = gson.toJson(rootobj);
-        return rootobj.getClass().getName();
+        System.out.println(json);
+        return rootobj;
     }
 }
