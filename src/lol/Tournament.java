@@ -19,23 +19,7 @@ public class Tournament {
     
     public static void main(String[] args) throws IOException {
         
-        ArrayList<String> team1 = new ArrayList<String>();
-        team1.add("Team1");
-        team1.add("speler1_1");
-        team1.add("speler1_2");
-        team1.add("speler1_3");
-        team1.add("speler1_4");
-        team1.add("speler1_5");
-        
-        ArrayList<String> team2 = new ArrayList<String>();
-        team1.add("Team2");
-        team1.add("speler2_1");
-        team1.add("speler2_2");
-        team1.add("speler2_3");
-        team1.add("speler2_4");
-        team1.add("speler2_5");
-        
-        ArrayList<ArrayList<String>> teamlist = new ArrayList<ArrayList<String>>();
+        ArrayList<Team> teamlist = new ArrayList<Team>();
         teamlist.add(team1);
         teamlist.add(team2);
         
