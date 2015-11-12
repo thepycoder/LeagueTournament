@@ -5,10 +5,7 @@
  */
 package lol;
 
-import com.google.gson.JsonObject;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -20,6 +17,8 @@ public class Tournament {
     //private static String matchID = "2370414822"; //als voorbeeld
     
     ArrayList<Team> teamlist = new ArrayList<Team>();
+    ArrayList<Poule> poulelist = new ArrayList<Poule>();
+    ArrayList<Match> matchlist = new ArrayList<Match>();
     
     
     public Tournament() {
@@ -29,21 +28,40 @@ public class Tournament {
         this.teamlist.add(team);
     }
 
-    public ArrayList<Poule> generatePoules(ArrayList<Team> teamlist) {
+    public void generatePoules(ArrayList<Team> teamlist) {
         ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
         
         Poule poule1 = new Poule("Poule 1", teamlist.subList(0, 4));
         Poule poule2 = new Poule("Poule 2", teamlist.subList(4, 8));
-        poules.add(poule1);
-        poules.add(poule2);
-        return poules;
+        
+        poulelist.add(poule1);
+        poulelist.add(poule2);
+    }
+    
+    public ArrayList<Match> generatePouleMatches(Poule poule) {
+        for (Team team1 : poule.getTeams()) {
+            for (Team team2 : poule.getTeams()) {
+                if (team1 != team2) {
+                    System.out.println(team1.toString() + team2.toString());
+                    Match match = new Match(team1, team2, poule.getName());
+                    matchlist.add(match);
+                }
+            }
+        }
+        return null;
     }
 
     public ArrayList<Team> getTeamlist() {
         return teamlist;
     }
+
+    public ArrayList<Poule> getPoulelist() {
+        return poulelist;
+    }
+    
+    
     
     
 }

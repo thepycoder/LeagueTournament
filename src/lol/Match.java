@@ -10,19 +10,26 @@ package lol;
  * @author stephan
  */
 public class Match {
-    private int matchID;
+    
+    private String matchID;
     private Team team1;
     private Team team2;
+    private String type;
     private String timeStamp;
     private String official;
     
     //constructor
 
-    public Match ()
+    public Match (Team team1, Team team2, String type)
     {
+        this.matchID = team1.getName() + "_" + team2.getName() + "_" + type;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.timeStamp = null;
+        this.official = null;
     }
     
-    public Match(int matchID, Team team1, Team team2, String timeStamp, String official) {
+    public Match(String matchID, Team team1, Team team2, String timeStamp, String official) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
@@ -32,7 +39,7 @@ public class Match {
     
     //getter
 
-    public int getMatchID() {
+    public String getMatchID() {
         return matchID;
     }
 
@@ -54,7 +61,7 @@ public class Match {
     
     //setter
 
-    public void setMatchID(int matchID) {
+    public void setMatchID(String matchID) {
         this.matchID = matchID;
     }
 

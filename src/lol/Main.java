@@ -37,6 +37,7 @@ public class Main {
         t.addTeam(EDG);
         t.addTeam(BKT);
         
-        System.out.println(t.generatePoules(t.getTeamlist()));
+        t.generatePoules(t.getTeamlist());
+        t.generatePouleMatches(t.getPoulelist().get(0));
     }
 }
