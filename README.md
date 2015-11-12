@@ -1,8 +1,8 @@
-# groepswerk
-
-Meeste klasses zijn al gemaakt en meeste code is gegenereerd. Nu beginnen aan methodes en guis :)
+# lol
+League of Legends - Project beleidsinformatica
 
 TO-DO
 
-* add team gui
-* plan match gui
+* [ ] GUI - teams en spelers invlullen
+* [ ] mogelijke matches genereren binnen een poule
+* [ ] GUI - match plannen op basis van deze matches
