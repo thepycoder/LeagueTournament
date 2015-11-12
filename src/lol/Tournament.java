@@ -40,7 +40,7 @@ public class Tournament {
         poulelist.add(poule2);
     }
     
-    public ArrayList<Match> generatePouleMatches(Poule poule) {
+    public void generatePouleMatches(Poule poule) {
         for (Team team1 : poule.getTeams()) {
             for (Team team2 : poule.getTeams()) {
                 if (team1 != team2) {
@@ -50,7 +50,6 @@ public class Tournament {
                 }
             }
         }
-        return null;
     }
 
     public ArrayList<Team> getTeamlist() {
