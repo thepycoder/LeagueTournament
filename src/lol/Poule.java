@@ -70,7 +70,7 @@ public class Poule {
 
     @Override
     public String toString() {
-        return "Poule{" + "name=" + name + ", teams=" + teams + ", matches=" + matches + ", completed=" + completed + '}';
+        return "name=" + name + ", teams=" + teams;
     }
     
     

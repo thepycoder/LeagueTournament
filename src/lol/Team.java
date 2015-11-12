@@ -21,7 +21,7 @@ public class Team {
     {
     }
     
-    public Team (String Name) 
+    public Team (String name) 
     {
         this.name= name;
     }
@@ -66,6 +66,11 @@ public class Team {
 
     public void setMembers(ArrayList<String> members) {
         this.members = members;
+    }
+
+    @Override
+    public String toString() {
+        return "name=" + name + " ";
     }
     
     

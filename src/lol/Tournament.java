@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -25,8 +26,11 @@ public class Tournament {
 
     public ArrayList<Poule> generatePoules(ArrayList<Team> teamlist) {
         ArrayList<Poule> poules = new ArrayList<Poule>();
-        Poule poule1 = new Poule("Poule 1", teamlist.subList(0, 3));
-        Poule poule2 = new Poule("Poule 2", teamlist.subList(4, 7));
+        
+        Collections.shuffle(teamlist);
+        
+        Poule poule1 = new Poule("Poule 1", teamlist.subList(0, 4));
+        Poule poule2 = new Poule("Poule 2", teamlist.subList(4, 8));
         poules.add(poule1);
         poules.add(poule2);
         return poules;
