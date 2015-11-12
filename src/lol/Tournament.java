@@ -19,9 +19,14 @@ public class Tournament {
     
     //private static String matchID = "2370414822"; //als voorbeeld
     
+    ArrayList<Team> teamlist = new ArrayList<Team>();
     
     
     public Tournament() {
+    }
+    
+    public void addTeam(Team team) {
+        this.teamlist.add(team);
     }
 
     public ArrayList<Poule> generatePoules(ArrayList<Team> teamlist) {
@@ -35,4 +40,10 @@ public class Tournament {
         poules.add(poule2);
         return poules;
     }
+
+    public ArrayList<Team> getTeamlist() {
+        return teamlist;
+    }
+    
+    
 }

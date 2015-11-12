@@ -15,7 +15,6 @@ public class Main {
     public static void main(String[] args) {
         
         Tournament t = new Tournament();
-        ArrayList<Team> teamlist = new ArrayList<Team>();
         
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
@@ -29,15 +28,15 @@ public class Main {
         Team EDG = new Team ("EDG");
         Team BKT= new Team ("BKT");
         
-        teamlist.add(FNC);
-        teamlist.add(C9);
-        teamlist.add(ORI);
-        teamlist.add(TSM);
-        teamlist.add(CLG);
-        teamlist.add(SKT);
-        teamlist.add(EDG);
-        teamlist.add(BKT);
+        t.addTeam(FNC);
+        t.addTeam(C9);
+        t.addTeam(ORI);
+        t.addTeam(TSM);
+        t.addTeam(CLG);
+        t.addTeam(SKT);
+        t.addTeam(EDG);
+        t.addTeam(BKT);
         
-        System.out.println(t.generatePoules(teamlist));
+        System.out.println(t.generatePoules(t.getTeamlist()));
     }
 }
