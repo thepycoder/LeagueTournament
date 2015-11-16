@@ -24,15 +24,10 @@ public class Tournament {
     public Tournament() {
     }
     
-    /*public void addTeam(Team team) {
-        this.teamlist.add(team);
-    }
-    */
-    
-      public void addTeam(String name, ArrayList<String> members, String region, String coach) {
-      Team team = new Team(name, region, coach, members);
-      teamlist.add(team);
-      db.storeTeam(name, members, coach, region);
+    public void addTeam(String name, ArrayList<String> members, String region, String coach) {
+        Team team = new Team(name, region, coach, members);
+        teamlist.add(team);
+        db.storeTeam(name, members, coach, region);
     }
 
     public void generatePoules(ArrayList<Team> teamlist) {
