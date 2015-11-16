@@ -19,7 +19,7 @@ public class Tournament {
     ArrayList<Team> teamlist = new ArrayList<Team>();
     ArrayList<Poule> poulelist = new ArrayList<Poule>();
     ArrayList<Match> matchlist = new ArrayList<Match>();
-    
+    DatabaseHandler db = new DatabaseHandler();
     
     public Tournament() {
     }
@@ -27,6 +27,12 @@ public class Tournament {
     public void addTeam(Team team) {
         this.teamlist.add(team);
     }
+    
+//    public void addTeam(String name, ArrayList<String> members, String region, String coach) {
+//        Team team = new Team(name, region, coach, members);
+//        teamlist.add(team);
+//        db.storeTeam(name, members, coach, region);
+//    }
 
     public void generatePoules(ArrayList<Team> teamlist) {
         ArrayList<Poule> poules = new ArrayList<Poule>();
