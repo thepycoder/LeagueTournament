@@ -18,7 +18,7 @@ public class DatabaseHandler {
     
     public String user = "BINFG16";
     public String pass = "f9xff87y";
-    public String url = "mysqlha2.ugent.be";
+    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
     Connection conn = null;
     
     
@@ -56,7 +56,9 @@ public class DatabaseHandler {
             for (String member : members) {
                 mem += member + ", ";
             }
-            stmt.executeQuery("INSERT INTO Team VALUES (" + name + ", " + region + ", " + mem + coach + ")");
+            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
+            System.out.println(query);
+            stmt.executeUpdate(query);
         } catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
         } finally {
