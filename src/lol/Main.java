@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String[] args) {
-        //hallo sonckie
         Tournament t = new Tournament();
         
         ApiHandler api = new ApiHandler();

@@ -5,6 +5,9 @@
  */
 package lol;
 
+import java.util.ArrayList;
+import javax.swing.JTextField;
+
 /**
  *
  * @author stephan
@@ -17,6 +20,55 @@ public class GuiTeam extends javax.swing.JFrame {
     public GuiTeam() {
         initComponents();
     }
+    
+     Tournament to = null;
+    public GuiTeam(Tournament t) {
+        this.to = t;
+        initComponents();
+    }
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        //store functie   public void addTeam(String name, ArrayList<String> members, String region, String coach)
+        ArrayList<String> GuiMembers = new ArrayList<String>();
+        this.to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        System.exit(0);
+    }
+    
+    
+    //getters
+
+    public String getjTextField1() {
+        return jTextField1.getText();
+    }
+
+    public String getjTextField2() {
+        return jTextField2.getText();
+    }
+
+    public String getjTextField3() {
+        return jTextField3.getText();
+    }
+
+    public String getjTextField4() {
+        return jTextField4.getText();
+    }
+
+    public String getjTextField5() {
+        return jTextField5.getText();
+    }
+
+    public String getjTextField6() {
+        return jTextField6.getText();
+    }
+
+    public String getjTextField7() {
+        return jTextField7.getText();
+    }
+
+    public String getjTextField8() {
+        return jTextField8.getText();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
