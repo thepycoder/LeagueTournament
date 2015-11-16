@@ -17,26 +17,15 @@ public class Main {
         
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
-    
-        Team FNC = new Team ("FNC");
-        Team C9 = new Team ("C9");
-        Team ORI = new Team ("ORI");
-        Team TSM = new Team ("TSM");
-        Team CLG= new Team ("CLG");
-        Team SKT = new Team ("SKT");
-        Team EDG = new Team ("EDG");
-        Team BKT= new Team ("BKT");
         
-        t.addTeam(FNC);
-        t.addTeam(C9);
-        t.addTeam(ORI);
-        t.addTeam(TSM);
-        t.addTeam(CLG);
-        t.addTeam(SKT);
-        t.addTeam(EDG);
-        t.addTeam(BKT);
+        ArrayList<String> mem = new ArrayList<String>();
+        mem.add("Huni");
+        mem.add("Rekkles");
+        mem.add("Lustboy");
+        mem.add("Reignover");
+        mem.add("Probelter");
         
-        t.generatePoules(t.getTeamlist());
-        t.generatePouleMatches(t.getPoulelist().get(0));
+//        t.generatePoules(t.getTeamlist());
+//        t.generatePouleMatches(t.getPoulelist().get(0));
     }
 }
