@@ -6,6 +6,7 @@
 package lol;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +19,11 @@ public class DatabaseHandler {
     public String user = "BINFG16";
     public String pass = "f9xff87y";
     public String url = "mysqlha2.ugent.be";
+    Connection conn = null;
+    
+    
+    public DatabaseHandler() {
+    }
     
     
     public Connection createConnection(String url) {
@@ -39,5 +45,28 @@ public class DatabaseHandler {
             return null;
         }
         
+    }
+    
+    public void storeTeam(String name, ArrayList<String> members, String coach, String region){
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            String mem = new String();
+            
+            for (String member : members) {
+                mem += member + ", ";
+            }
+            stmt.executeQuery("INSERT INTO Team VALUES (" + name + ", " + mem + coach + ", " + region);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
     }
 }
