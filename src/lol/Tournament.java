@@ -31,7 +31,6 @@ public class Tournament {
     
       public void addTeam(String name, ArrayList<String> members, String region, String coach) {
       Team team = new Team(name, region, coach, members);
-          System.out.println("hey");
       teamlist.add(team);
       db.storeTeam(name, members, coach, region);
     }

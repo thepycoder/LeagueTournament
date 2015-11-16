@@ -123,6 +123,12 @@ public class GuiTeam extends javax.swing.JFrame {
 
         jLabel4.setText("Team Members");
 
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField8KeyPressed(evt);
+            }
+        });
+
         jButton1.setText("Store");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -137,6 +143,9 @@ public class GuiTeam extends javax.swing.JFrame {
         jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jButton1KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jButton1KeyTyped(evt);
             }
         });
 
@@ -227,25 +236,31 @@ public class GuiTeam extends javax.swing.JFrame {
         GuiMembers.add(getjTextField6());
         GuiMembers.add(getjTextField7());
         GuiMembers.add(getjTextField8());
-        System.out.println(getjTextField1());
         to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
         System.exit(0);
         
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
-        /*ArrayList<String> GuiMembers = new ArrayList<String>();
+  //
+    }//GEN-LAST:event_jButton1KeyPressed
+
+    private void jButton1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1KeyTyped
+
+    private void jTextField8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyPressed
+        if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
+             ArrayList<String> GuiMembers = new ArrayList<String>();
         GuiMembers.add(getjTextField4());
         GuiMembers.add(getjTextField5());
         GuiMembers.add(getjTextField6());
         GuiMembers.add(getjTextField7());
         GuiMembers.add(getjTextField8());
-        System.out.println(getjTextField1());
         to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-        System.exit(0); */
-        
-    }//GEN-LAST:event_jButton1KeyPressed
-
+        System.exit(0);
+        }
+    }//GEN-LAST:event_jTextField8KeyPressed
     /**
      * @param args the command line arguments
      */
