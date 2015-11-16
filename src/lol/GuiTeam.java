@@ -5,6 +5,7 @@
  */
 package lol;
 
+import com.sun.glass.events.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 
@@ -21,18 +22,25 @@ public class GuiTeam extends javax.swing.JFrame {
         initComponents();
     }
     
-     Tournament to = null;
+    Tournament to = new Tournament();
+    //as a test we use a new tournament, in real life we'll get the tournament from the constructor
     public GuiTeam(Tournament t) {
         this.to = t;
         initComponents();
     }
     
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    /*private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { 
         //store functie   public void addTeam(String name, ArrayList<String> members, String region, String coach)
         ArrayList<String> GuiMembers = new ArrayList<String>();
-        this.to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        GuiMembers.add(getjTextField4());
+        GuiMembers.add(getjTextField5());
+        GuiMembers.add(getjTextField6());
+        GuiMembers.add(getjTextField7());
+        GuiMembers.add(getjTextField8());
+        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        System.out.print(to);
         System.exit(0);
-    }
+    } */
     
     
     //getters
@@ -116,6 +124,21 @@ public class GuiTeam extends javax.swing.JFrame {
         jLabel4.setText("Team Members");
 
         jButton1.setText("Store");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -192,6 +215,36 @@ public class GuiTeam extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        ArrayList<String> GuiMembers = new ArrayList<String>();
+        GuiMembers.add(getjTextField4());
+        GuiMembers.add(getjTextField5());
+        GuiMembers.add(getjTextField6());
+        GuiMembers.add(getjTextField7());
+        GuiMembers.add(getjTextField8());
+        System.out.println(getjTextField1());
+        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        System.exit(0);
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        /*ArrayList<String> GuiMembers = new ArrayList<String>();
+        GuiMembers.add(getjTextField4());
+        GuiMembers.add(getjTextField5());
+        GuiMembers.add(getjTextField6());
+        GuiMembers.add(getjTextField7());
+        GuiMembers.add(getjTextField8());
+        System.out.println(getjTextField1());
+        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        System.exit(0); */
+        
+    }//GEN-LAST:event_jButton1KeyPressed
 
     /**
      * @param args the command line arguments
