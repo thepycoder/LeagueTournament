@@ -3,10 +3,11 @@ League of Legends - Project beleidsinformatica
 
 TO-DO
 
-* [ ] GUI - teams en spelers invlullen
+* [x] GUI - teams en spelers invlullen
 * [x] teams opdelen in poules
 * [x] mogelijke matches genereren binnen een poule
 * [x] GUI - match plannen op basis van deze matches
+* [ ] Database kolommen genereren op basis van een Matchobject teruggegevn door de APIhandler
 * [ ] addTeam, generatePoules en generatePouleMatches moeten hun resultaten in de database kunnen steken via databasehandler
 * [ ] planMatch() methode, neemt datum en matchID aan en verandert datum van Matchobject van gegeven matchID in gegeven datum
 * [ ] storeMatch() methode, in de databasehandler een gegeven matchobject of lijst van objecten moet in de database gestored worden
