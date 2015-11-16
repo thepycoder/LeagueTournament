@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class Main {
     public static void main(String[] args) {
-        //hallo sonckie
         Tournament t = new Tournament();
         
         ApiHandler api = new ApiHandler();
@@ -38,6 +37,6 @@ public class Main {
         t.addTeam(BKT);
         
         t.generatePoules(t.getTeamlist());
-        t.generatePouleMatches(t.getPoulelist().get(0));//hallo van Silke
+        t.generatePouleMatches(t.getPoulelist().get(0));
     }
 }
