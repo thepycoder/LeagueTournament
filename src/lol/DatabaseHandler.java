@@ -56,7 +56,7 @@ public class DatabaseHandler {
             for (String member : members) {
                 mem += member + ", ";
             }
-            stmt.executeQuery("INSERT INTO Team VALUES (" + name + ", " + mem + coach + ", " + region);
+            stmt.executeQuery("INSERT INTO Team VALUES (" + name + ", " + region + ", " + mem + coach + ")");
         } catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
         } finally {
