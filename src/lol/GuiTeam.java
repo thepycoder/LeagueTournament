@@ -28,21 +28,7 @@ public class GuiTeam extends javax.swing.JFrame {
         this.to = t;
         initComponents();
     }
-    
-    /*private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { 
-        //store functie   public void addTeam(String name, ArrayList<String> members, String region, String coach)
-        ArrayList<String> GuiMembers = new ArrayList<String>();
-        GuiMembers.add(getjTextField4());
-        GuiMembers.add(getjTextField5());
-        GuiMembers.add(getjTextField6());
-        GuiMembers.add(getjTextField7());
-        GuiMembers.add(getjTextField8());
-        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-        System.out.print(to);
-        System.exit(0);
-    } */
-    
-    
+
     //getters
 
     public String getjTextField1() {

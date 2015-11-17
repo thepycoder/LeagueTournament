@@ -7,6 +7,7 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  *
@@ -27,27 +28,58 @@ public class Tournament {
     public void addTeam(String name, ArrayList<String> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
-        db.storeTeam(name, members, coach, region);
+        //db.storeTeam(name, members, coach, region);
+    }
+    
+    public Match searchMatch(String matchToPlan) 
+    {
+        for (Match match : matchlist) 
+        {
+            if(match.getMatchID().equals(matchToPlan))
+                return match;
+        }
+        return null;
+    }
+    
+    public void addMatch(String matchToPlan, Date date, String official) 
+    {
+        System.out.println(date);
+        Match match = searchMatch(matchToPlan);
+        match.setOfficial(official);
+        match.setTimeStamp(date);
+        db.storeMatch(match);
     }
 
-    public void generatePoules(ArrayList<Team> teamlist) {
-        ArrayList<Poule> poules = new ArrayList<>();
+    public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
+        ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
         
-        Poule poule1 = new Poule("Poule 1", teamlist.subList(0, 4));
-        Poule poule2 = new Poule("Poule 2", teamlist.subList(4, 8));
-        
-        poulelist.add(poule1);
-        poulelist.add(poule2);
+        for (int i = 0; i < amountOfPoules; i++) {
+            Poule poule = new Poule("Poule " + i);
+            poulelist.add(poule);
+        }
+        int index = 0;
+        for (Team team : teamlist) {
+            poulelist.get(index).addTeam(team);
+            if (index == amountOfPoules - 1) {
+                index = 0;
+            } else {
+                index++;
+            }
+        }
+        for (Poule poule : poulelist) {
+            db.storePoule(poule);
+        }
+        System.out.println(poulelist);
     }
     
     public void generatePouleMatches(Poule poule) {
         for (Team team1 : poule.getTeams()) {
             for (Team team2 : poule.getTeams()) {
                 if (team1 != team2) {
-                    System.out.println(team1.toString() + team2.toString());
-                    Match match = new Match(team1, team2, poule.getName());
+                    System.out.println(team1.toString() + " vs " + team2.toString());
+                    Match match = new Match(team1, team2, poule.getName(), null);
                     matchlist.add(match);
                 }
             }
@@ -61,6 +93,12 @@ public class Tournament {
     public ArrayList<Poule> getPoulelist() {
         return poulelist;
     }
+
+    public ArrayList<Match> getMatchlist() {
+        return matchlist;
+    }
+    
+    
     
     
     

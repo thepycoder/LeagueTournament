@@ -5,6 +5,8 @@
  */
 package lol;
 
+import java.util.Date;
+
 /**
  *
  * @author stephan
@@ -20,13 +22,14 @@ public class Match {
     
     //constructor
 
-    public Match (Team team1, Team team2, String type)
+    public Match (Team team1, Team team2, String type, String official)
     {
         this.matchID = team1.getName() + "_" + team2.getName() + "_" + type;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = null;
-        this.official = null;
+        this.official = official;
+        this.type = null;
     }
     
     public Match(String matchID, Team team1, Team team2, String timeStamp, String official) {
@@ -35,6 +38,7 @@ public class Match {
         this.team2 = team2;
         this.timeStamp = timeStamp;
         this.official = official;
+        this.type = null;
     }
     
     //getter
@@ -79,5 +83,13 @@ public class Match {
     
     public void setOfficial (String official) {
         this.official = official;
+    }
+
+    void setTimeStamp(Date date) {
+        this.timeStamp = date.toString();
+    }
+
+    public String getType() {
+        return this.type;
     }
 }

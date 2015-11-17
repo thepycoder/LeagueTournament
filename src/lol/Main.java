@@ -21,19 +21,17 @@ public class Main {
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
         
-//        ArrayList<String> mem = new ArrayList<String>();
-//        mem.add("Huni");
-//        mem.add("Rekkles");
-//        mem.add("Lustboy");
-//        mem.add("Reignover");
-//        mem.add("Probelter");
-        JsonObject json = api.getMatch("2370414822");
-        JsonArray jarr = json.getAsJsonArray("participants");
-        for (JsonElement elem : jarr) {
-            System.out.println(elem);
-        }
+        //api.getMatch("2370414822");
         
-//        t.generatePoules(t.getTeamlist());
-//        t.generatePouleMatches(t.getPoulelist().get(0));
+        t.addTeam("team1", null, null, null);
+        t.addTeam("team2", null, null, null);
+        t.addTeam("team3", null, null, null);
+        t.addTeam("team4", null, null, null);
+        t.addTeam("team5", null, null, null);
+        
+        t.generatePoules(t.getTeamlist(), 2);
+        for (Poule poule : t.getPoulelist()) {
+            t.generatePouleMatches(poule);
+        }
     }
 }
