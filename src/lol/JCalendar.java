@@ -126,11 +126,6 @@ public class JCalendar extends javax.swing.JFrame {
                 
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        jDateChooser1.getDate();
-                
-    }//GEN-LAST:event_jButton1MouseClicked
-
     /**
      * @param args the command line arguments
      */
