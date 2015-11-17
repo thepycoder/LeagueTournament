@@ -18,7 +18,7 @@ public class Tournament {
     //private static String matchID = "2370414822"; //als voorbeeld
     
     ArrayList<Team> teamlist = new ArrayList<>();
-    ArrayList<Poule> poulelist = new ArrayList<>();
+    ArrayList<Poule> poulelist;
     ArrayList<Match> matchlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
     
@@ -56,12 +56,13 @@ public class Tournament {
     }
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
+        this.poulelist = new ArrayList<>();
         ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
         
         for (int i = 0; i < amountOfPoules; i++) {
-            Poule poule = new Poule("Poule " + i);
+            Poule poule = new Poule("Poule " + (i+1));
             poulelist.add(poule);
         }
         int index = 0;
@@ -73,10 +74,9 @@ public class Tournament {
                 index++;
             }
         }
-        for (Poule poule : poulelist) {
-            db.storePoule(poule);
-        }
-        System.out.println(poulelist);
+//        for (Poule poule : poulelist) {
+//            db.storePoule(poule);
+//        }
     }
     
     public void generatePouleMatches(Poule poule) {
