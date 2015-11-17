@@ -24,6 +24,7 @@ public class Main {
         t.addTeam("team2", null, null, null);
         t.addTeam("team3", null, null, null);
         t.addTeam("team4", null, null, null);
+        t.addTeam("team5", null, null, null);
         
         ArrayList<String> mem = new ArrayList<String>();
         mem.add("Huni");
@@ -33,6 +34,8 @@ public class Main {
         mem.add("Probelter");
         
         t.generatePoules(t.getTeamlist(), 2);
-        t.generatePouleMatches(t.getPoulelist().get(0));
+        for (Poule poule : t.getPoulelist()) {
+            t.generatePouleMatches(poule);
+        }
     }
 }

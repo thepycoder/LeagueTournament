@@ -75,7 +75,7 @@ public class Tournament {
         for (Team team1 : poule.getTeams()) {
             for (Team team2 : poule.getTeams()) {
                 if (team1 != team2) {
-                    System.out.println(team1.toString() + team2.toString());
+                    System.out.println(team1.toString() + " vs " + team2.toString());
                     Match match = new Match(team1, team2, poule.getName(), null);
                     matchlist.add(match);
                 }
