@@ -71,4 +71,9 @@ public class DatabaseHandler {
             }
         }
     }
+    public void storeMatch () {
+        conn = createConnection(url);
+        Statement stmt = conn.createStatement();
+        String mem = new String ();
+    }
 }
