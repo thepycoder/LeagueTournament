@@ -7,6 +7,7 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  *
@@ -30,7 +31,22 @@ public class Tournament {
         //db.storeTeam(name, members, coach, region);
     }
     
-    public void addMatch(Team team1, Team team2, String type, String official) {
+    public Match searchMatch(String matchToPlan)
+    {
+        for (Match match : matchlist) 
+        {
+            if(match.getMatchID().equals(matchToPlan))
+                return match;
+        }
+        return null;
+    }
+    
+    public void addMatch(String matchToPlan, Date date, String official) 
+    {
+        Match match = searchMatch(matchToPlan);
+        match.setOfficial(official);
+        match.setTimeStamp(date);
+        db.storeMatch(match);
         
     }
 
