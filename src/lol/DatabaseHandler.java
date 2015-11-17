@@ -71,13 +71,73 @@ public class DatabaseHandler {
             }
         }
     }
-    public void storeMatch () {
-        conn = createConnection(url);
+  public void storeMatch(String matchID, Team team1, Team team2, String timeStamp, String official,String type){
         try {
-            Statement stmt = conn.createStatement();
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + matchID + "', '" + team1 + "', '" + team2 + "', '" + timeStamp + "', '" + official + "', '" + type + "')";
+            System.out.println(query);
+            stmt.executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
         }
-        String mem = new String ();
     }
+  public void storePoule(String name, Poule poule){
+        try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement(); 
+            
+            String teams = new String();
+            for(Team x : poule.getTeams()){
+                teams += x.getName() + ", ";
+            }     
+            String query = "INSERT INTO teams (name, teams) VALUES ('" + name + "', '" + teams + "')";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
+   public void storeBracket(String name, Team team1, Team team2, String timeStamp, ArrayList<Match> matches, String type){
+        try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement(); 
+            
+            String matchez = new String();
+            for(Match x : matches){
+                matchez += x.getMatchID() + ", ";
+            }     
+            String query = "INSERT INTO teams (name, teams) VALUES('" + name + "', '" + team1 + "', '" + team2 + "', '" + matchez + "', '" + false + "', '" + type + "')"; 
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
+  
 }
