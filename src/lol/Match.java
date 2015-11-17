@@ -20,13 +20,13 @@ public class Match {
     
     //constructor
 
-    public Match (Team team1, Team team2, String type)
+    public Match (Team team1, Team team2, String type, String official)
     {
         this.matchID = team1.getName() + "_" + team2.getName() + "_" + type;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = null;
-        this.official = null;
+        this.official = official;
     }
     
     public Match(String matchID, Team team1, Team team2, String timeStamp, String official) {

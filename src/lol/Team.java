@@ -16,6 +16,7 @@ public class Team {
     private String region;
     private String coach;
     private ArrayList <String> members;
+    private Poule poule;
 
     public Team ()
     {
@@ -23,7 +24,11 @@ public class Team {
     
     public Team (String name) 
     {
-        this.name= name;
+        this.name = name;
+        this.region = null;
+        this.coach = null;
+        this.members = null;
+        this.poule = null;
     }
     
     
@@ -69,9 +74,19 @@ public class Team {
         this.members = members;
     }
 
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
+
+    public void setPoule(Poule poule) {
+        this.poule = poule;
+    }
+    
+    
+
     @Override
     public String toString() {
-        return "name=" + name + " ";
+        return name + ", " + poule;
     }
     
     

@@ -29,17 +29,30 @@ public class Tournament {
         teamlist.add(team);
         db.storeTeam(name, members, coach, region);
     }
+    
+    public void addMatch(String match, String timestamp, String official) {
+        
+    }
 
-    public void generatePoules(ArrayList<Team> teamlist) {
+    public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
         ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
         
-        Poule poule1 = new Poule("Poule 1", teamlist.subList(0, 4));
-        Poule poule2 = new Poule("Poule 2", teamlist.subList(4, 8));
-        
-        poulelist.add(poule1);
-        poulelist.add(poule2);
+        for (int i = 0; i < amountOfPoules; i++) {
+            Poule poule = new Poule("Poule " + i);
+            poulelist.add(poule);
+        }
+        int index = 0;
+        for (Team team : teamlist) {
+            team.setPoule(poulelist.get(index));
+            if (index == amountOfPoules) {
+                index = 0;
+            } else {
+                index++;
+            }
+        }
+        System.out.println(teamlist);
     }
     
     public void generatePouleMatches(Poule poule) {
@@ -47,7 +60,7 @@ public class Tournament {
             for (Team team2 : poule.getTeams()) {
                 if (team1 != team2) {
                     System.out.println(team1.toString() + team2.toString());
-                    Match match = new Match(team1, team2, poule.getName());
+                    Match match = new Match(team1, team2, poule.getName(), null);
                     matchlist.add(match);
                 }
             }

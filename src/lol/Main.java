@@ -18,6 +18,8 @@ public class Main {
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
         
+        //api.getMatch("2370414822");
+        
         ArrayList<String> mem = new ArrayList<String>();
         mem.add("Huni");
         mem.add("Rekkles");
@@ -25,7 +27,7 @@ public class Main {
         mem.add("Reignover");
         mem.add("Probelter");
         
-//        t.generatePoules(t.getTeamlist());
-//        t.generatePouleMatches(t.getPoulelist().get(0));
+        t.generatePoules(t.getTeamlist(), 2);
+        t.generatePouleMatches(t.getPoulelist().get(0));
     }
 }

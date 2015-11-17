@@ -19,6 +19,11 @@ public class Poule {
     private boolean completed;
     
     //constructor
+    
+    public Poule(String name) {
+        this.name = name;
+        this.teams = null;
+    }
 
     public Poule(String name, List<Team> teams) 
     {
