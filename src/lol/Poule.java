@@ -13,6 +13,7 @@ import java.util.List;
  * @author stephan
  */
 public class Poule {
+    
     private String name;
     private List<Team> teams;
     private ArrayList <Match> matches;
@@ -22,7 +23,9 @@ public class Poule {
     
     public Poule(String name) {
         this.name = name;
-        this.teams = null;
+        this.teams = new ArrayList<>();
+        this.matches = new ArrayList<>();
+        this.completed = false;
     }
 
     public Poule(String name, List<Team> teams) 
@@ -37,6 +40,11 @@ public class Poule {
         this.matches = matches;
         this.completed = completed;
     }
+    
+    public void addTeam(Team team) {
+        teams.add(team);
+    }
+    
     //getters 
 
     public String getName() {

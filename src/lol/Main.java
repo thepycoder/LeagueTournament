@@ -16,9 +16,14 @@ public class Main {
         Tournament t = new Tournament();
         
         ApiHandler api = new ApiHandler();
-        DatabaseHandler db = new DatabaseHandler();
+        //DatabaseHandler db = new DatabaseHandler();
         
         //api.getMatch("2370414822");
+        
+        t.addTeam("team1", null, null, null);
+        t.addTeam("team2", null, null, null);
+        t.addTeam("team3", null, null, null);
+        t.addTeam("team4", null, null, null);
         
         ArrayList<String> mem = new ArrayList<String>();
         mem.add("Huni");

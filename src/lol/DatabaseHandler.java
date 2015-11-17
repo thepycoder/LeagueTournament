@@ -73,7 +73,11 @@ public class DatabaseHandler {
     }
     public void storeMatch () {
         conn = createConnection(url);
-        Statement stmt = conn.createStatement();
+        try {
+            Statement stmt = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String mem = new String ();
     }
 }
