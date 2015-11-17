@@ -71,13 +71,25 @@ public class DatabaseHandler {
             }
         }
     }
-    public void storeMatch () {
-        conn = createConnection(url);
+  public void storeMatch(String matchID, Team team1, Team team2, String timeStamp, String official,String type){
         try {
+            conn = createConnection(url);
             Statement stmt = conn.createStatement();
+            String mem = new String();
+            
+            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + matchID + "', '" + team1 + "', '" + team2 + "', '" + timeStamp + "', '" + official + "', '" + type + "')";
+            System.out.println(query);
+            stmt.executeUpdate(query);
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
         }
-        String mem = new String ();
     }
 }
