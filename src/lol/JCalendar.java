@@ -6,6 +6,8 @@
 package lol;
 
 import com.toedter.calendar.JDateChooser;
+import java.util.ArrayList;
+import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -18,11 +20,38 @@ public class JCalendar extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    public Tournament to;
+    public String[] items;
+    
     public JCalendar() {
+        
+        this.to = new Tournament();
+        to.addTeam("SKT", null, null, null);
+        to.addTeam("ORI", null, null, null);
+        to.addTeam("FNC", null, null, null);
+        to.addTeam("H2K", null, null, null);
+        to.addTeam("TSM", null, null, null);
+        to.addTeam("EDG", null, null, null);
+        
+        to.generatePoules(to.getTeamlist(), 2);
+        for (Poule poule : to.getPoulelist()) {
+            to.generatePouleMatches(poule);
+        }
+        
         initComponents();
+        
+        items = new String[to.getMatchlist().size()];
+        for (int i = 0; i < to.getMatchlist().size(); i++) {
+            items[i] = to.getMatchlist().get(i).getMatchID();
+        }
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
     }
     
-    Tournament to = new Tournament();
+//    public JCalendar(Tournament t) {
+//        this.to = t;
+//        initComponents();
+//    }
     
     //getters
 
@@ -37,6 +66,12 @@ public class JCalendar extends javax.swing.JFrame {
     public JTextField getjTextField1() {
         return jTextField1;
     }
+
+    public void setjComboBox1(JComboBox jComboBox1) {
+        this.jComboBox1 = jComboBox1;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -62,7 +97,11 @@ public class JCalendar extends javax.swing.JFrame {
 
         jLabel2.setText("Match to plan:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Select date:");
 
@@ -143,6 +182,10 @@ public class JCalendar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -172,7 +215,7 @@ public class JCalendar extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -71,12 +71,12 @@ public class DatabaseHandler {
             }
         }
     }
-  public void storeMatch(String matchID, Team team1, Team team2, String timeStamp, String official,String type){
+  public void storeMatch(Match match){
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + matchID + "', '" + team1 + "', '" + team2 + "', '" + timeStamp + "', '" + official + "', '" + type + "')";
+            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', " + false + ")";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -91,16 +91,17 @@ public class DatabaseHandler {
             }
         }
     }
-  public void storePoule(String name, Poule poule){
+  public void storePoule(Poule poule){
         try {            
             conn = createConnection(url);
             Statement stmt = conn.createStatement(); 
             
-            String teams = new String();
+            String teams = "'";
             for(Team x : poule.getTeams()){
-                teams += x.getName() + ", ";
-            }     
-            String query = "INSERT INTO teams (name, teams) VALUES ('" + name + "', '" + teams + "')";
+                teams += x.getName() + ",";
+            }   
+            teams += "'";
+            String query = "INSERT INTO poules (name, teams, completed) VALUES ('" + poule.getName() + "', " + teams + ", " + false + ")";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

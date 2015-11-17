@@ -84,6 +84,10 @@ public class Match {
     }
 
     void setTimeStamp(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.timeStamp = date.toString();
+    }
+
+    public String getType() {
+        return this.type;
     }
 }

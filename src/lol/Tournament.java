@@ -31,7 +31,7 @@ public class Tournament {
         //db.storeTeam(name, members, coach, region);
     }
     
-    public Match searchMatch(String matchToPlan)
+    public Match searchMatch(String matchToPlan) 
     {
         for (Match match : matchlist) 
         {
@@ -43,11 +43,11 @@ public class Tournament {
     
     public void addMatch(String matchToPlan, Date date, String official) 
     {
+        System.out.println(date);
         Match match = searchMatch(matchToPlan);
         match.setOfficial(official);
-        //match.setTimeStamp(date);
-        //db.storeMatch(match);
-        
+        match.setTimeStamp(date);
+        db.storeMatch(match);
     }
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
@@ -67,6 +67,9 @@ public class Tournament {
             } else {
                 index++;
             }
+        }
+        for (Poule poule : poulelist) {
+            db.storePoule(poule);
         }
         System.out.println(poulelist);
     }
@@ -90,6 +93,12 @@ public class Tournament {
     public ArrayList<Poule> getPoulelist() {
         return poulelist;
     }
+
+    public ArrayList<Match> getMatchlist() {
+        return matchlist;
+    }
+    
+    
     
     
     
