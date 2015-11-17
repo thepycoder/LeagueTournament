@@ -5,6 +5,8 @@
  */
 package lol;
 
+import java.util.Date;
+
 /**
  *
  * @author stephan
@@ -79,5 +81,9 @@ public class Match {
     
     public void setOfficial (String official) {
         this.official = official;
+    }
+
+    void setTimeStamp(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
