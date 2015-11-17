@@ -5,6 +5,9 @@
  */
 package lol;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.util.ArrayList;
 
 /**
@@ -18,12 +21,17 @@ public class Main {
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
         
-        ArrayList<String> mem = new ArrayList<String>();
-        mem.add("Huni");
-        mem.add("Rekkles");
-        mem.add("Lustboy");
-        mem.add("Reignover");
-        mem.add("Probelter");
+//        ArrayList<String> mem = new ArrayList<String>();
+//        mem.add("Huni");
+//        mem.add("Rekkles");
+//        mem.add("Lustboy");
+//        mem.add("Reignover");
+//        mem.add("Probelter");
+        JsonObject json = api.getMatch("2370414822");
+        JsonArray jarr = json.getAsJsonArray("participants");
+        for (JsonElement elem : jarr) {
+            System.out.println(elem);
+        }
         
 //        t.generatePoules(t.getTeamlist());
 //        t.generatePouleMatches(t.getPoulelist().get(0));

@@ -16,9 +16,9 @@ public class Tournament {
     
     //private static String matchID = "2370414822"; //als voorbeeld
     
-    ArrayList<Team> teamlist = new ArrayList<Team>();
-    ArrayList<Poule> poulelist = new ArrayList<Poule>();
-    ArrayList<Match> matchlist = new ArrayList<Match>();
+    ArrayList<Team> teamlist = new ArrayList<>();
+    ArrayList<Poule> poulelist = new ArrayList<>();
+    ArrayList<Match> matchlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
     
     public Tournament() {
@@ -31,7 +31,7 @@ public class Tournament {
     }
 
     public void generatePoules(ArrayList<Team> teamlist) {
-        ArrayList<Poule> poules = new ArrayList<Poule>();
+        ArrayList<Poule> poules = new ArrayList<>();
         
         Collections.shuffle(teamlist);
         

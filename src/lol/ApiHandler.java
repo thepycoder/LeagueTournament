@@ -7,6 +7,7 @@ package lol;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,6 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,22 +30,31 @@ public class ApiHandler {
     public ApiHandler() {
         
     }
-    public JsonObject getMatch(String MatchID) throws MalformedURLException, IOException {
-        String sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + MatchID + "?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5"; //just a string
-
-        // Connect to the URL using java's native library
-        URL url = new URL(sURL);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.connect();
-
-        // Convert to a JSON object to print data
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-        
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(rootobj);
-        System.out.println(json);
-        return rootobj;
+    public JsonObject getMatch(String MatchID) {
+        try {
+            String sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + MatchID + "?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5"; //just a string
+            
+            // Connect to the URL using java's native library
+            URL url = new URL(sURL);
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request.connect();
+            
+            // Convert to a JSON object to print data
+            JsonParser jp = new JsonParser(); //from gson
+            JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+            JsonObject rootobj = root.getAsJsonObject();
+            //JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+            
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(rootobj);
+            
+            return rootobj;
+        } catch (MalformedURLException ex) {
+            System.out.println("Url doesn't work: " + ex);
+            return null;
+        } catch (IOException ex) {
+            System.out.println("Some IO error occured: " + ex);
+            return null;
+        }
     }
 }
