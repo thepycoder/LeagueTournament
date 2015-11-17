@@ -45,8 +45,8 @@ public class Tournament {
     {
         Match match = searchMatch(matchToPlan);
         match.setOfficial(official);
-        match.setTimeStamp(date);
-        db.storeMatch(match);
+        //match.setTimeStamp(date);
+        //db.storeMatch(match);
         
     }
 
@@ -62,7 +62,7 @@ public class Tournament {
         int index = 0;
         for (Team team : teamlist) {
             poulelist.get(index).addTeam(team);
-            if (index == amountOfPoules) {
+            if (index == amountOfPoules - 1) {
                 index = 0;
             } else {
                 index++;
