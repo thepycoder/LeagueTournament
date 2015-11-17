@@ -29,6 +29,10 @@ public class Tournament {
         teamlist.add(team);
         db.storeTeam(name, members, coach, region);
     }
+    
+    public void addMatch(Team team1, Team team2, String type, String official) {
+        
+    }
 
     public void generatePoules(ArrayList<Team> teamlist) {
         ArrayList<Poule> poules = new ArrayList<Poule>();
