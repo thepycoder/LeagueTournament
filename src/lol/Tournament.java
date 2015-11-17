@@ -27,7 +27,7 @@ public class Tournament {
     public void addTeam(String name, ArrayList<String> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
-        db.storeTeam(name, members, coach, region);
+        //db.storeTeam(name, members, coach, region);
     }
     
     public void addMatch(Team team1, Team team2, String type, String official) {
@@ -45,14 +45,14 @@ public class Tournament {
         }
         int index = 0;
         for (Team team : teamlist) {
-            team.setPoule(poulelist.get(index));
+            poulelist.get(index).addTeam(team);
             if (index == amountOfPoules) {
                 index = 0;
             } else {
                 index++;
             }
         }
-        System.out.println(teamlist);
+        System.out.println(poulelist);
     }
     
     public void generatePouleMatches(Poule poule) {
