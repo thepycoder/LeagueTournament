@@ -29,6 +29,7 @@ public class Match {
         this.team2 = team2;
         this.timeStamp = null;
         this.official = official;
+        this.type = null;
     }
     
     public Match(String matchID, Team team1, Team team2, String timeStamp, String official) {
@@ -37,6 +38,7 @@ public class Match {
         this.team2 = team2;
         this.timeStamp = timeStamp;
         this.official = official;
+        this.type = null;
     }
     
     //getter

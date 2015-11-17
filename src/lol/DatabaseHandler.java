@@ -140,5 +140,28 @@ public class DatabaseHandler {
             }
         }
     }
+   
+   public ArrayList<Team> retrieveTeams() {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT * FROM teams";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                //Retrieve by column name
+                int id  = rs.getInt("id");
+                int age = rs.getInt("age");
+                String first = rs.getString("first");
+                String last = rs.getString("last");
+             }
+            return null;
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+            return null;
+        }
+   }
   
 }
