@@ -30,7 +30,7 @@ public class Tournament {
         db.storeTeam(name, members, coach, region);
     }
     
-    public void addMatch(String match, String timestamp, String official) {
+    public void addMatch(Team team1, Team team2, String type, String official) {
         
     }
 
