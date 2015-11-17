@@ -24,28 +24,18 @@ public class JCalendar extends javax.swing.JFrame {
     public Tournament to;
     public String[] items;
     
-    public JCalendar() {
-        
-        this.to = new Tournament();
-        to.addTeam("SKT", null, null, null);
-        to.addTeam("ORI", null, null, null);
-        to.addTeam("FNC", null, null, null);
-        to.addTeam("H2K", null, null, null);
-        to.addTeam("TSM", null, null, null);
-        to.addTeam("EDG", null, null, null);
-        
-        to.generatePoules(to.getTeamlist(), 2);
-        for (Poule poule : to.getPoulelist()) {
-            to.generatePouleMatches(poule);
-        }
+    public JCalendar(Tournament to) {
         
         initComponents();
+        
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         items = new String[to.getMatchlist().size()];
         for (int i = 0; i < to.getMatchlist().size(); i++) {
             items[i] = to.getMatchlist().get(i).getMatchID();
         }
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
+        
     }
     
 //    public JCalendar(Tournament t) {
@@ -174,8 +164,9 @@ public class JCalendar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        System.out.println(jDateChooser1.getDate());
         to.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getDate(), jTextField1.getText());
-        System.exit(0);
+        this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -186,43 +177,6 @@ public class JCalendar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JCalendar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JCalendar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JCalendar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JCalendar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new JCalendar().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

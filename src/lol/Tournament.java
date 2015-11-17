@@ -25,10 +25,15 @@ public class Tournament {
     public Tournament() {
     }
     
+    public void addTeam(String name) {
+        Team team = new Team(name);
+        teamlist.add(team);
+    }
+    
     public void addTeam(String name, ArrayList<String> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
-        //db.storeTeam(name, members, coach, region);
+        db.storeTeam(name, members, coach, region);
     }
     
     public Match searchMatch(String matchToPlan) 

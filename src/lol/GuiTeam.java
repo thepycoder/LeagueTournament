@@ -18,16 +18,21 @@ public class GuiTeam extends javax.swing.JFrame {
     /**
      * Creates new form GuiTeam
      */
-    public GuiTeam() {
+    
+    public Tournament t;
+    
+    public GuiTeam(Tournament t) {
+        this.t = t;
         initComponents();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-    Tournament to = new Tournament();
+//    Tournament to = new Tournament();
     //as a test we use a new tournament, in real life we'll get the tournament from the constructor
-    public GuiTeam(Tournament t) {
-        this.to = t;
-        initComponents();
-    }
+//    public GuiTeam(Tournament t) {
+//        this.to = t;
+//        initComponents();
+//    }
 
     //getters
 
@@ -222,8 +227,8 @@ public class GuiTeam extends javax.swing.JFrame {
         GuiMembers.add(getjTextField6());
         GuiMembers.add(getjTextField7());
         GuiMembers.add(getjTextField8());
-        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-        System.exit(0);
+        t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        this.dispose();
         
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -237,50 +242,17 @@ public class GuiTeam extends javax.swing.JFrame {
 
     private void jTextField8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
-             ArrayList<String> GuiMembers = new ArrayList<String>();
-        GuiMembers.add(getjTextField4());
-        GuiMembers.add(getjTextField5());
-        GuiMembers.add(getjTextField6());
-        GuiMembers.add(getjTextField7());
-        GuiMembers.add(getjTextField8());
-        to.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-        System.exit(0);
+            ArrayList<String> GuiMembers = new ArrayList<String>();
+            GuiMembers.add(getjTextField4());
+            GuiMembers.add(getjTextField5());
+            GuiMembers.add(getjTextField6());
+            GuiMembers.add(getjTextField7());
+            GuiMembers.add(getjTextField8());
+            t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+            this.dispose();
         }
     }//GEN-LAST:event_jTextField8KeyPressed
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiTeam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiTeam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiTeam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiTeam.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiTeam().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

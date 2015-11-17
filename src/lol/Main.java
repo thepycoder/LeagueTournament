@@ -23,15 +23,27 @@ public class Main {
         
         //api.getMatch("2370414822");
         
-        t.addTeam("team1", null, null, null);
-        t.addTeam("team2", null, null, null);
-        t.addTeam("team3", null, null, null);
-        t.addTeam("team4", null, null, null);
-        t.addTeam("team5", null, null, null);
+        t.addTeam("team1");
+        t.addTeam("team2");
+        t.addTeam("team3");
+        t.addTeam("team4");
+        t.addTeam("team5");
+        t.addTeam("team5");
+        t.addTeam("team6");
+        t.addTeam("team7");
+        t.addTeam("team8");
+        t.addTeam("team9");
+        t.addTeam("team10");
+        t.addTeam("team11");
+        t.addTeam("team12");
         
         t.generatePoules(t.getTeamlist(), 2);
+        
         for (Poule poule : t.getPoulelist()) {
             t.generatePouleMatches(poule);
         }
+        
+        StartGui sg = new StartGui(t);
+        sg.show();
     }
 }
