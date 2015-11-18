@@ -58,7 +58,25 @@ public class Tournament {
         Match match = searchMatch(matchToPlan);
         match.setOfficial(official);
         match.setTimeStamp(date);
-        db.storeMatch(match);
+        matchlist.add(match);
+        if ("null".equals(match.getTimeStamp())) { //if match is generated
+            System.out.println("store");
+            db.storeMatch(match);
+        } else {
+            System.out.println("update");
+            db.updateMatch(match);
+        }
+    }
+    
+    public void addMatches(ArrayList<Match> matches) {
+        for (Match match : matches) {
+            matchlist.add(match);
+        }
+    }
+    
+    public void resetMatches() {
+        this.matchlist = new ArrayList<>();
+        db.resetMatches();
     }
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
@@ -85,16 +103,21 @@ public class Tournament {
 //        }
     }
     
-    public void generatePouleMatches(Poule poule) {
-        for (Team team1 : poule.getTeams()) {
-            for (Team team2 : poule.getTeams()) {
-                if (team1 != team2) {
-                    System.out.println(team1.toString() + " vs " + team2.toString());
-                    Match match = new Match(team1, team2, poule.getName(), null);
-                    matchlist.add(match);
+    public void generatePouleMatches() {
+        db.resetMatches();
+        for (Poule poule : poulelist) {
+            for (Team team1 : poule.getTeams()) {
+                for (Team team2 : poule.getTeams()) {
+                    if (team1 != team2) {
+                        //System.out.println(team1.toString() + " vs " + team2.toString());
+                        Match match = new Match(team1.getName(), team2.getName(), poule.getName(), "null");
+                        matchlist.add(match);
+                        db.storeMatch(match);
+                    }
                 }
             }
         }
+        System.out.println(matchlist);
     }
 
     public ArrayList<Team> getTeamlist() {

@@ -92,6 +92,28 @@ public class DatabaseHandler {
             }
         }
     }
+  
+  public void updateMatch(Match match) {
+      try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE matches SET timestamp='" + match.getTimeStamp()+ "', official='" + match.getOfficial() + "' WHERE matchID='" + match.getMatchID() + "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
+  
   public void storePoule(Poule poule){
         try {            
             conn = createConnection(url);
@@ -165,7 +187,66 @@ public class DatabaseHandler {
         } catch (SQLException ex) {
             System.out.println("Probleem bij ophalen teams: " + ex);
             return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
         }
    }
+   
+   public ArrayList<Match> retrieveMatches() {
+        ArrayList<Match> matches = new ArrayList<>();
+       
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT * FROM matches";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"));
+                matches.add(match);
+             }
+            return matches;
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+
+   public void resetMatches() {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "DELETE FROM matches";
+            stmt.executeUpdate(query);
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
   
 }

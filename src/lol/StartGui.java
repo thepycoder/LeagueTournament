@@ -8,6 +8,7 @@ package lol;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import static java.util.regex.Pattern.matches;
 import javax.swing.SwingUtilities;
 
 /**
@@ -24,6 +25,7 @@ public class StartGui extends javax.swing.JFrame {
     public ArrayList<Poule> poulelist;
     public TeamTableModel model;
     public String[] registeredTeams;
+    public String[] planned;
     
     public StartGui(Tournament t) {
         
@@ -43,6 +45,17 @@ public class StartGui extends javax.swing.JFrame {
             registeredTeams[i] = t.getTeamlist().get(i).getName();
         }
         
+        ArrayList<String> plannedMatches = new ArrayList<>();
+        for (Match match : t.getMatchlist()) {
+            if (match.getTimeStamp() != null) {
+                if (!match.getTimeStamp().equals("null")) {
+                    //items[i] = to.getMatchlist().get(i).getMatchID();
+                    plannedMatches.add(match.getMatchID());
+                }
+            }
+        }
+        planned = plannedMatches.toArray(new String[plannedMatches.size()]);
+        
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = registeredTeams;
             @Override
@@ -51,16 +64,12 @@ public class StartGui extends javax.swing.JFrame {
             public Object getElementAt(int i) { return strings[i]; }
         });
         
-        this.addWindowListener(new WindowAdapter() {
+        jList2.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = planned;
             @Override
-            public void windowGainedFocus(WindowEvent e) {
-                System.out.println("Window Gained Focus Event");
-            }
-
+            public int getSize() { return strings.length; }
             @Override
-            public void windowLostFocus(WindowEvent e) {
-                System.out.println("Window Lost Focus Event");
-            }
+            public Object getElementAt(int i) { return strings[i]; }
         });
     }
 
@@ -79,21 +88,24 @@ public class StartGui extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jList2 = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
 
         jScrollPane3.setViewportView(jTree1);
@@ -118,11 +130,12 @@ public class StartGui extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jList1);
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jList2.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jList2);
 
         jMenu3.setText("Team");
 
@@ -152,11 +165,22 @@ public class StartGui extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem4);
 
+        jMenuItem10.setText("Change Match");
+        jMenu4.add(jMenuItem10);
+
+        jMenuItem11.setText("Delete all Matches");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem11);
+
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Poule");
 
-        jMenu7.setText("Regenerate Pools");
+        jMenu7.setText("(Re)Generate Pools");
 
         jMenuItem6.setText("Into 2");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -192,6 +216,14 @@ public class StartGui extends javax.swing.JFrame {
 
         jMenu5.add(jMenu7);
 
+        jMenuItem5.setText("(Re)Generate Matches");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem5);
+
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Bracket");
@@ -205,9 +237,14 @@ public class StartGui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -217,7 +254,9 @@ public class StartGui extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,7 +268,7 @@ public class StartGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        JCalendar jc = new JCalendar(t);
+        JCalendar jc = new JCalendar(t, this);
         jc.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -253,13 +292,22 @@ public class StartGui extends javax.swing.JFrame {
         updateTable();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        t.generatePouleMatches();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        t.resetMatches();
+        updateList2();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
         
     public void updateTable() {
         jTable1.setModel(new TeamTableModel(t.getPoulelist()));
         jTable1.repaint();
     }
     
-    public void updateList() {
+    public void updateList1() {
         
         registeredTeams = new String[t.getTeamlist().size()];
         for (int i = 0; i < t.getTeamlist().size(); i++) {
@@ -277,14 +325,39 @@ public class StartGui extends javax.swing.JFrame {
         jList1.repaint();
     }
     
+    public void updateList2() {
+        
+        ArrayList<String> plannedMatches = new ArrayList<>();
+        for (Match match : t.getMatchlist()) {
+            if (match.getTimeStamp() != null) {
+                if (!match.getTimeStamp().equals("null")) {
+                    //items[i] = to.getMatchlist().get(i).getMatchID();
+                    System.out.println(match.getMatchID());
+                    plannedMatches.add(match.getMatchID());
+                }
+            }
+        }
+        planned = plannedMatches.toArray(new String[plannedMatches.size()]);
+        System.out.println(planned.length);
+        
+        jList2.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = planned;
+            @Override
+            public int getSize() { return strings.length; }
+            @Override
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        
+        jList2.repaint();
+    }
+    
     public void test() {
         System.out.println("test");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
@@ -292,14 +365,18 @@ public class StartGui extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable1;
