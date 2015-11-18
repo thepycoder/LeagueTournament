@@ -5,6 +5,7 @@
  */
 package lol;
 
+import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 /**
@@ -18,6 +19,7 @@ public class StartGui extends javax.swing.JFrame {
      */
     
     public Tournament t;
+    public ArrayList<Poule> poulelist;
     public TeamTableModel model;
     public String[] registeredTeams;
     
@@ -27,7 +29,9 @@ public class StartGui extends javax.swing.JFrame {
         
         initComponents();
         
-        model = new TeamTableModel(t.getPoulelist());
+        this.poulelist = t.getPoulelist();
+        
+        model = new TeamTableModel(poulelist);
         jTable1.setModel(model);
         
         registeredTeams = new String[t.getTeamlist().size()];
@@ -82,15 +86,13 @@ public class StartGui extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
+        jTable1.setToolTipText("");
         jScrollPane9.setViewportView(jTable1);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
@@ -238,22 +240,26 @@ public class StartGui extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         t.generatePoules(t.getTeamlist(), 16);
-        model.fireTableDataChanged();
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
+        jTable1.repaint();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         t.generatePoules(t.getTeamlist(), 2);
-        model.fireTableDataChanged();
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
+        jTable1.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         t.generatePoules(t.getTeamlist(), 4);
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
         jTable1.repaint();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         t.generatePoules(t.getTeamlist(), 8);
-        model.fireTableDataChanged();
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
+        jTable1.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
