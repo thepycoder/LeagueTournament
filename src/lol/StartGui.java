@@ -5,6 +5,8 @@
  */
 package lol;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
@@ -27,6 +29,8 @@ public class StartGui extends javax.swing.JFrame {
         
         this.t = t;
         
+        setTitle("League of Legends Esports");
+        
         initComponents();
         
         this.poulelist = t.getPoulelist();
@@ -45,6 +49,18 @@ public class StartGui extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             @Override
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                System.out.println("Window Gained Focus Event");
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                System.out.println("Window Lost Focus Event");
+            }
         });
     }
 
@@ -208,7 +224,7 @@ public class StartGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        GuiTeam gt = new GuiTeam(t);
+        GuiTeam gt = new GuiTeam(t, this);
         gt.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -219,28 +235,51 @@ public class StartGui extends javax.swing.JFrame {
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         t.generatePoules(t.getTeamlist(), 4);
-        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
-        jTable1.repaint();
+        updateTable();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         t.generatePoules(t.getTeamlist(), 2);
-        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
-        jTable1.repaint();
+        updateTable();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         t.generatePoules(t.getTeamlist(), 8);
-        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
-        jTable1.repaint();
+        updateTable();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         t.generatePoules(t.getTeamlist(), 16);
-        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
-        jTable1.repaint();
+        updateTable();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+        
+    public void updateTable() {
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
+        jTable1.repaint();
+    }
+    
+    public void updateList() {
+        
+        registeredTeams = new String[t.getTeamlist().size()];
+        for (int i = 0; i < t.getTeamlist().size(); i++) {
+            registeredTeams[i] = t.getTeamlist().get(i).getName();
+        }
+        
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = registeredTeams;
+            @Override
+            public int getSize() { return strings.length; }
+            @Override
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        
+        jList1.repaint();
+    }
+    
+    public void test() {
+        System.out.println("test");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList1;

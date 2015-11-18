@@ -7,6 +7,7 @@ package lol;
 
 import com.sun.glass.events.KeyEvent;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 /**
@@ -20,8 +21,10 @@ public class GuiTeam extends javax.swing.JFrame {
      */
     
     public Tournament t;
+    public StartGui parent;
     
-    public GuiTeam(Tournament t) {
+    public GuiTeam(Tournament t, StartGui parent) {
+        this.parent = parent;
         this.t = t;
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -228,6 +231,7 @@ public class GuiTeam extends javax.swing.JFrame {
         GuiMembers.add(getjTextField7());
         GuiMembers.add(getjTextField8());
         t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+        parent.updateList();
         this.dispose();
         
     }//GEN-LAST:event_jButton1MouseClicked
@@ -249,6 +253,7 @@ public class GuiTeam extends javax.swing.JFrame {
             GuiMembers.add(getjTextField7());
             GuiMembers.add(getjTextField8());
             t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
+            parent.updateList();
             this.dispose();
         }
     }//GEN-LAST:event_jTextField8KeyPressed

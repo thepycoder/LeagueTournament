@@ -23,19 +23,21 @@ public class Main {
         
         //api.getMatch("2370414822");
         
-        t.addTeam("team1");
-        t.addTeam("team2");
-        t.addTeam("team3");
-        t.addTeam("team4");
-        t.addTeam("team5");
-        t.addTeam("team5");
-        t.addTeam("team6");
-        t.addTeam("team7");
-        t.addTeam("team8");
-        t.addTeam("team9");
-        t.addTeam("team10");
-        t.addTeam("team11");
-        t.addTeam("team12");
+//        t.addTeam("team1");
+//        t.addTeam("team2");
+//        t.addTeam("team3");
+//        t.addTeam("team4");
+//        t.addTeam("team5");
+//        t.addTeam("team5");
+//        t.addTeam("team6");
+//        t.addTeam("team7");
+//        t.addTeam("team8");
+//        t.addTeam("team9");
+//        t.addTeam("team10");
+//        t.addTeam("team11");
+//        t.addTeam("team12");
+        
+        t.addTeams(db.retrieveTeams());
         
         t.generatePoules(t.getTeamlist(), 2);
         

@@ -7,6 +7,7 @@ package lol;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -142,6 +143,9 @@ public class DatabaseHandler {
     }
    
    public ArrayList<Team> retrieveTeams() {
+       
+        ArrayList<Team> teams = new ArrayList<>();
+       
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -151,12 +155,12 @@ public class DatabaseHandler {
             
             while(rs.next()){
                 //Retrieve by column name
-                int id  = rs.getInt("id");
-                int age = rs.getInt("age");
-                String first = rs.getString("first");
-                String last = rs.getString("last");
+                ArrayList<String> members = new ArrayList<>(Arrays.asList(rs.getString("members").split(",")));
+                members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members);
+                teams.add(team);
              }
-            return null;
+            return teams;
             
         } catch (SQLException ex) {
             System.out.println("Probleem bij ophalen teams: " + ex);

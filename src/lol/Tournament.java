@@ -36,6 +36,12 @@ public class Tournament {
         db.storeTeam(name, members, coach, region);
     }
     
+    public void addTeams(ArrayList<Team> teams) {
+        for (Team team : teams) {
+            teamlist.add(team);
+        }
+    }
+    
     public Match searchMatch(String matchToPlan) 
     {
         for (Match match : matchlist) 
