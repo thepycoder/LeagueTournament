@@ -58,9 +58,9 @@ public class Tournament {
         Match match = searchMatch(matchToPlan);
         match.setOfficial(official);
         match.setTimeStamp(date);
-        matchlist.add(match);
         if ("null".equals(match.getTimeStamp())) { //if match is generated
             System.out.println("store");
+            matchlist.add(match);
             db.storeMatch(match);
         } else {
             System.out.println("update");

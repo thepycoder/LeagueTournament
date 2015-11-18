@@ -294,6 +294,7 @@ public class StartGui extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         t.generatePouleMatches();
+        updateList2();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
@@ -328,13 +329,13 @@ public class StartGui extends javax.swing.JFrame {
     public void updateList2() {
         
         ArrayList<String> plannedMatches = new ArrayList<>();
+        System.out.println(t.getMatchlist());
         for (Match match : t.getMatchlist()) {
-            if (match.getTimeStamp() != null) {
-                if (!match.getTimeStamp().equals("null")) {
+            if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
-                    System.out.println(match.getMatchID());
-                    plannedMatches.add(match.getMatchID());
-                }
+                System.out.println("hey");
+                System.out.println(match.getMatchID());
+                plannedMatches.add(match.getMatchID());
             }
         }
         planned = plannedMatches.toArray(new String[plannedMatches.size()]);

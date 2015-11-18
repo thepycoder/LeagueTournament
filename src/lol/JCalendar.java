@@ -38,13 +38,9 @@ public class JCalendar extends javax.swing.JFrame {
         ArrayList<String> matches = new ArrayList<>();
         
         for (Match match : to.getMatchlist()) {
-            if (match.getTimeStamp() == null) {
-                if (match.getTimeStamp().equals("null")) {
-                    //items[i] = to.getMatchlist().get(i).getMatchID();
-                    matches.add(match.getMatchID());
-                }
-            } else {
-                System.out.println("hey");
+            if (match.getTimeStamp() == null || match.getTimeStamp().equals("null")) {
+                //items[i] = to.getMatchlist().get(i).getMatchID();
+                matches.add(match.getMatchID());
             }
         }
         
