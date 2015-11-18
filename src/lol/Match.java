@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author stephan
  */
-public class Match {
+public class Match implements Comparable<Match> {
     
     private String matchID;
     private String team1;
@@ -96,5 +96,10 @@ public class Match {
     @Override
     public String toString() {
         return matchID;
+    }
+
+    @Override
+    public int compareTo(Match o) {
+        return this.getTimeStamp().compareTo(o.getTimeStamp())*-1; //we want the order to be inverted
     }
 }

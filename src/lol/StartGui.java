@@ -8,6 +8,7 @@ package lol;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import static java.util.regex.Pattern.matches;
 import javax.swing.SwingUtilities;
 
@@ -40,37 +41,40 @@ public class StartGui extends javax.swing.JFrame {
         model = new TeamTableModel(poulelist);
         jTable1.setModel(model);
         
-        registeredTeams = new String[t.getTeamlist().size()];
-        for (int i = 0; i < t.getTeamlist().size(); i++) {
-            registeredTeams[i] = t.getTeamlist().get(i).getName();
-        }
+        updateList1();
+        updateList2();
         
-        ArrayList<String> plannedMatches = new ArrayList<>();
-        for (Match match : t.getMatchlist()) {
-            if (match.getTimeStamp() != null) {
-                if (!match.getTimeStamp().equals("null")) {
-                    //items[i] = to.getMatchlist().get(i).getMatchID();
-                    plannedMatches.add(match.getMatchID());
-                }
-            }
-        }
-        planned = plannedMatches.toArray(new String[plannedMatches.size()]);
-        
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = registeredTeams;
-            @Override
-            public int getSize() { return strings.length; }
-            @Override
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = planned;
-            @Override
-            public int getSize() { return strings.length; }
-            @Override
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+//        registeredTeams = new String[t.getTeamlist().size()];
+//        for (int i = 0; i < t.getTeamlist().size(); i++) {
+//            registeredTeams[i] = t.getTeamlist().get(i).getName();
+//        }
+//        
+//        ArrayList<String> plannedMatches = new ArrayList<>();
+//        for (Match match : t.getMatchlist()) {
+//            if (match.getTimeStamp() != null) {
+//                if (!match.getTimeStamp().equals("null")) {
+//                    //items[i] = to.getMatchlist().get(i).getMatchID();
+//                    plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
+//                }
+//            }
+//        }
+//        planned = plannedMatches.toArray(new String[plannedMatches.size()]);
+//        
+//        jList1.setModel(new javax.swing.AbstractListModel() {
+//            String[] strings = registeredTeams;
+//            @Override
+//            public int getSize() { return strings.length; }
+//            @Override
+//            public Object getElementAt(int i) { return strings[i]; }
+//        });
+//        
+//        jList2.setModel(new javax.swing.AbstractListModel() {
+//            String[] strings = planned;
+//            @Override
+//            public int getSize() { return strings.length; }
+//            @Override
+//            public Object getElementAt(int i) { return strings[i]; }
+//        });
     }
 
     /**
@@ -238,9 +242,7 @@ public class StartGui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
@@ -329,17 +331,16 @@ public class StartGui extends javax.swing.JFrame {
     public void updateList2() {
         
         ArrayList<String> plannedMatches = new ArrayList<>();
-        System.out.println(t.getMatchlist());
-        for (Match match : t.getMatchlist()) {
+        ArrayList<Match> matchlist = t.getMatchlist();
+        Collections.sort(t.getMatchlist());
+        for (Match match : matchlist) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
-                System.out.println("hey");
                 System.out.println(match.getMatchID());
-                plannedMatches.add(match.getMatchID());
+                plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
             }
         }
         planned = plannedMatches.toArray(new String[plannedMatches.size()]);
-        System.out.println(planned.length);
         
         jList2.setModel(new javax.swing.AbstractListModel() {
             String[] strings = planned;

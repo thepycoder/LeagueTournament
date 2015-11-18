@@ -52,12 +52,12 @@ public class Tournament {
         return null;
     }
     
-    public void addMatch(String matchToPlan, Date date, String official) 
+    public void addMatch(String matchToPlan, String timestamp, String official) 
     {
-        System.out.println(date);
+        System.out.println(timestamp);
         Match match = searchMatch(matchToPlan);
         match.setOfficial(official);
-        match.setTimeStamp(date);
+        match.setTimeStamp(timestamp);
         if ("null".equals(match.getTimeStamp())) { //if match is generated
             System.out.println("store");
             matchlist.add(match);
