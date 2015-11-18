@@ -23,17 +23,38 @@ public class JCalendar extends javax.swing.JFrame {
     
     public Tournament to;
     public String[] items;
+    public StartGui parent;
     
-    public JCalendar(Tournament to) {
+    public JCalendar(Tournament to, StartGui parent) {
+        this.parent = parent;
+        this.to = to;
         
         initComponents();
         
+        setTitle("Matchplanner");
+        
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
-        items = new String[to.getMatchlist().size()];
-        for (int i = 0; i < to.getMatchlist().size(); i++) {
-            items[i] = to.getMatchlist().get(i).getMatchID();
+        ArrayList<String> matches = new ArrayList<>();
+        
+        for (Match match : to.getMatchlist()) {
+            if (match.getTimeStamp() == null) {
+                if (match.getTimeStamp().equals("null")) {
+                    //items[i] = to.getMatchlist().get(i).getMatchID();
+                    matches.add(match.getMatchID());
+                }
+            } else {
+                System.out.println("hey");
+            }
         }
+        
+//        for (int i = 0; i < to.getMatchlist().size(); i++) {
+//            if (to.getMatchlist().get(i).getTimeStamp() != null) {
+//                //items[i] = to.getMatchlist().get(i).getMatchID();
+//                matches.add(to.getMatchlist().get(i).getMatchID());
+//            }
+//        }
+        items = matches.toArray(new String[matches.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
         
     }
@@ -83,7 +104,8 @@ public class JCalendar extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setSize(new java.awt.Dimension(800, 0));
 
         jLabel2.setText("Match to plan:");
 
@@ -121,20 +143,19 @@ public class JCalendar extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
-                .addContainerGap(252, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(26, 26, 26))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1))))
+                .addContainerGap(411, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,8 +185,9 @@ public class JCalendar extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        System.out.println(jDateChooser1.getDate());
+        //System.out.println(jDateChooser1.getDate());
         to.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getDate(), jTextField1.getText());
+        parent.updateList2();
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 

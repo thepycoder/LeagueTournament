@@ -27,6 +27,7 @@ public class GuiTeam extends javax.swing.JFrame {
         this.parent = parent;
         this.t = t;
         initComponents();
+        setTitle("Add a new team");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
@@ -231,7 +232,7 @@ public class GuiTeam extends javax.swing.JFrame {
         GuiMembers.add(getjTextField7());
         GuiMembers.add(getjTextField8());
         t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-        parent.updateList();
+        parent.updateList1();
         this.dispose();
         
     }//GEN-LAST:event_jButton1MouseClicked
@@ -253,7 +254,7 @@ public class GuiTeam extends javax.swing.JFrame {
             GuiMembers.add(getjTextField7());
             GuiMembers.add(getjTextField8());
             t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
-            parent.updateList();
+            parent.updateList1();
             this.dispose();
         }
     }//GEN-LAST:event_jTextField8KeyPressed

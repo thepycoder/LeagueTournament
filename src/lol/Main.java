@@ -39,11 +39,12 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
         
-        t.generatePoules(t.getTeamlist(), 2);
+        t.addMatches(db.retrieveMatches());
         
-        for (Poule poule : t.getPoulelist()) {
-            t.generatePouleMatches(poule);
-        }
+        //db.resetMatches();
+        //System.out.println(t.getMatchlist());
+        
+        t.generatePoules(t.getTeamlist(), 2);
         
         StartGui sg = new StartGui(t);
         sg.show();
