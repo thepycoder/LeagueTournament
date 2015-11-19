@@ -27,6 +27,7 @@ public class StartGui extends javax.swing.JFrame {
     public TeamTableModel model;
     public String[] registeredTeams;
     public String[] planned;
+    public String[] unplanned;
     
     public StartGui(Tournament t) {
         
@@ -43,6 +44,7 @@ public class StartGui extends javax.swing.JFrame {
         
         updateList1();
         updateList2();
+        updateList3();
         
 //        registeredTeams = new String[t.getTeamlist().size()];
 //        for (int i = 0; i < t.getTeamlist().size(); i++) {
@@ -94,6 +96,8 @@ public class StartGui extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jList3 = new javax.swing.JList();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -140,6 +144,13 @@ public class StartGui extends javax.swing.JFrame {
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList2);
+
+        jList3.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(jList3);
 
         jMenu3.setText("Team");
 
@@ -241,12 +252,13 @@ public class StartGui extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -254,11 +266,12 @@ public class StartGui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         pack();
@@ -297,11 +310,13 @@ public class StartGui extends javax.swing.JFrame {
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         t.generatePouleMatches();
         updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         t.resetMatches();
         updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
         
@@ -336,7 +351,6 @@ public class StartGui extends javax.swing.JFrame {
         for (Match match : matchlist) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
-                System.out.println(match.getMatchID());
                 plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
             }
         }
@@ -353,13 +367,33 @@ public class StartGui extends javax.swing.JFrame {
         jList2.repaint();
     }
     
-    public void test() {
-        System.out.println("test");
+    public void updateList3() {
+        
+        ArrayList<String> unPlannedMatches = new ArrayList<>();
+        ArrayList<Match> matchlist = t.getMatchlist();
+        for (Match match : matchlist) {
+            if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
+                    //items[i] = to.getMatchlist().get(i).getMatchID();
+                unPlannedMatches.add(match.getMatchID());
+            }
+        }
+        unplanned = unPlannedMatches.toArray(new String[unPlannedMatches.size()]);
+        
+        jList3.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = unplanned;
+            @Override
+            public int getSize() { return strings.length; }
+            @Override
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        
+        jList3.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList1;
     private javax.swing.JList jList2;
+    private javax.swing.JList jList3;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
@@ -380,6 +414,7 @@ public class StartGui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTable jTable1;
     private javax.swing.JTree jTree1;

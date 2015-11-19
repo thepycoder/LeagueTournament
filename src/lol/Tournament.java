@@ -86,7 +86,7 @@ public class Tournament {
         Collections.shuffle(teamlist);
         
         for (int i = 0; i < amountOfPoules; i++) {
-            Poule poule = new Poule("Poule " + (i+1));
+            Poule poule = new Poule("Poule" + (i+1));
             poulelist.add(poule);
         }
         int index = 0;

@@ -183,8 +183,9 @@ public class JCalendar extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         //System.out.println(jDateChooser1.getDate());
-        to.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField1.getText());
+        to.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + "/" + jDateChooser1.getCalendar().get(Calendar.MONTH) + "/" + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField1.getText());
         parent.updateList2();
+        parent.updateList3();
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 
