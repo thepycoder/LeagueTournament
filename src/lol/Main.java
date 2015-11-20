@@ -42,14 +42,20 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
         
-        t.addMatches(db.retrieveMatches());
+        //t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
         System.out.println(t.getMatchlist());
         
-        t.generatePoules(t.getTeamlist(), 2);
+        //t.generatePoules(t.getTeamlist(), 2);
         
-        StartGui sg = new StartGui(t);
-        sg.show();
+        //StartGui sg = new StartGui(t);
+        //sg.show();
+        
+        //GuiRemoveTeam test = new GuiRemoveTeam(t);
+        //test.show();
+        
+        GuiChangeTeam tests = new GuiChangeTeam (t);
+        tests.show();
     }
 }
