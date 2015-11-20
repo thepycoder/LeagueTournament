@@ -44,9 +44,12 @@ public class Main {
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
-        t.generatePoules(t.getTeamlist(), 2);
+        //t.generatePoules(t.getTeamlist(), 2);
         
-        StartGui sg = new StartGui(t);
-        sg.show();
+        //StartGui sg = new StartGui(t);
+        //sg.show();
+        
+        GuiCompleteMatch test = new GuiCompleteMatch(t);
+        test.show();
     }
 }
