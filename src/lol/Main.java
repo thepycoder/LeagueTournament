@@ -39,7 +39,7 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
         
-        t.addMatches(db.retrieveMatches());
+        //t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
@@ -49,7 +49,7 @@ public class Main {
         //StartGui sg = new StartGui(t);
         //sg.show();
         
-        GuiCompleteMatch test = new GuiCompleteMatch(t);
+        GuiRemoveTeam test = new GuiRemoveTeam(t);
         test.show();
     }
 }
