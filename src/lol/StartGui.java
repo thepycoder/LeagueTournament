@@ -164,6 +164,11 @@ public class StartGui extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem2.setText("Change Team");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("Remove Team");
@@ -332,6 +337,11 @@ public class StartGui extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        GuiChangeTeam jc = new GuiChangeTeam(t, this);
+        jc.show();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
         
     public void updateTable() {

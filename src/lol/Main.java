@@ -49,9 +49,7 @@ public class Main {
         
         if(db.retrievePoules().size() == 0) {
             t.generatePoules(t.getTeamlist(), 2);
-            System.out.println("hey");
         } else {
-            System.out.println("blub");
             t.setPoulelist(db.retrievePoules());
         }
         
