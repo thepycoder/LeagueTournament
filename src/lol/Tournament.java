@@ -21,6 +21,7 @@ public class Tournament {
     ArrayList<Poule> poulelist;
     ArrayList<Match> matchlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
+    ApiHandler api = new ApiHandler();
     
     public Tournament() {
     }
@@ -150,6 +151,27 @@ public class Tournament {
             }
         }
         System.out.println(matchlist);
+    }
+    
+    public void completeMatch(String matchID) {
+        Match matchPlayed = getMatchById(matchID);
+        Team team1 = searchTeam(matchPlayed.getTeam1());
+        Team team2 = searchTeam(matchPlayed.getTeam2());
+        String player1 = team1.getMembers().get(0);
+        String player2 = team2.getMembers().get(0);
+        
+        //Step1: determine the winner
+        api.getStats(player1);
+        
+    }
+    
+    public Match getMatchById(String matchID) {
+        for (Match match : matchlist) {
+            if(match.getMatchID().equals(matchID)) {
+                return match;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Team> getTeamlist() {
