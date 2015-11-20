@@ -25,6 +25,38 @@ public class Tournament {
     public Tournament() {
     }
     
+    public void changeTeam (String name, String region, String coach, ArrayList<String> members) {
+        Team newTeam = new Team(name, region, coach, members);
+        Team oldTeam = null;
+        for (Team team : teamlist) {
+            if (team.getName().equals(newTeam.getName())) {
+                oldTeam = team;
+            }
+        }
+        teamlist.remove(oldTeam);
+        teamlist.add(newTeam);
+        
+    }
+    
+    public void removeTeam(String teamName) {
+        for (Team team : teamlist) {
+            if (team.getName().equals(teamName)) {
+                teamlist.remove(team);
+            }
+        }
+    }
+    
+    public Team searchTeam (String teamName) 
+    {
+        for (Team team : teamlist) 
+        {
+            if(team.getName().equals(teamName))
+                return team;
+        }
+        return null;
+    }
+    
+    
     public void addTeam(String name) {
         Team team = new Team(name);
         teamlist.add(team);

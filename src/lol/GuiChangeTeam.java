@@ -25,7 +25,7 @@ public class GuiChangeTeam extends javax.swing.JFrame {
     public StartGui parent;
     public String[] items;
     
-    public GuiChangeTeam (Tournament t, StartGui parent ){
+    public GuiChangeTeam (Tournament t){
         this.parent = parent;
         this.t = t;
         initComponents();
@@ -41,6 +41,17 @@ public class GuiChangeTeam extends javax.swing.JFrame {
         
         items = teamNames.toArray(new String[teamNames.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
+        
+        
+            jTextField3.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getMembers().get(0)); //geeft members in textfield
+            jTextField4.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getMembers().get(1));
+            jTextField5.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getMembers().get(2));
+            jTextField6.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getMembers().get(3));
+            jTextField7.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getMembers().get(4));
+            
+            jTextField1.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getRegion()); //region
+            jTextField2.setText((t.searchTeam(jComboBox1.getSelectedItem().toString())).getCoach()); //coach
+            
     }
     
 
@@ -181,6 +192,11 @@ public class GuiChangeTeam extends javax.swing.JFrame {
         });
 
         jButton1.setText("Change");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -269,10 +285,30 @@ public class GuiChangeTeam extends javax.swing.JFrame {
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED)
         {
-            evt.getItem();
+            jTextField3.setText(t.searchTeam((String) evt.getItem()).getMembers().get(0)); //geeft members in textfield
+            jTextField4.setText(t.searchTeam((String) evt.getItem()).getMembers().get(1));
+            jTextField5.setText(t.searchTeam((String) evt.getItem()).getMembers().get(2));
+            jTextField6.setText(t.searchTeam((String) evt.getItem()).getMembers().get(3));
+            jTextField7.setText(t.searchTeam((String) evt.getItem()).getMembers().get(4));
             
+            jTextField1.setText(t.searchTeam((String) evt.getItem()).getRegion()); //region
+            jTextField2.setText(t.searchTeam((String) evt.getItem()).getCoach()); //coach
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        t.searchTeam(jComboBox1.getSelectedItem().toString()).getMembers().get(0);
+        ArrayList<String> members = new ArrayList<String>();
+        members.add(jTextField3.getText());
+        members.add(jTextField4.getText());
+        members.add(jTextField5.getText());
+        members.add(jTextField6.getText());
+        members.add(jTextField7.getText());
+        
+        t.changeTeam((jComboBox1.getSelectedItem().toString()), jTextField1.getText(), jTextField2.getText(), members);
+        
+        this.dispose();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
