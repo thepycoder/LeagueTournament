@@ -48,5 +48,7 @@ public class Main {
         
         StartGui sg = new StartGui(t);
         sg.show();
+        
+        
     }
 }
