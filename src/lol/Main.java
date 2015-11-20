@@ -40,14 +40,16 @@ public class Main {
 //        t.addTeam("team11");
 //        t.addTeam("team12");
         
-        t.addTeams(db.retrieveTeams());
+        //t.addTeams(db.retrieveTeams());
         
         //t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
-        System.out.println(t.getMatchlist());
+        //System.out.println(t.getMatchlist());
         
         //t.generatePoules(t.getTeamlist(), 2);
+        
+        api.getMembers("41710596");
         
         //StartGui sg = new StartGui(t);
         //sg.show();
@@ -55,7 +57,7 @@ public class Main {
         //GuiRemoveTeam test = new GuiRemoveTeam(t);
         //test.show();
         
-        GuiChangeTeam tests = new GuiChangeTeam (t);
-        tests.show();
+        //GuiChangeTeam tests = new GuiChangeTeam (t);
+        //tests.show();
     }
 }
