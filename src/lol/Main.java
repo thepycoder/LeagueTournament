@@ -21,7 +21,10 @@ public class Main {
         ApiHandler api = new ApiHandler();
         DatabaseHandler db = new DatabaseHandler();
         
+        
+        
         //api.getMatch("2370414822");
+        //api.getMatch("2389501542");
         
 //        t.addTeam("team1");
 //        t.addTeam("team2");
@@ -42,7 +45,7 @@ public class Main {
         t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
-        //System.out.println(t.getMatchlist());
+        System.out.println(t.getMatchlist());
         
         t.generatePoules(t.getTeamlist(), 2);
         
