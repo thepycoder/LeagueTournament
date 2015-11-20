@@ -20,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,15 +81,26 @@ public class ApiHandler {
         }
     }
     
-    public ArrayList<String> getMembers(String player) {
+    public Map getStats(String summID) {
+        JsonObject rootobj = API(summID, 0);
+        Map stats = new HashMap();
+        JsonObject fp = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("stats").getAsJsonObject();
+        for (Map.Entry<String,JsonElement> entry : fp.entrySet()) {
+            stats.put(entry.getKey(), entry.getValue());
+        }
+        return stats;
+    }
+    
+    public Map<String,Map<String,String>> getMatchSummary(String player) {
         JsonObject rootobj = API(player, 0);
-        ArrayList<String> members = new ArrayList<>();
+        Map<String,Map<String,String>> result = new LinkedHashMap<String,Map<String,String>>();
         JsonArray fp = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("fellowPlayers").getAsJsonArray();
         for (int i = 0; i < fp.size(); i++) {
-            members.add(fp.get(i).getAsJsonObject().get("summonerId").getAsString());
+            String summID = fp.get(i).getAsJsonObject().get("summonerId").getAsString();
+            result.put(summID, getStats(summID));
         }
         //getSummNames(members);
-        return members;
+        return result;
     }
     
     public ArrayList<String> getSummNames(ArrayList<String> ids) {
@@ -103,16 +115,5 @@ public class ApiHandler {
         
         
         return null;
-    }
-        
-    
-    public Map getStats(String summID) {
-        JsonObject rootobj = API(summID, 0);
-        Map stats = new HashMap();
-        JsonObject fp = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("stats").getAsJsonObject();
-        for (Map.Entry<String,JsonElement> entry : fp.entrySet()) {
-            stats.put(entry.getKey(), entry.getValue());
-        }
-        return stats;
     }
 }

@@ -8,6 +8,7 @@ package lol;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 
 /**
  *
@@ -159,9 +160,15 @@ public class Tournament {
         Team team2 = searchTeam(matchPlayed.getTeam2());
         String player1 = team1.getMembers().get(0);
         String player2 = team2.getMembers().get(0);
+        Map<String,Map<String,String>> matchDump = api.getStats(player1);
         
         //Step1: determine the winner
-        api.getStats(player1);
+        if (matchDump.get(player1).get("win").equals("true")) {
+            System.out.println("team player 1 wins");
+        } else {
+            System.out.println("team player 2 wins");
+        }
+        
         
     }
     
