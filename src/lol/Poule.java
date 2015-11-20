@@ -15,29 +15,26 @@ import java.util.List;
 public class Poule {
     
     private String name;
-    private List<Team> teams;
-    private ArrayList <Match> matches;
-    private boolean completed;
+    private ArrayList<Team> teams;
+    private String completed;
     
     //constructor
     
     public Poule(String name) {
         this.name = name;
         this.teams = new ArrayList<>();
-        this.matches = new ArrayList<>();
-        this.completed = false;
+        this.completed = "false";
     }
 
-    public Poule(String name, List<Team> teams) 
+    public Poule(String name, ArrayList<Team> teams) 
     {
         this.name = name;
         this.teams = teams;
     }
     
-    public Poule(String name, ArrayList<Team> teams, ArrayList<Match> matches, boolean completed) {
+    public Poule(String name, ArrayList<Team> teams, String completed) {
         this.name = name;
         this.teams = teams;
-        this.matches = matches;
         this.completed = completed;
     }
     
@@ -55,11 +52,7 @@ public class Poule {
         return teams;
     }
 
-    public ArrayList<Match> getMatches() {
-        return matches;
-    }
-
-    public boolean isCompleted() {
+    public String isCompleted() {
         return completed;
     }
     
@@ -72,12 +65,7 @@ public class Poule {
     public void setTeams(ArrayList<Team> teams) {
         this.teams = teams;
     }
-
-    public void setMatches(ArrayList<Match> matches) {
-        this.matches = matches;
-    }
-
-    public void setCompleted(boolean completed) {
+    public void setCompleted(String completed) {
         this.completed = completed;
     }
 

@@ -8,6 +8,7 @@ package lol;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -139,6 +140,46 @@ public class DatabaseHandler {
             }
         }
     }
+  
+  public ArrayList<Poule> retrievePoules() {
+      ArrayList<Poule> poules = new ArrayList<>();
+       
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT * FROM poules";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                ArrayList<Team> pouleTeams = new ArrayList<>();
+                ArrayList<Team> storedTeams = this.retrieveTeams();
+                for (String pouleTeam : rs.getString("teams").split(",")) {
+                    for (Team storedTeam : storedTeams) {
+                        if (storedTeam.getName().equals(pouleTeam)) {
+                            pouleTeams.add(storedTeam);
+                        }
+                    }
+                }
+                Poule poule = new Poule(rs.getString("name"), pouleTeams, rs.getString("completed"));
+                poules.add(poule);
+             }
+            return poules;
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
+  
    public void storeBracket(String name, Team team1, Team team2, String timeStamp, ArrayList<Match> matches, String type){
         try {            
             conn = createConnection(url);

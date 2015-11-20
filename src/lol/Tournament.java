@@ -132,9 +132,9 @@ public class Tournament {
                 index++;
             }
         }
-//        for (Poule poule : poulelist) {
-//            db.storePoule(poule);
-//        }
+        for (Poule poule : poulelist) {
+            db.storePoule(poule);
+        }
     }
     
     public void generatePouleMatches() {
@@ -192,6 +192,12 @@ public class Tournament {
     public ArrayList<Match> getMatchlist() {
         return matchlist;
     }
+
+    public void setPoulelist(ArrayList<Poule> poulelist) {
+        this.poulelist = poulelist;
+    }
+    
+    
     
     
     

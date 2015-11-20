@@ -47,7 +47,13 @@ public class Main {
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
-        t.generatePoules(t.getTeamlist(), 2);
+        if(db.retrievePoules().size() == 0) {
+            t.generatePoules(t.getTeamlist(), 2);
+            System.out.println("hey");
+        } else {
+            System.out.println("blub");
+            t.setPoulelist(db.retrievePoules());
+        }
         
         //System.out.println(api.getMatchSummary("41710596"));
         
