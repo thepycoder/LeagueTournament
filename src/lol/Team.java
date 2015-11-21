@@ -40,6 +40,14 @@ public class Team {
         this.pouleWins = 0;
     }
     
+    public Team(String name, String region, String coach, ArrayList<String> members, int pouleWins) {
+        this.name = name;
+        this.region = region;
+        this.coach = coach;
+        this.members = members;
+        this.pouleWins = pouleWins;
+    }
+    
     public void addWin() {
         this.pouleWins += 1;
     }

@@ -47,17 +47,17 @@ public class Main {
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
-//        if(db.retrievePoules().isEmpty()) {
-//            t.generatePoules(t.getTeamlist(), 2);
-//        } else {
-//            t.setPoulelist(db.retrievePoules());
-//        }
+        if(db.retrievePoules().isEmpty()) {
+            t.generatePoules(t.getTeamlist(), 2);
+        } else {
+            t.setPoulelist(db.retrievePoules());
+        }
         
-        t.completeMatch("test_H2K_Poule 1");
+        //t.completeMatch("test_H2K_Poule 1");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        //StartGui sg = new StartGui(t);
-        //sg.show();
+        StartGui sg = new StartGui(t);
+        sg.show();
         
         //GuiRemoveTeam test = new GuiRemoveTeam(t);
         //test.show();

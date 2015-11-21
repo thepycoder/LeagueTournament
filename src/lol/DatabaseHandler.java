@@ -220,7 +220,7 @@ public class DatabaseHandler {
                 //Retrieve by column name
                 ArrayList<String> members = new ArrayList<>(Arrays.asList(rs.getString("members").split(",")));
                 members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members);
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
                 teams.add(team);
              }
             return teams;

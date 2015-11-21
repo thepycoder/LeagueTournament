@@ -51,7 +51,7 @@ public class TeamTableModel extends AbstractTableModel {
             if (rowIndex == poule.getTeams().size()) {
                 value = "";
             } else {
-                value = poule.getTeams().get(rowIndex);
+                value = poule.getTeams().get(rowIndex).getPouleWins() + " - " + poule.getTeams().get(rowIndex);
             }
             
             return value;
