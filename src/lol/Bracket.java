@@ -95,6 +95,6 @@ public class Bracket {
     
     @Override
     public String toString(){
-        return name;
+        return name + ": " + team1 + " vs " + team2;
     }
 }

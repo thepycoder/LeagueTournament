@@ -55,6 +55,7 @@ public class Main {
         }
         
         t.completePoule(t.getPoulelist().get(0));
+        t.completePoule(t.getPoulelist().get(1));
         System.out.println(t.getBracketlist());
         
         //t.completeMatch("Poule2_test_H2K");

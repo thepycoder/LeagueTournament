@@ -164,7 +164,7 @@ public class Tournament {
     
     public void generateBrackets() {
         for (int i = 0; i < poulelist.size(); i++) { //generate a bracket for each poule, this will be just right
-            Bracket bracket = new Bracket("Bracket" + i, poulelist.size());
+            Bracket bracket = new Bracket("Bracket" + (i + 1), poulelist.size());
             bracketlist.add(bracket);
             db.storeBracket(bracket);
         }
@@ -220,9 +220,9 @@ public class Tournament {
     public void completePoule(Poule poule) {
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
         Team team2 = poule.getSortedTeams().get(1);
-        int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1));
+        int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
         bracketlist.get(pouleNr).setTeam1(team1);
-        if (pouleNr % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
+        if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
             bracketlist.get(pouleNr - 1).setTeam2(team2);
         } else {
             bracketlist.get(pouleNr + 1).setTeam2(team2);
