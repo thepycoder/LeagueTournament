@@ -40,23 +40,24 @@ public class Main {
 //        t.addTeam("team11");
 //        t.addTeam("team12");
         
-        t.addTeams(db.retrieveTeams());
+        //t.addTeams(db.retrieveTeams());
         
-        t.addMatches(db.retrieveMatches());
+        //t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
-        if(db.retrievePoules().size() == 0) {
-            t.generatePoules(t.getTeamlist(), 2);
-        } else {
-            t.setPoulelist(db.retrievePoules());
-        }
+//        if(db.retrievePoules().isEmpty()) {
+//            t.generatePoules(t.getTeamlist(), 2);
+//        } else {
+//            t.setPoulelist(db.retrievePoules());
+//        }
         
-        //System.out.println(api.getMatchSummary("41710596"));
+        //t.completeMatch("test_Nils_Poule 1");
+        System.out.println(api.getMatchSummary("41710596"));
         
-        StartGui sg = new StartGui(t);
-        sg.show();
+        //StartGui sg = new StartGui(t);
+        //sg.show();
         
         //GuiRemoveTeam test = new GuiRemoveTeam(t);
         //test.show();

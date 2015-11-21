@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,8 @@ import java.util.logging.Logger;
 public class ApiHandler {
     
     public int apiCount = 0;
+    public String ApiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
+    public String matchID = "";
     
     public ApiHandler() {
         
@@ -40,9 +43,11 @@ public class ApiHandler {
         try {
             String sURL = "";
             switch(call){
-                case 0: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.3/game/by-summoner/" + arg + "/recent?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5";
+                case 0: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.3/game/by-summoner/" + arg + "/recent?api_key=" + ApiKey;
                 break;
-                case 1: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/" + arg  + "/name?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5";
+                case 1: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/" + arg  + "/name?api_key=" + ApiKey;
+                break;
+                case 2: sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + arg  + "?api_key=" + ApiKey;
                 break;
             }
             apiCount++;
@@ -81,39 +86,69 @@ public class ApiHandler {
         }
     }
     
-    public Map getStats(String summID) {
-        JsonObject rootobj = API(summID, 0);
-        Map stats = new HashMap();
-        JsonObject fp = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("stats").getAsJsonObject();
-        for (Map.Entry<String,JsonElement> entry : fp.entrySet()) {
-            stats.put(entry.getKey(), entry.getValue());
+    public Map<String, Map<String, String>> getMatchSummary(String player) {
+        Map<String, Map<String, String>> summary = new HashMap<>();
+        Map<String, String> champSummID = getMembers(player);
+        Map<String, String> champSummName = getSummNames(champSummID);
+        
+        JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
+        
+        JsonArray participants = rootobj.getAsJsonArray("participants");
+        
+        for (JsonElement participant : participants) {
+            JsonObject p = (JsonObject) participant;
+            
+            for (Map.Entry<String,String> entry : champSummName.entrySet()) {
+                if(p.get("championId").getAsString().equals(entry.getKey())) {
+                    
+                    Map stats = new HashMap();
+                    for (Map.Entry<String,JsonElement> stat : p.get("stats").getAsJsonObject().entrySet()) {
+                        stats.put(stat.getKey(), stat.getValue());
+                    }
+                    
+                    summary.put(entry.getValue(), stats);
+                    
+                }
+            }
+                    
         }
-        return stats;
+        
+        return summary;
     }
     
-    public Map<String,Map<String,String>> getMatchSummary(String player) {
+    
+    public Map<String, String> getMembers(String player) {
         JsonObject rootobj = API(player, 0);
-        Map<String,Map<String,String>> result = new LinkedHashMap<String,Map<String,String>>();
+        //ArrayList<String> result = new ArrayList<>();
+        Map<String, String> champSummID = new HashMap<>();
+        champSummID.put(rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("championId").getAsString(), player);
+        matchID = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("gameId").getAsString();
+        //Map<String,Map<String,String>> result = new LinkedHashMap<String,Map<String,String>>();
         JsonArray fp = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("fellowPlayers").getAsJsonArray();
         for (int i = 0; i < fp.size(); i++) {
             String summID = fp.get(i).getAsJsonObject().get("summonerId").getAsString();
-            result.put(summID, getStats(summID));
+            String champID = fp.get(i).getAsJsonObject().get("championId").getAsString();
+            champSummID.put(champID, summID);
+            //result.put(summID, getStats(summID));
         }
         //getSummNames(members);
-        return result;
+        return champSummID;
     }
     
-    public ArrayList<String> getSummNames(ArrayList<String> ids) {
+    public Map<String, String> getSummNames(Map<String, String> ids) {
         String apiString = "";
-        for (String id : ids) {
-            apiString += id + ",";
+        Map<String, String> champSummNames = new HashMap<>();
+        for(Entry<String, String> id : ids.entrySet()) {
+            apiString += id.getValue() + ",";
         }
         
         JsonObject rootobj = API(apiString, 1);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(rootobj));
+        
+        for(Entry<String, String> id : ids.entrySet()) {
+            champSummNames.put(id.getKey(), rootobj.get(id.getValue()).getAsString());
+        }
         
         
-        return null;
+        return champSummNames;
     }
 }
