@@ -160,14 +160,18 @@ public class Tournament {
         Team team2 = searchTeam(matchPlayed.getTeam2());
         String player1 = team1.getMembers().get(0);
         String player2 = team2.getMembers().get(0);
-        //Map<String,Map<String,String>> matchDump = api.getMatchSummary(player1);
+        String summID1 = api.getSummID(player1);
+        System.out.println(summID1);
+        Map<String,Map<String,String>> matchDump = api.getMatchSummary(summID1);
+        
+        System.out.println(matchDump.get(player1).get("winner"));
         
         //Step1: determine the winner
-//        if (matchDump.get(player1).get("win").equals("true")) {
-//            System.out.println("team player 1 wins");
-//        } else {
-//            System.out.println("team player 2 wins");
-//        }
+        if (matchDump.get(player1).get("winner").equals("true")) {
+            System.out.println("team player 1 wins");
+        } else {
+            System.out.println("team player 2 wins");
+        }
         
         
     }

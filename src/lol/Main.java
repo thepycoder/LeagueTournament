@@ -40,9 +40,9 @@ public class Main {
 //        t.addTeam("team11");
 //        t.addTeam("team12");
         
-        //t.addTeams(db.retrieveTeams());
+        t.addTeams(db.retrieveTeams());
         
-        //t.addMatches(db.retrieveMatches());
+        t.addMatches(db.retrieveMatches());
         
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
@@ -53,8 +53,8 @@ public class Main {
 //            t.setPoulelist(db.retrievePoules());
 //        }
         
-        //t.completeMatch("test_Nils_Poule 1");
-        System.out.println(api.getMatchSummary("41710596"));
+        t.completeMatch("test_H2K_Poule 1");
+        //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
         //StartGui sg = new StartGui(t);
         //sg.show();

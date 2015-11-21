@@ -49,6 +49,8 @@ public class ApiHandler {
                 break;
                 case 2: sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + arg  + "?api_key=" + ApiKey;
                 break;
+                case 3: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/" + arg  + "?api_key=" + ApiKey;
+                break;
             }
             apiCount++;
             System.out.println(apiCount);
@@ -86,10 +88,10 @@ public class ApiHandler {
         }
     }
     
-    public Map<String, Map<String, String>> getMatchSummary(String player) {
-        Map<String, Map<String, String>> summary = new HashMap<>();
-        Map<String, String> champSummID = getMembers(player);
-        Map<String, String> champSummName = getSummNames(champSummID);
+    public HashMap<String, Map<String, String>> getMatchSummary(String player) {
+        HashMap<String, Map<String, String>> summary = new HashMap<>();
+        HashMap<String, String> champSummID = getMembers(player);
+        HashMap<String, String> champSummName = getSummNames(champSummID);
         
         JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
         
@@ -102,8 +104,8 @@ public class ApiHandler {
                 if(p.get("championId").getAsString().equals(entry.getKey())) {
                     
                     Map stats = new HashMap();
-                    for (Map.Entry<String,JsonElement> stat : p.get("stats").getAsJsonObject().entrySet()) {
-                        stats.put(stat.getKey(), stat.getValue());
+                    for (Entry<String, JsonElement> stat : p.get("stats").getAsJsonObject().entrySet()) {
+                        stats.put(stat.getKey(), stat.getValue().getAsString());
                     }
                     
                     summary.put(entry.getValue(), stats);
@@ -117,10 +119,10 @@ public class ApiHandler {
     }
     
     
-    public Map<String, String> getMembers(String player) {
+    public HashMap<String, String> getMembers(String player) {
         JsonObject rootobj = API(player, 0);
         //ArrayList<String> result = new ArrayList<>();
-        Map<String, String> champSummID = new HashMap<>();
+        HashMap<String, String> champSummID = new HashMap<>();
         champSummID.put(rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("championId").getAsString(), player);
         matchID = rootobj.getAsJsonArray("games").get(0).getAsJsonObject().get("gameId").getAsString();
         //Map<String,Map<String,String>> result = new LinkedHashMap<String,Map<String,String>>();
@@ -135,9 +137,9 @@ public class ApiHandler {
         return champSummID;
     }
     
-    public Map<String, String> getSummNames(Map<String, String> ids) {
+    public HashMap<String, String> getSummNames(Map<String, String> ids) {
         String apiString = "";
-        Map<String, String> champSummNames = new HashMap<>();
+        HashMap<String, String> champSummNames = new HashMap<>();
         for(Entry<String, String> id : ids.entrySet()) {
             apiString += id.getValue() + ",";
         }
@@ -150,5 +152,12 @@ public class ApiHandler {
         
         
         return champSummNames;
+    }
+    
+    public String getSummID(String name) {
+        
+        JsonObject rootobj = API(name, 3);
+        
+        return rootobj.get(name.toLowerCase()).getAsJsonObject().get("id").getAsString();
     }
 }
