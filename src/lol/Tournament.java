@@ -114,10 +114,14 @@ public class Tournament {
     }
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
+        db.resetPoules();
+        
         this.poulelist = new ArrayList<>();
         ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
+        
+        System.out.println(teamlist);
         
         for (int i = 0; i < amountOfPoules; i++) {
             Poule poule = new Poule("Poule" + (i+1));
@@ -142,7 +146,7 @@ public class Tournament {
         for (Poule poule : poulelist) {
             for (Team team1 : poule.getTeams()) {
                 for (Team team2 : poule.getTeams()) {
-                    if (team1 != team2) {
+                    if (!team1.getName().equals(team2.getName())) {
                         //System.out.println(team1.toString() + " vs " + team2.toString());
                         Match match = new Match(team1.getName(), team2.getName(), poule.getName(), "null");
                         matchlist.add(match);

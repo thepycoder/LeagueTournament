@@ -50,6 +50,10 @@ public class Poule {
     }
 
     public List<Team> getTeams() {
+        return teams;
+    }
+    
+    public List<Team> getSortedTeams() {
         Collections.sort(teams);
         return teams;
     }

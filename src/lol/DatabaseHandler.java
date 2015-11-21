@@ -310,5 +310,26 @@ public class DatabaseHandler {
             }
         }
     }
+   
+   public void resetPoules() {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "DELETE FROM poules";
+            stmt.executeUpdate(query);
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
   
 }

@@ -304,21 +304,33 @@ public class StartGui extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         t.generatePoules(t.getTeamlist(), 4);
         updateTable();
+        t.generatePouleMatches();
+        updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         t.generatePoules(t.getTeamlist(), 2);
         updateTable();
+        t.generatePouleMatches();
+        updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         t.generatePoules(t.getTeamlist(), 8);
         updateTable();
+        t.generatePouleMatches();
+        updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         t.generatePoules(t.getTeamlist(), 16);
         updateTable();
+        t.generatePouleMatches();
+        updateList2();
+        updateList3();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
