@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author stephan
  */
-public class Team {
+public class Team implements Comparable<Team> {
     private String name;
     private String region;
     private String coach;
@@ -100,6 +100,17 @@ public class Team {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int compareTo(Team t) {
+        if (t == null){
+            return -1;
+        } else if (t.getPouleWins() > this.pouleWins) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
     
     
