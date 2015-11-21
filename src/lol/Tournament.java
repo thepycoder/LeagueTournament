@@ -168,9 +168,11 @@ public class Tournament {
         
         //Step1: determine the winner
         if (matchDump.get(player1).get("winner").equals("true")) {
-            System.out.println("team player 1 wins");
-        } else {
-            System.out.println("team player 2 wins");
+            team1.addWin();
+            db.addWin(team1);
+        } else { // no else if so we only need 1 known player for testing purposes
+            team2.addWin();
+            db.addWin(team2);
         }
         
         

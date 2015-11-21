@@ -239,6 +239,27 @@ public class DatabaseHandler {
         }
    }
    
+   public void addWin(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET pouleWins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+   
    public ArrayList<Match> retrieveMatches() {
         ArrayList<Match> matches = new ArrayList<>();
        

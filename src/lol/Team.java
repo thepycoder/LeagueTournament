@@ -16,6 +16,7 @@ public class Team {
     private String region;
     private String coach;
     private ArrayList <String> members;
+    private int pouleWins;
 
     public Team ()
     {
@@ -27,6 +28,7 @@ public class Team {
         this.region = null;
         this.coach = null;
         this.members = null;
+        this.pouleWins = 0;
     }
     
     
@@ -35,9 +37,18 @@ public class Team {
         this.region = region;
         this.coach = coach;
         this.members = members;
+        this.pouleWins = 0;
+    }
+    
+    public void addWin() {
+        this.pouleWins += 1;
     }
 
     //getters
+
+    public int getPouleWins() {
+        return pouleWins;
+    }
     
     public String getName() {
         return name;
