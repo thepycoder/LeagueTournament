@@ -24,7 +24,7 @@ public class Poule {
     public Poule(String name) {
         this.name = name;
         this.teams = new ArrayList<>();
-        this.completed = "false";
+        this.completed = "no";
     }
 
     public Poule(String name, ArrayList<Team> teams) 

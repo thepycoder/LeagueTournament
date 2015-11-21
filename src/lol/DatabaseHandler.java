@@ -78,7 +78,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', " + false + ")";
+            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -125,7 +125,7 @@ public class DatabaseHandler {
                 teams += x.getName() + ",";
             }   
             teams += "'";
-            String query = "INSERT INTO poules (name, teams, completed) VALUES ('" + poule.getName() + "', " + teams + ", " + false + ")";
+            String query = "INSERT INTO poules (name, teams, completed) VALUES ('" + poule.getName() + "', " + teams + ", 'no')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -167,7 +167,7 @@ public class DatabaseHandler {
             return poules;
             
         } catch (SQLException ex) {
-            System.out.println("Probleem bij ophalen teams: " + ex);
+            System.out.println("Probleem bij ophalen poules: " + ex);
             return null;
         } finally {
             if(conn != null) {
@@ -180,16 +180,63 @@ public class DatabaseHandler {
         }
   }
   
-   public void storeBracket(String name, Team team1, Team team2, String timeStamp, ArrayList<Match> matches, String type){
+  public ArrayList<Bracket> retrieveBrackets() {
+      ArrayList<Bracket> brackets = new ArrayList<>();
+       
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT * FROM brackets";
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while(rs.next()){
+                ArrayList<Match> bracketMatches = new ArrayList<>();
+                ArrayList<Match> storedMatches = this.retrieveMatches();
+                for (String bracketMatch : rs.getString("matches").split(",")) {
+                    for (Match storedMatch : storedMatches) {
+                        if (storedMatch.getMatchID().equals(bracketMatch)) {
+                            bracketMatches.add(storedMatch);
+                        }
+                    }
+                }
+                
+                ArrayList<Team> storedTeams = this.retrieveTeams();
+                Team team1 = null;
+                Team team2 = null;
+                for (Team storedTeam : storedTeams) {
+                    if (storedTeam.getName().equals(rs.getString("team1"))) {
+                         team1 = storedTeam;
+                    }
+                    if (storedTeam.getName().equals(rs.getString("team2"))) {
+                         team2 = storedTeam;
+                    }
+                }
+                
+                Bracket bracket = new Bracket(rs.getString("name"), team1, team2, rs.getInt("type"), bracketMatches, rs.getString("completed"));
+                brackets.add(bracket);
+             }
+            return brackets;
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen brackets: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
+  
+   public void storeBracket(Bracket bracket){
         try {            
             conn = createConnection(url);
-            Statement stmt = conn.createStatement(); 
-            
-            String matchez = new String();
-            for(Match x : matches){
-                matchez += x.getMatchID() + ", ";
-            }     
-            String query = "INSERT INTO teams (name, teams) VALUES('" + name + "', '" + team1 + "', '" + team2 + "', '" + matchez + "', '" + false + "', '" + type + "')"; 
+            Statement stmt = conn.createStatement();  
+            String query = "INSERT INTO brackets (name, type) VALUES('" + bracket.getName() + "', " + bracket.getType() + ")"; 
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -260,6 +307,27 @@ public class DatabaseHandler {
         }
    }
    
+   public void setCompleted(Match match) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE matches SET completed='yes' WHERE matchID='" + match.getMatchID()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+   
    public ArrayList<Match> retrieveMatches() {
         ArrayList<Match> matches = new ArrayList<>();
        
@@ -271,7 +339,7 @@ public class DatabaseHandler {
             ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"), rs.getString("completed"));
                 matches.add(match);
              }
             return matches;
@@ -331,5 +399,26 @@ public class DatabaseHandler {
             }
         }
     }
+   
+   public void resetBrackets() {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "DELETE FROM brackets";
+            stmt.executeUpdate(query);
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
   
 }

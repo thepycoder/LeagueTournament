@@ -420,6 +420,7 @@ public class StartGui extends javax.swing.JFrame {
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         t.generatePoules(t.getTeamlist(), 4);
         updateTable();
+        t.resetMatches();
         t.generatePouleMatches();
         updateList2();
         updateList3();
@@ -428,6 +429,7 @@ public class StartGui extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         t.generatePoules(t.getTeamlist(), 2);
         updateTable();
+        t.resetMatches();
         t.generatePouleMatches();
         updateList2();
         updateList3();
@@ -436,6 +438,7 @@ public class StartGui extends javax.swing.JFrame {
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         t.generatePoules(t.getTeamlist(), 8);
         updateTable();
+        t.resetMatches();
         t.generatePouleMatches();
         updateList2();
         updateList3();
@@ -448,8 +451,8 @@ public class StartGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        
-        
+        GuiCompleteMatch gcm = new GuiCompleteMatch(t);
+        gcm.show();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -487,7 +490,7 @@ public class StartGui extends javax.swing.JFrame {
         ArrayList<Match> matchlist = t.getMatchlist();
         Collections.sort(t.getMatchlist());
         for (Match match : matchlist) {
-            if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
+            if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null") || match.getCompleted().equals("yes"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
                 plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
             }
@@ -510,8 +513,7 @@ public class StartGui extends javax.swing.JFrame {
         ArrayList<String> unPlannedMatches = new ArrayList<>();
         ArrayList<Match> matchlist = t.getMatchlist();
         for (Match match : matchlist) {
-            if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null"))) {
-                    //items[i] = to.getMatchlist().get(i).getMatchID();
+            if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {
                 unPlannedMatches.add(match.getMatchID());
             }
         }

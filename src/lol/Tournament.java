@@ -7,7 +7,6 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -19,8 +18,9 @@ public class Tournament {
     //private static String matchID = "2370414822"; //als voorbeeld
     
     ArrayList<Team> teamlist = new ArrayList<>();
-    ArrayList<Poule> poulelist;
+    ArrayList<Poule> poulelist = new ArrayList<>();
     ArrayList<Match> matchlist = new ArrayList<>();
+    ArrayList<Bracket> bracketlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
     ApiHandler api = new ApiHandler();
     
@@ -115,8 +115,11 @@ public class Tournament {
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
         db.resetPoules();
+        db.resetBrackets();
         
         this.poulelist = new ArrayList<>();
+        this.bracketlist = new ArrayList<>(); //brackets are depending on poules
+        
         ArrayList<Poule> poules = new ArrayList<Poule>();
         
         Collections.shuffle(teamlist);
@@ -139,6 +142,8 @@ public class Tournament {
         for (Poule poule : poulelist) {
             db.storePoule(poule);
         }
+        
+        generateBrackets(); //set up brackets already
     }
     
     public void generatePouleMatches() {
@@ -148,14 +153,21 @@ public class Tournament {
                 for (Team team2 : poule.getTeams()) {
                     if (!team1.getName().equals(team2.getName())) {
                         //System.out.println(team1.toString() + " vs " + team2.toString());
-                        Match match = new Match(team1.getName(), team2.getName(), poule.getName(), "null");
+                        Match match = new Match(team1.getName(), team2.getName(), poule.getName(), "");
                         matchlist.add(match);
                         db.storeMatch(match);
                     }
                 }
             }
         }
-        System.out.println(matchlist);
+    }
+    
+    public void generateBrackets() {
+        for (int i = 0; i < poulelist.size(); i++) { //generate a bracket for each poule, this will be just right
+            Bracket bracket = new Bracket("Bracket" + i, poulelist.size());
+            bracketlist.add(bracket);
+            db.storeBracket(bracket);
+        }
     }
     
     public void completeMatch(String matchID) {
@@ -170,6 +182,10 @@ public class Tournament {
         
         System.out.println(matchDump.get(player1).get("winner"));
         
+        //Step 0: set Match object completed flag
+        matchPlayed.setCompleted("yes");
+        db.setCompleted(matchPlayed);
+        
         //Step1: determine the winner
         if (matchDump.get(player1).get("winner").equals("true")) {
             team1.addWin();
@@ -179,13 +195,53 @@ public class Tournament {
             db.addWin(team2);
         }
         
+        //Step 2: Get Match data and update Statistics + store in DB
+        //TODO
         
+        //Step 3: Check if all matches in poule are played
+        int flag = 0; // if this stays 0, all matches have been played
+        if (matchPlayed.getType().startsWith("Poule")) {
+            for (Match match : matchlist) {
+                if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
+                    if(match.getCompleted().equals("no")) {
+                        flag++;
+                    }
+                }
+            }
+            if (flag == 0) {
+                Poule completedPoule = getPouleByMatch(matchPlayed);
+                completedPoule.setCompleted("yes");
+                completePoule(completedPoule);
+            }
+        }
+        
+    }
+    
+    public void completePoule(Poule poule) {
+        Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
+        Team team2 = poule.getSortedTeams().get(1);
+        int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1));
+        bracketlist.get(pouleNr).setTeam1(team1);
+        if (pouleNr % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
+            bracketlist.get(pouleNr - 1).setTeam2(team2);
+        } else {
+            bracketlist.get(pouleNr + 1).setTeam2(team2);
+        }
     }
     
     public Match getMatchById(String matchID) {
         for (Match match : matchlist) {
             if(match.getMatchID().equals(matchID)) {
                 return match;
+            }
+        }
+        return null;
+    }
+    
+    public Poule getPouleByMatch(Match match) {
+        for (Poule poule : poulelist) {
+            if (match.getType().equals(poule.getName())) {
+                return poule;
             }
         }
         return null;
@@ -203,8 +259,16 @@ public class Tournament {
         return matchlist;
     }
 
+    public ArrayList<Bracket> getBracketlist() {
+        return bracketlist;
+    }
+
     public void setPoulelist(ArrayList<Poule> poulelist) {
         this.poulelist = poulelist;
+    }
+
+    public void setBracketlist(ArrayList<Bracket> bracketlist) {
+        this.bracketlist = bracketlist;
     }
     
     

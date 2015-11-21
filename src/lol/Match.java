@@ -25,26 +25,29 @@ public class Match implements Comparable<Match> {
     private String type;
     private String timeStamp;
     private String official;
+    private String completed;
     
     //constructor
 
     public Match (String team1, String team2, String type, String official)
     {
-        this.matchID = team1 + "_" + team2 + "_" + type;
+        this.matchID = type + "_" + team1 + "_" + team2;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = null;
         this.official = official;
-        this.type = null;
+        this.type = type;
+        this.completed = "no";
     }
     
-    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official) {
+    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official, String completed) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = timeStamp;
         this.official = official;
         this.type = type;
+        this.completed = completed;
     }
     
     //getter
@@ -68,6 +71,12 @@ public class Match implements Comparable<Match> {
     public String getOfficial () {
         return official;
     }
+
+    public String getCompleted() {
+        return completed;
+    }
+    
+    
     
     //setter
 
@@ -97,6 +106,14 @@ public class Match implements Comparable<Match> {
 
     public String getType() {
         return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
     }
     
     @Override

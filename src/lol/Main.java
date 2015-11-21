@@ -42,22 +42,26 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
         
-        t.addMatches(db.retrieveMatches());
-        
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
         if(db.retrievePoules().isEmpty()) {
             t.generatePoules(t.getTeamlist(), 2);
+            t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
+            t.addMatches(db.retrieveMatches());
+            t.setBracketlist(db.retrieveBrackets());
         }
         
-        //t.completeMatch("test_H2K_Poule 1");
+        t.completePoule(t.getPoulelist().get(0));
+        System.out.println(t.getBracketlist());
+        
+        //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        StartGui sg = new StartGui(t);
-        sg.show();
+        //StartGui sg = new StartGui(t);
+        //sg.show();
         
         //GuiRemoveTeam test = new GuiRemoveTeam(t);
         //test.show();

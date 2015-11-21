@@ -15,24 +15,32 @@ public class Bracket {
     private String name;
     private Team team1;
     private Team team2;
-    private String timeStamp;
+    private int type; //8 for eighth final, 4 for quarter final, 2 for semi final, 1 for final
     private ArrayList <Match> matches;
-    private boolean completed;
+    private String completed;
     
     //constructor
 
-    public Bracket () 
+    public Bracket (String name, int type) 
     {
+        this.name = name;
+        this.team1 = null;
+        this.team2 = null;
+        this.type = type;
+        this.matches = new ArrayList<>();
+        this.completed = "no";
     }
-    
-    public Bracket(String name, Team team1, Team team2, String timeStamp, ArrayList<Match> matches, boolean completed) {
+
+    public Bracket(String name, Team team1, Team team2, int type, ArrayList<Match> matches, String completed) {
         this.name = name;
         this.team1 = team1;
         this.team2 = team2;
-        this.timeStamp = timeStamp;
+        this.type = type;
         this.matches = matches;
         this.completed = completed;
     }
+    
+    
     
     //getters
 
@@ -47,16 +55,19 @@ public class Bracket {
     public Team getTeam2() {
         return team2;
     }
-
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
     public ArrayList<Match> getMatches() {
         return matches;
     }
 
-    public boolean isCompleted() {
+    public String isCompleted() {
+        return completed;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getCompleted() {
         return completed;
     }
     
@@ -74,16 +85,16 @@ public class Bracket {
         this.team2 = team2;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
     public void setMatches(ArrayList<Match> matches) {
         this.matches = matches;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(String completed) {
         this.completed = completed;
     }
     
+    @Override
+    public String toString(){
+        return name;
+    }
 }
