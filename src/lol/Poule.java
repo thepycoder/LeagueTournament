@@ -6,6 +6,7 @@
 package lol;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +50,7 @@ public class Poule {
     }
 
     public List<Team> getTeams() {
+        Collections.sort(teams);
         return teams;
     }
 
