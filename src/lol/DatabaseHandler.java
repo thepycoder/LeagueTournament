@@ -291,7 +291,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "UPDATE teams SET pouleWins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -410,6 +410,27 @@ public class DatabaseHandler {
             
         } catch (SQLException ex) {
             System.out.println("Probleem bij ophalen teams: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+   
+   public void resetScores() {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET poulewins=0";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
         } finally {
             if(conn != null) {
                 try {

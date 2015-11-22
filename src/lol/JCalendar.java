@@ -102,7 +102,6 @@ public class JCalendar extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(new java.awt.Dimension(800, 0));
 
         jLabel2.setText("Match to plan:");
 

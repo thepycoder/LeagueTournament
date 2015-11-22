@@ -55,6 +55,20 @@ public class Bracket {
     public Team getTeam2() {
         return team2;
     }
+    public String getTeam1Name() {
+        if (team1 == null){
+            return "TBA";
+        } else {
+            return team1.getName();
+        }
+    }
+    public String getTeam2Name() {
+        if (team2 == null){
+            return "TBA";
+        } else {
+            return team2.getName();
+        }
+    }
     public ArrayList<Match> getMatches() {
         return matches;
     }
@@ -95,6 +109,6 @@ public class Bracket {
     
     @Override
     public String toString(){
-        return name + ": " + team1 + " vs " + team2;
+        return name + ": " + team1 + " vs " + team2 + " type: " + type;
     }
 }

@@ -7,6 +7,7 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -116,6 +117,7 @@ public class Tournament {
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
         db.resetPoules();
         db.resetBrackets();
+        db.resetScores();
         
         this.poulelist = new ArrayList<>();
         this.bracketlist = new ArrayList<>(); //brackets are depending on poules
@@ -168,6 +170,45 @@ public class Tournament {
             bracketlist.add(bracket);
             db.storeBracket(bracket);
         }
+    }
+    
+    public void forfaitPouleMatch(String matchID, String teamName) {
+        Match matchPlayed = getMatchById(matchID);
+        Team team1 = searchTeam(matchPlayed.getTeam1());
+        Team team2 = searchTeam(matchPlayed.getTeam2());
+        
+        System.out.println(team1);
+        System.out.println(teamName);
+        
+        matchPlayed.setCompleted("yes");
+        db.setCompleted(matchPlayed);
+        
+        if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
+            team2.addWin();
+            System.out.println("team " + team1.getName() + " wint");
+            db.addWin(team2);
+        } else { // no else if so we only need 1 known player for testing purposes
+            team1.addWin();
+            System.out.println("team " + team1.getName() + " wint");
+            db.addWin(team1);
+        }
+        
+        int flag = 0; // if this stays 0, all matches have been played
+        if (matchPlayed.getType().startsWith("Poule")) {
+            for (Match match : matchlist) {
+                if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
+                    if(match.getCompleted().equals("no")) {
+                        flag++;
+                    }
+                }
+            }
+            if (flag == 0) {
+                Poule completedPoule = getPouleByMatch(matchPlayed);
+                completedPoule.setCompleted("yes");
+                completePoule(completedPoule);
+            }
+        }
+        
     }
     
     public void completeMatch(String matchID) {
@@ -226,6 +267,13 @@ public class Tournament {
             bracketlist.get(pouleNr - 1).setTeam2(team2);
         } else {
             bracketlist.get(pouleNr + 1).setTeam2(team2);
+        }
+        
+        for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
+            if(!(bracket.getTeam1() == null || bracket.getTeam2() == null) && (bracket.getMatches().isEmpty())) {
+                Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName(), "");
+                matchlist.add(match);
+            }
         }
     }
     
