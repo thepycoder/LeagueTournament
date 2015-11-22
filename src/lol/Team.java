@@ -6,6 +6,7 @@
 package lol;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -102,6 +103,23 @@ public class Team implements Comparable<Team> {
         return name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Team t = (Team) o;
+        if (t.getName().equals(this.getName())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+    
     @Override
     public int compareTo(Team t) {
         if (t == null){

@@ -481,7 +481,7 @@ public class StartGui extends javax.swing.JFrame {
 
         
     public void updateTable() {
-        jTable1.setModel(new TeamTableModel(poulelist));
+        jTable1.setModel(new TeamTableModel(t.getPoulelist()));
         jTable1.repaint();
     }
     

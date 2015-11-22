@@ -122,7 +122,7 @@ public class Tournament {
         this.poulelist = new ArrayList<>();
         this.bracketlist = new ArrayList<>(); //brackets are depending on poules
         
-        ArrayList<Poule> poules = new ArrayList<Poule>();
+        ArrayList<Poule> poules = new ArrayList<>();
         
         Collections.shuffle(teamlist);
         
@@ -174,6 +174,7 @@ public class Tournament {
     
     public void forfaitPouleMatch(String matchID, String teamName) {
         Match matchPlayed = getMatchById(matchID);
+        Poule poule = getPouleByMatch(matchPlayed);
         Team team1 = searchTeam(matchPlayed.getTeam1());
         Team team2 = searchTeam(matchPlayed.getTeam2());
         
@@ -184,11 +185,11 @@ public class Tournament {
         db.setCompleted(matchPlayed);
         
         if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
-            team2.addWin();
+            poule.addWin(team2);
             System.out.println("team " + team1.getName() + " wint");
             db.addWin(team2);
         } else { // no else if so we only need 1 known player for testing purposes
-            team1.addWin();
+            poule.addWin(team1);
             System.out.println("team " + team1.getName() + " wint");
             db.addWin(team1);
         }
@@ -203,9 +204,8 @@ public class Tournament {
                 }
             }
             if (flag == 0) {
-                Poule completedPoule = getPouleByMatch(matchPlayed);
-                completedPoule.setCompleted("yes");
-                completePoule(completedPoule);
+                poule.setCompleted("yes");
+                completePoule(poule);
             }
         }
         
