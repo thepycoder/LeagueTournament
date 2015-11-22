@@ -156,6 +156,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         parent.updateList2();
         parent.updateList3();
         parent.updateTable();
+        parent.updateBrackets();
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 

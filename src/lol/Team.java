@@ -95,6 +95,11 @@ public class Team implements Comparable<Team> {
     public void setCoach(String coach) {
         this.coach = coach;
     }
+
+    public void setPouleWins(int pouleWins) {
+        this.pouleWins = pouleWins;
+    }
+    
     
     
 
