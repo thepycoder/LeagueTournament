@@ -123,29 +123,31 @@ public class Match implements Comparable<Match> {
 
     @Override
     public int compareTo(Match o) {
-        if (o.getTimeStamp() == null || "null".equals(o.getTimeStamp()) || this.getTimeStamp() == null || "null".equals(this.getTimeStamp())) {
-            return -1;
-        } else {
-            try {
-                //System.out.println(o.getTimeStamp());
-                DateFormat sdf = new SimpleDateFormat("yyyy MM dd");
-                Calendar date1 = Calendar.getInstance();
-                date1.setTime(sdf.parse(o.getTimeStamp()));
-                Calendar date2 = Calendar.getInstance();
-                date2.setTime(sdf.parse(this.getTimeStamp()));
-                //System.out.println(date1.get(Calendar.MONTH) + " - " + date2.get(Calendar.MONTH) + " - " + date1.compareTo(date2));
-                return date1.compareTo(date2);
-//                if(.before()) {
-//                    return  1;
-//                } else {
-//                    return -1;
-//                }
-                
-            } catch (ParseException ex) {
-                System.out.println("Wrong date format: " + ex);
-                return -1;
-            }
-        }
+//        if (o.getTimeStamp() == null || "null".equals(o.getTimeStamp()) || this.getTimeStamp() == null || "null".equals(this.getTimeStamp())) {
+//            return -1;
+//        } else {
+//            try {
+//                //System.out.println(o.getTimeStamp());
+//                DateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+//                Calendar date1 = Calendar.getInstance();
+//                date1.setTime(sdf.parse(o.getTimeStamp()));
+//                Calendar date2 = Calendar.getInstance();
+//                date2.setTime(sdf.parse(this.getTimeStamp()));
+//                //System.out.println(date1.get(Calendar.MONTH) + " - " + date2.get(Calendar.MONTH) + " - " + date1.compareTo(date2));
+//                return date1.compareTo(date2);
+////                if(.before()) {
+////                    return  1;
+////                } else {
+////                    return -1;
+////                }
+//                
+//            } catch (ParseException ex) {
+//                System.out.println("Wrong date format: " + ex);
+//                return -1;
+//            }
+//        }
+    
+        return this.getMatchID().compareTo(o.getMatchID());
         
     }
 }

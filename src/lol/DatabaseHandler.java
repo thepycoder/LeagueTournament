@@ -239,7 +239,7 @@ public class DatabaseHandler {
                     }
                 }
                 
-                Bracket bracket = new Bracket(rs.getString("name"), team1, team2, rs.getInt("type"), bracketMatches, rs.getString("completed"));
+                Bracket bracket = new Bracket(rs.getString("name"), team1, team2, rs.getInt("team1score"), rs.getInt("team2score"), rs.getInt("type"), bracketMatches, rs.getString("completed"));
                 brackets.add(bracket);
              }
             return brackets;
@@ -316,12 +316,38 @@ public class DatabaseHandler {
         }
    }
    
-   public void addWin(Team team) {
+   public void addPouleWin(Team team) {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+   
+   public void addBracketWin(Bracket bracket, int teamNr) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            String query = "";
+            
+            if (teamNr == 1) {
+                query = "UPDATE brackets SET team1score=" + bracket.getTeam1score() + " WHERE name='" + bracket.getName() + "'";
+            } else if(teamNr == 2) { //team 2
+                query = "UPDATE brackets SET team2score=" + bracket.getTeam2score() + " WHERE name='" + bracket.getName() + "'";
+            }
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

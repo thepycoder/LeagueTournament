@@ -173,9 +173,8 @@ public class Tournament {
         }
     }
     
-    public void forfaitPouleMatch(String matchID, String teamName) {
+    public void forfaitMatch(String matchID, String teamName) {
         Match matchPlayed = getMatchById(matchID);
-        Poule poule = getPouleByMatch(matchPlayed);
         Team team1 = searchTeam(matchID.split("_")[1]);
         Team team2 = searchTeam(matchID.split("_")[2]);
         
@@ -185,20 +184,24 @@ public class Tournament {
         matchPlayed.setCompleted("yes");
         db.setCompleted(matchPlayed);
         
-        if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
-            team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
-            poule.addWin(team2);
-            System.out.println("team " + team2.getName() + " wint");
-            db.addWin(team2);
-        } else { // no else if so we only need 1 known player for testing purposes
-            team1.addWin();
-            poule.addWin(team1);
-            System.out.println("team " + team1.getName() + " wint");
-            db.addWin(team1);
-        }
         
-        int flag = 0; // if this stays 0, all matches have been played
         if (matchPlayed.getType().startsWith("Poule")) {
+            
+            Poule poule = getPouleByMatch(matchPlayed);
+            
+            if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
+                team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                poule.addWin(team2);
+                System.out.println("team " + team2.getName() + " wint");
+                db.addPouleWin(team2);
+            } else { // no else if so we only need 1 known player for testing purposes
+                team1.addWin();
+                poule.addWin(team1);
+                System.out.println("team " + team1.getName() + " wint");
+                db.addPouleWin(team1);
+            }
+            
+            int flag = 0; // if this stays 0, all matches have been played
             for (Match match : matchlist) {
                 if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
                     if(match.getCompleted().equals("no")) {
@@ -210,6 +213,24 @@ public class Tournament {
                 poule.setCompleted("yes");
                 completePoule(poule);
             }
+        } else if(matchPlayed.getType().startsWith("Bracket")) {
+            
+            Bracket bracket = getBracketByMatch(matchPlayed);
+            bracket.addMatch(matchPlayed.getMatchID());
+            db.updateBracket(bracket);
+            
+            //step 1: add win to right team
+            if (teamName.equals(team1.getName())) { //team 1 forfeited
+                bracket.addWinTeam2();
+                System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
+                db.addBracketWin(bracket, 2);
+            } else {
+                bracket.addWinTeam1();
+                System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
+                db.addBracketWin(bracket, 1);
+            }
+            //step 2: check if last match from bracket
+            
         }
         
     }
@@ -233,10 +254,10 @@ public class Tournament {
         //Step1: determine the winner
         if (matchDump.get(player1).get("winner").equals("true")) {
             team1.addWin();
-            db.addWin(team1);
+            db.addPouleWin(team1);
         } else { // no else if so we only need 1 known player for testing purposes
             team2.addWin();
-            db.addWin(team2);
+            db.addPouleWin(team2);
         }
         
         //Step 2: Get Match data and update Statistics + store in DB
@@ -306,6 +327,15 @@ public class Tournament {
         }
         return null;
     }
+    
+    public Bracket getBracketByMatch(Match match) {
+        for (Bracket bracket : bracketlist) {
+            if (match.getType().equals(bracket.getName())) {
+                return bracket;
+            }
+        }
+        return null;
+    }
 
     public ArrayList<Team> getTeamlist() {
         return teamlist;
@@ -316,6 +346,7 @@ public class Tournament {
     }
 
     public ArrayList<Match> getMatchlist() {
+        Collections.sort(teamlist);
         return matchlist;
     }
 

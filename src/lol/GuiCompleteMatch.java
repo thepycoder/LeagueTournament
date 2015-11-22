@@ -143,7 +143,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String matchID = jComboBox1.getSelectedItem().toString();
-        t.forfaitPouleMatch(matchID, matchID.split("_")[1]);
+        t.forfaitMatch(matchID, matchID.split("_")[1]);
         parent.updateList1();
         parent.updateList2();
         parent.updateList3();
@@ -154,7 +154,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String matchID = jComboBox1.getSelectedItem().toString();
-        t.forfaitPouleMatch(matchID, matchID.split("_")[2]);
+        t.forfaitMatch(matchID, matchID.split("_")[2]);
         parent.updateList1();
         parent.updateList2();
         parent.updateList3();

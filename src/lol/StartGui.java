@@ -563,24 +563,24 @@ public class StartGui extends javax.swing.JFrame {
         System.out.println(bracketlist);
         
         if (!quarterFinals.isEmpty()) {
-            jTextPane1.setText(quarterFinals.get(0).getTeam1Name());
-            jTextPane2.setText(quarterFinals.get(0).getTeam2Name());
-            jTextPane3.setText(quarterFinals.get(1).getTeam1Name());
-            jTextPane4.setText(quarterFinals.get(1).getTeam2Name());
-            jTextPane5.setText(quarterFinals.get(2).getTeam1Name());
-            jTextPane6.setText(quarterFinals.get(2).getTeam2Name());
-            jTextPane7.setText(quarterFinals.get(3).getTeam1Name());
-            jTextPane8.setText(quarterFinals.get(3).getTeam2Name());
+            jTextPane1.setText(quarterFinals.get(0).getTeam1score() + " - " + quarterFinals.get(0).getTeam1Name());
+            jTextPane2.setText(quarterFinals.get(0).getTeam2score() + " - " + quarterFinals.get(0).getTeam2Name());
+            jTextPane3.setText(quarterFinals.get(1).getTeam1score() + " - " + quarterFinals.get(1).getTeam1Name());
+            jTextPane4.setText(quarterFinals.get(1).getTeam2score() + " - " + quarterFinals.get(1).getTeam2Name());
+            jTextPane5.setText(quarterFinals.get(2).getTeam1score() + " - " + quarterFinals.get(2).getTeam1Name());
+            jTextPane6.setText(quarterFinals.get(2).getTeam2score() + " - " + quarterFinals.get(2).getTeam2Name());
+            jTextPane7.setText(quarterFinals.get(3).getTeam1score() + " - " + quarterFinals.get(3).getTeam1Name());
+            jTextPane8.setText(quarterFinals.get(3).getTeam2score() + " - " + quarterFinals.get(3).getTeam2Name());
         }
         if (!semiFinals.isEmpty()) {
-            jTextPane9.setText(semiFinals.get(0).getTeam1Name());
-            jTextPane10.setText(semiFinals.get(0).getTeam2Name());
-            jTextPane11.setText(semiFinals.get(1).getTeam1Name());
-            jTextPane12.setText(semiFinals.get(1).getTeam2Name());
+            jTextPane9.setText(semiFinals.get(0).getTeam1score() + " - " + semiFinals.get(0).getTeam1Name());
+            jTextPane10.setText(semiFinals.get(0).getTeam2score() + " - " + semiFinals.get(0).getTeam2Name());
+            jTextPane11.setText(semiFinals.get(1).getTeam1score() + " - " + semiFinals.get(1).getTeam1Name());
+            jTextPane12.setText(semiFinals.get(1).getTeam2score() + " - " + semiFinals.get(1).getTeam2Name());
         }
         if (!finals.isEmpty()) {
-            jTextPane13.setText(finals.get(0).getTeam1Name());
-            jTextPane13.setText(finals.get(0).getTeam2Name());
+            jTextPane13.setText(finals.get(0).getTeam1score() + " - " + finals.get(0).getTeam1Name());
+            jTextPane13.setText(finals.get(0).getTeam2score() + " - " + finals.get(0).getTeam2Name());
         }
     }
 
