@@ -39,7 +39,7 @@ public class JCalendar extends javax.swing.JFrame {
         ArrayList<String> matches = new ArrayList<>();
         
         for (Match match : t.getMatchlist()) {
-            if (match.getTimeStamp() == null || match.getTimeStamp().equals("null")) {
+            if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {
                 //items[i] = to.getMatchlist().get(i).getMatchID();
                 matches.add(match.getMatchID());
             }

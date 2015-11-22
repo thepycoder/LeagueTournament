@@ -275,11 +275,17 @@ public class Tournament {
         System.out.println(bracketlist);
         
         for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
-            if(!(bracket.getTeam1() == null || bracket.getTeam2() == null) && (bracket.getMatches().isEmpty())) {
-                Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName(), "");
-                matchlist.add(match);
+            if((bracket.getTeam1() != null && bracket.getTeam2() != null)) {
+                if(bracket.getMatches().isEmpty()) {
+                    Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName(), "");
+                    matchlist.add(match);
+                    bracket.addMatch(match.getMatchID());
+                }
+                db.updateBracket(bracket);
             }
         }
+        
+        
     }
     
     public Match getMatchById(String matchID) {

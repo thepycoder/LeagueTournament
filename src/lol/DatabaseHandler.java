@@ -56,7 +56,7 @@ public class DatabaseHandler {
             String mem = new String();
             
             for (String member : members) {
-                mem += member + ", ";
+                mem += member + ",";
             }
             String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
             System.out.println(query);
@@ -100,6 +100,32 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE matches SET timestamp='" + match.getTimeStamp()+ "', official='" + match.getOfficial() + "' WHERE matchID='" + match.getMatchID() + "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
+  
+  public void updateBracket(Bracket bracket) {
+      try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String matches = new String();
+            for (String match : bracket.getMatches()) {
+                matches += match + ",";
+            }
+            
+            String query = "UPDATE brackets SET team1='" + bracket.getTeam1Name() + "', team2='" + bracket.getTeam2Name() + "', matches='" + matches + "', completed='" + bracket.getCompleted() + "', type=" + bracket.getType() + " WHERE name='" + bracket.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -191,12 +217,12 @@ public class DatabaseHandler {
             ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
-                ArrayList<Match> bracketMatches = new ArrayList<>();
+                ArrayList<String> bracketMatches = new ArrayList<>();
                 ArrayList<Match> storedMatches = this.retrieveMatches();
                 for (String bracketMatch : rs.getString("matches").split(",")) {
                     for (Match storedMatch : storedMatches) {
                         if (storedMatch.getMatchID().equals(bracketMatch)) {
-                            bracketMatches.add(storedMatch);
+                            bracketMatches.add(storedMatch.getMatchID());
                         }
                     }
                 }
@@ -235,8 +261,12 @@ public class DatabaseHandler {
    public void storeBracket(Bracket bracket){
         try {            
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();  
-            String query = "INSERT INTO brackets (name, type) VALUES('" + bracket.getName() + "', " + bracket.getType() + ")"; 
+            Statement stmt = conn.createStatement();
+            String matches = new String();
+            for (String match : bracket.getMatches()) {
+                matches += match + ",";
+            }
+            String query = "INSERT INTO brackets (name, team1, team2, matches, completed, type) VALUES('" + bracket.getName() + "', '" + bracket.getTeam1Name() + "', '" + bracket.getTeam2Name() + "', '" + matches + "', '" + bracket.getCompleted() + "', " +  bracket.getType() + ")"; 
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

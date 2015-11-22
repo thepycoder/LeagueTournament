@@ -16,7 +16,7 @@ public class Bracket {
     private Team team1;
     private Team team2;
     private int type; //8 for eighth final, 4 for quarter final, 2 for semi final, 1 for final
-    private ArrayList <Match> matches;
+    private ArrayList<String> matches;
     private String completed;
     
     //constructor
@@ -31,7 +31,7 @@ public class Bracket {
         this.completed = "no";
     }
 
-    public Bracket(String name, Team team1, Team team2, int type, ArrayList<Match> matches, String completed) {
+    public Bracket(String name, Team team1, Team team2, int type, ArrayList<String> matches, String completed) {
         this.name = name;
         this.team1 = team1;
         this.team2 = team2;
@@ -40,7 +40,9 @@ public class Bracket {
         this.completed = completed;
     }
     
-    
+    public void addMatch(String matchID) {
+        this.matches.add(matchID);
+    }
     
     //getters
 
@@ -69,7 +71,7 @@ public class Bracket {
             return team2.getName();
         }
     }
-    public ArrayList<Match> getMatches() {
+    public ArrayList<String> getMatches() {
         return matches;
     }
 
@@ -99,7 +101,7 @@ public class Bracket {
         this.team2 = team2;
     }
 
-    public void setMatches(ArrayList<Match> matches) {
+    public void setMatches(ArrayList<String> matches) {
         this.matches = matches;
     }
 
