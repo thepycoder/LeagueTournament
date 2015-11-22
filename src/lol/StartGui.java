@@ -554,7 +554,7 @@ public class StartGui extends javax.swing.JFrame {
         ArrayList<Bracket> semiFinals = new ArrayList<>();
         ArrayList<Bracket> finals = new ArrayList<>();
         
-        for (Bracket bracket : bracketlist) {
+        for (Bracket bracket : t.getBracketlist()) {
             switch (bracket.getType()){
                 case 4: quarterFinals.add(bracket);
                 break;

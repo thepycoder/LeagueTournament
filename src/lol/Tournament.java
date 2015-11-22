@@ -279,6 +279,7 @@ public class Tournament {
                 if(bracket.getMatches().isEmpty()) {
                     Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName(), "");
                     matchlist.add(match);
+                    db.storeMatch(match);
                     bracket.addMatch(match.getMatchID());
                 }
                 db.updateBracket(bracket);
