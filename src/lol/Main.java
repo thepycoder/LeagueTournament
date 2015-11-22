@@ -61,8 +61,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        //StartGui sg = new StartGui(t);
-        //sg.show();
+        StartGui sg = new StartGui(t);
+        sg.show();
         
         //GuiRemoveTeam test = new GuiRemoveTeam(t);
         //test.show();

@@ -351,6 +351,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -362,6 +365,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -373,6 +379,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -384,6 +393,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -395,6 +407,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -406,6 +421,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane6">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -417,6 +435,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane7">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -428,6 +449,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane8">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -439,6 +463,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane9">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -450,6 +477,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane10">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -461,6 +491,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane11">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -472,6 +505,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane12">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -483,6 +519,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane13">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -494,6 +533,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane14">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="TBA"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

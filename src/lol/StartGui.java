@@ -24,6 +24,7 @@ public class StartGui extends javax.swing.JFrame {
     
     public Tournament t;
     public ArrayList<Poule> poulelist;
+    public ArrayList<Bracket> bracketlist;
     public TeamTableModel model;
     public String[] registeredTeams;
     public String[] planned;
@@ -38,6 +39,7 @@ public class StartGui extends javax.swing.JFrame {
         initComponents();
         
         this.poulelist = t.getPoulelist();
+        this.bracketlist = t.getBracketlist();
         
         model = new TeamTableModel(poulelist);
         jTable1.setModel(model);
@@ -46,20 +48,20 @@ public class StartGui extends javax.swing.JFrame {
         updateList2();
         updateList3();
         
-        jTextPane1.setText("TBA");
-        jTextPane2.setText("TBA");
-        jTextPane3.setText("TBA");
-        jTextPane4.setText("TBA");
-        jTextPane5.setText("TBA");
-        jTextPane6.setText("TBA");
-        jTextPane7.setText("TBA");
-        jTextPane8.setText("TBA");
-        jTextPane9.setText("TBA");
-        jTextPane10.setText("TBA");
-        jTextPane11.setText("TBA");
-        jTextPane12.setText("TBA");
-        jTextPane13.setText("TBA");
-        jTextPane14.setText("TBA");
+        jTextPane1.setText(bracketlist.get(0).getName());
+        jTextPane2.setText(bracketlist.get(1).getName());
+        jTextPane3.setText(bracketlist.get(2).getName());
+        jTextPane4.setText(bracketlist.get(3).getName());
+        jTextPane5.setText(bracketlist.get(4).getName());
+        jTextPane6.setText(bracketlist.get(5).getName());
+        jTextPane7.setText(bracketlist.get(6).getName());
+        jTextPane8.setText(bracketlist.get(7).getName());
+        jTextPane9.setText(bracketlist.get(8).getName());
+        jTextPane10.setText(bracketlist.get(9).getName());
+        jTextPane11.setText(bracketlist.get(10).getName());
+        jTextPane12.setText(bracketlist.get(11).getName());
+        jTextPane13.setText(bracketlist.get(12).getName());       
+        
         
         
         
@@ -196,32 +198,46 @@ public class StartGui extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(jList3);
 
+        jTextPane1.setText("TBA");
         jScrollPane5.setViewportView(jTextPane1);
 
+        jTextPane2.setText("TBA");
         jScrollPane6.setViewportView(jTextPane2);
 
+        jTextPane3.setText("TBA");
         jScrollPane7.setViewportView(jTextPane3);
 
+        jTextPane4.setText("TBA");
         jScrollPane8.setViewportView(jTextPane4);
 
+        jTextPane5.setText("TBA");
         jScrollPane10.setViewportView(jTextPane5);
 
+        jTextPane6.setText("TBA");
         jScrollPane11.setViewportView(jTextPane6);
 
+        jTextPane7.setText("TBA");
         jScrollPane12.setViewportView(jTextPane7);
 
+        jTextPane8.setText("TBA");
         jScrollPane13.setViewportView(jTextPane8);
 
+        jTextPane9.setText("TBA");
         jScrollPane14.setViewportView(jTextPane9);
 
+        jTextPane10.setText("TBA");
         jScrollPane15.setViewportView(jTextPane10);
 
+        jTextPane11.setText("TBA");
         jScrollPane16.setViewportView(jTextPane11);
 
+        jTextPane12.setText("TBA");
         jScrollPane17.setViewportView(jTextPane12);
 
+        jTextPane13.setText("TBA");
         jScrollPane18.setViewportView(jTextPane13);
 
+        jTextPane14.setText("TBA");
         jScrollPane19.setViewportView(jTextPane14);
 
         jMenu3.setText("Team");
