@@ -144,7 +144,6 @@ public class StartGui extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -298,33 +297,29 @@ public class StartGui extends javax.swing.JFrame {
 
         jMenu5.setText("Poule");
 
-        jMenu7.setText("(Re)Generate Pools");
-
-        jMenuItem6.setText("Into 2");
+        jMenuItem6.setText("Regenerate into 2 pools");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem6);
+        jMenu5.add(jMenuItem6);
 
-        jMenuItem7.setText("Into 4");
+        jMenuItem7.setText("Regenerate into 4 pools");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem7);
+        jMenu5.add(jMenuItem7);
 
-        jMenuItem8.setText("Into 8");
+        jMenuItem8.setText("Regenerate into 8 pools");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem8);
-
-        jMenu5.add(jMenu7);
+        jMenu5.add(jMenuItem8);
 
         jMenuBar1.add(jMenu5);
 
@@ -597,7 +592,6 @@ public class StartGui extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
