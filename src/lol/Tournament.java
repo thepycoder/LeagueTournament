@@ -176,8 +176,8 @@ public class Tournament {
     public void forfaitPouleMatch(String matchID, String teamName) {
         Match matchPlayed = getMatchById(matchID);
         Poule poule = getPouleByMatch(matchPlayed);
-        Team team1 = searchTeam(matchPlayed.getTeam1());
-        Team team2 = searchTeam(matchPlayed.getTeam2());
+        Team team1 = searchTeam(matchID.split("_")[1]);
+        Team team2 = searchTeam(matchID.split("_")[2]);
         
         System.out.println(team1);
         System.out.println(teamName);
@@ -201,7 +201,6 @@ public class Tournament {
         if (matchPlayed.getType().startsWith("Poule")) {
             for (Match match : matchlist) {
                 if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
-                    System.out.println("hey");
                     if(match.getCompleted().equals("no")) {
                         flag++;
                     }
