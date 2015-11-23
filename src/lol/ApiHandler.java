@@ -32,7 +32,7 @@ public class ApiHandler {
     }
     public JsonObject getStats(String player) { //Op basis van 1 player halen we de matchstatistieken op
         try {
-            String sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + player + "?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5"; //just a string
+            String sURL = "https://euw.api.pvp.net/api/lol/euw/v1.3/game/by-summoner/" + player + "/recent?api_key=efe95977-e5a3-4bef-875d-d3555438d6a5"; //just a string
             
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
