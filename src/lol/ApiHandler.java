@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 public class ApiHandler {
     
     public int apiCount = 0;
-    public String ApiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
+    public String apiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
     public String matchID = "";
     
     public ApiHandler() {
@@ -43,13 +43,13 @@ public class ApiHandler {
         try {
             String sURL = "";
             switch(call){
-                case 0: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.3/game/by-summoner/" + arg + "/recent?api_key=" + ApiKey;
+                case 0: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.3/game/by-summoner/" + arg + "/recent?api_key=" + apiKey;
                 break;
-                case 1: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/" + arg  + "/name?api_key=" + ApiKey;
+                case 1: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/" + arg  + "/name?api_key=" + apiKey;
                 break;
-                case 2: sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + arg  + "?api_key=" + ApiKey;
+                case 2: sURL = "https://euw.api.pvp.net/api/lol/euw/v2.2/match/" + arg  + "?api_key=" + apiKey;
                 break;
-                case 3: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/" + arg  + "?api_key=" + ApiKey;
+                case 3: sURL = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/" + arg  + "?api_key=" + apiKey;
                 break;
             }
             apiCount++;

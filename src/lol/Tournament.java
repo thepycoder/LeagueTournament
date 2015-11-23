@@ -189,12 +189,12 @@ public class Tournament {
             Poule poule = getPouleByMatch(matchPlayed);
             
             if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
-                team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
                 System.out.println("team " + team2.getName() + " wint");
                 db.addPouleWin(team2);
             } else { // no else if so we only need 1 known player for testing purposes
-                team1.addWin();
+                //team1.addWin();
                 poule.addWin(team1);
                 System.out.println("team " + team1.getName() + " wint");
                 db.addPouleWin(team1);
