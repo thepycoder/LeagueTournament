@@ -22,10 +22,10 @@ public class GuiChangeTeam extends javax.swing.JFrame {
      */
     
     public Tournament t;
-    public StartGui parent;
+    public GuiSilke parent;
     public String[] items;
     
-    public GuiChangeTeam (Tournament t, StartGui parent){
+    public GuiChangeTeam (Tournament t, GuiSilke parent){
         this.parent = parent;
         this.t = t;
         initComponents();
@@ -66,7 +66,7 @@ public class GuiChangeTeam extends javax.swing.JFrame {
         return t;
     }
 
-    public StartGui getParent() {
+    public GuiSilke getParent() {
         return parent;
     }
 

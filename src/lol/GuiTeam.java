@@ -21,9 +21,9 @@ public class GuiTeam extends javax.swing.JFrame {
      */
     
     public Tournament t;
-    public StartGui parent;
+    public GuiSilke parent;
     
-    public GuiTeam(Tournament t, StartGui parent) {
+    public GuiTeam(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         initComponents();

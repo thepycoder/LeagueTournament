@@ -18,7 +18,7 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
      */
     
     public Tournament t;
-    public StartGui parent;
+    public GuiSilke parent;
     public String[] items;
     
     public GuiRemoveTeam(Tournament t) {

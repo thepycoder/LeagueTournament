@@ -37,7 +37,7 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        StartGui sg = new StartGui(t);
+        GuiSilke sg = new GuiSilke(t);
         sg.show();
     }
 }

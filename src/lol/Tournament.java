@@ -174,8 +174,9 @@ public class Tournament {
     
     public void forfaitMatch(String matchID, String teamName) {
         Match matchPlayed = getMatchById(matchID);
-        Team team1 = searchTeam(matchID.split("_")[1]);
-        Team team2 = searchTeam(matchID.split("_")[2]);
+        String[] ID = matchID.split("_");
+        Team team1 = searchTeam(ID[ID.length - 1]);
+        Team team2 = searchTeam(ID[ID.length - 2]);
         
         System.out.println(team1);
         System.out.println(teamName);

@@ -21,9 +21,9 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
     
     public Tournament t;
     public String[] items;
-    public StartGui parent;
+    public GuiSilke parent;
     
-    public GuiCompleteMatch(Tournament t, StartGui parent) {
+    public GuiCompleteMatch(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         
@@ -45,8 +45,8 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
         
         String[] matchID = jComboBox1.getSelectedItem().toString().split("_");
-        jButton2.setText(matchID[1] + " forfeited");
-        jButton3.setText(matchID[2] + " forfeited");
+        jButton2.setText(matchID[matchID.length - 2] + " forfeited");
+        jButton3.setText(matchID[matchID.length - 1] + " forfeited");
         
     }
 

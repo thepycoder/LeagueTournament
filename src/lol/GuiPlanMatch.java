@@ -16,7 +16,7 @@ import javax.swing.JTextField;
  *
  * @author pieddeck
  */
-public class JCalendar extends javax.swing.JFrame {
+public class GuiPlanMatch extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -24,9 +24,9 @@ public class JCalendar extends javax.swing.JFrame {
     
     public Tournament t;
     public String[] items;
-    public StartGui parent;
+    public GuiSilke parent;
     
-    public JCalendar(Tournament t, StartGui parent) {
+    public GuiPlanMatch(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         
@@ -56,7 +56,7 @@ public class JCalendar extends javax.swing.JFrame {
         
     }
     
-//    public JCalendar(Tournament t) {
+//    public GuiPlanMatch(Tournament t) {
 //        this.to = t;
 //        initComponents();
 //    }

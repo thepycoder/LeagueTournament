@@ -16,10 +16,10 @@ import javax.swing.SwingUtilities;
  *
  * @author pieddeck
  */
-public class StartGui extends javax.swing.JFrame {
+public class GuiSilke extends javax.swing.JFrame {
 
     /**
-     * Creates new form StartGui
+     * Creates new form GuiSilke
      */
     
     public Tournament t;
@@ -30,7 +30,7 @@ public class StartGui extends javax.swing.JFrame {
     public String[] planned;
     public String[] unplanned;
     
-    public StartGui(Tournament t) {
+    public GuiSilke(Tournament t) {
         
         this.t = t;
         
@@ -398,20 +398,22 @@ public class StartGui extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(46, 46, 46)
-                                        .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(114, 114, 114)
-                                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
@@ -424,7 +426,7 @@ public class StartGui extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        JCalendar jc = new JCalendar(t, this);
+        GuiPlanMatch jc = new GuiPlanMatch(t, this);
         jc.show();
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -560,7 +562,9 @@ public class StartGui extends javax.swing.JFrame {
             }
         }
         
-        System.out.println(bracketlist);
+        System.out.println(t.getBracketlist());
+        System.out.println(quarterFinals);
+        System.out.println(semiFinals);
         
         if (!quarterFinals.isEmpty()) {
             jTextPane1.setText(quarterFinals.get(0).getTeam1score() + " - " + quarterFinals.get(0).getTeam1Name());
@@ -571,16 +575,33 @@ public class StartGui extends javax.swing.JFrame {
             jTextPane6.setText(quarterFinals.get(2).getTeam2score() + " - " + quarterFinals.get(2).getTeam2Name());
             jTextPane7.setText(quarterFinals.get(3).getTeam1score() + " - " + quarterFinals.get(3).getTeam1Name());
             jTextPane8.setText(quarterFinals.get(3).getTeam2score() + " - " + quarterFinals.get(3).getTeam2Name());
+        } else {
+            jTextPane1.setText("0 - TBA");
+            jTextPane2.setText("0 - TBA");
+            jTextPane3.setText("0 - TBA");
+            jTextPane4.setText("0 - TBA");
+            jTextPane5.setText("0 - TBA");
+            jTextPane6.setText("0 - TBA");
+            jTextPane7.setText("0 - TBA");
+            jTextPane8.setText("0 - TBA");
         }
         if (!semiFinals.isEmpty()) {
             jTextPane9.setText(semiFinals.get(0).getTeam1score() + " - " + semiFinals.get(0).getTeam1Name());
             jTextPane10.setText(semiFinals.get(0).getTeam2score() + " - " + semiFinals.get(0).getTeam2Name());
             jTextPane11.setText(semiFinals.get(1).getTeam1score() + " - " + semiFinals.get(1).getTeam1Name());
             jTextPane12.setText(semiFinals.get(1).getTeam2score() + " - " + semiFinals.get(1).getTeam2Name());
+        } else {
+            jTextPane1.setText("0 - TBA");
+            jTextPane2.setText("0 - TBA");
+            jTextPane3.setText("0 - TBA");
+            jTextPane4.setText("0 - TBA");
         }
         if (!finals.isEmpty()) {
             jTextPane13.setText(finals.get(0).getTeam1score() + " - " + finals.get(0).getTeam1Name());
-            jTextPane13.setText(finals.get(0).getTeam2score() + " - " + finals.get(0).getTeam2Name());
+            jTextPane14.setText(finals.get(0).getTeam2score() + " - " + finals.get(0).getTeam2Name());
+        } else {
+            jTextPane13.setText("0 - TBA");
+            jTextPane14.setText("0 - TBA");
         }
     }
 
