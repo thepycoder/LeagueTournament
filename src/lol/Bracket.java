@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author stephan
  */
-public class Bracket {
+public class Bracket implements Comparable<Bracket> {
     private String name;
     private Team team1;
     private Team team2;
@@ -149,6 +149,11 @@ public class Bracket {
     
     @Override
     public String toString(){
-        return name + ": " + team1 + " vs " + team2 + " type: " + type;
+        return name + ": " + team1 + ": " + team1score + " vs " + team2 + ": " + team2score + " type: " + type;
+    }
+
+    @Override
+    public int compareTo(Bracket o) {
+        return this.name.compareTo(o.getName());
     }
 }

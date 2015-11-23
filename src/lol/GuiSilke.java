@@ -147,7 +147,6 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
 
         jScrollPane3.setViewportView(jTree1);
 
@@ -327,9 +326,6 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenu5.add(jMenuItem8);
 
         jMenuBar1.add(jMenu5);
-
-        jMenu6.setText("Bracket");
-        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -572,9 +568,9 @@ public class GuiSilke extends javax.swing.JFrame {
             }
         }
         
-        System.out.println(t.getBracketlist());
-        System.out.println(quarterFinals);
-        System.out.println(semiFinals);
+//        System.out.println(t.getBracketlist());
+//        System.out.println(quarterFinals);
+//        System.out.println(semiFinals);
         
         if (!quarterFinals.isEmpty()) {
             jTextPane1.setText(quarterFinals.get(0).getTeam1score() + " - " + quarterFinals.get(0).getTeam1Name());
@@ -596,6 +592,7 @@ public class GuiSilke extends javax.swing.JFrame {
             jTextPane8.setText("0 - TBA");
         }
         if (!semiFinals.isEmpty()) {
+            System.out.println(semiFinals);
             jTextPane9.setText(semiFinals.get(0).getTeam1score() + " - " + semiFinals.get(0).getTeam1Name());
             jTextPane10.setText(semiFinals.get(0).getTeam2score() + " - " + semiFinals.get(0).getTeam2Name());
             jTextPane11.setText(semiFinals.get(1).getTeam1score() + " - " + semiFinals.get(1).getTeam1Name());
@@ -622,7 +619,6 @@ public class GuiSilke extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
