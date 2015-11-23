@@ -260,6 +260,11 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenu3.add(jMenuItem2);
 
         jMenuItem3.setText("Remove Team");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem3);
 
         jMenuBar1.add(jMenu3);
@@ -475,6 +480,11 @@ public class GuiSilke extends javax.swing.JFrame {
         GuiChangeTeam jc = new GuiChangeTeam(t, this);
         jc.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        GuiRemoveTeam rt = new GuiRemoveTeam (t, this);
+        rt.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
         
     public void updateTable() {

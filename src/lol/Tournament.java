@@ -41,11 +41,13 @@ public class Tournament {
     }
     
     public void removeTeam(String teamName) {
+        Team wrongTeam = null;
         for (Team team : teamlist) {
             if (team.getName().equals(teamName)) {
-                teamlist.remove(team);
+                wrongTeam = team;
             }
         }
+        teamlist.remove(wrongTeam);
     }
     
     public Team searchTeam (String teamName) 
