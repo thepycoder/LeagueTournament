@@ -179,10 +179,10 @@ public class Tournament {
         Team team2 = searchTeam(ID[ID.length - 2]);
         
         System.out.println(team1);
-        System.out.println(teamName);
+        System.out.println(team2);
         
         matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed);
+        //db.setCompleted(matchPlayed);
         
         
         if (matchPlayed.getType().startsWith("Poule")) {
@@ -193,12 +193,12 @@ public class Tournament {
                 //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
                 System.out.println("team " + team2.getName() + " wint");
-                db.addPouleWin(team2);
+                //db.addPouleWin(team2);
             } else { // no else if so we only need 1 known player for testing purposes
                 //team1.addWin();
                 poule.addWin(team1);
                 System.out.println("team " + team1.getName() + " wint");
-                db.addPouleWin(team1);
+                //db.addPouleWin(team1);
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -215,29 +215,33 @@ public class Tournament {
             }
         } else if(matchPlayed.getType().startsWith("Bracket")) {
             
+            System.out.println(matchPlayed);
             Bracket bracket = getBracketByMatch(matchPlayed);
+            System.out.println(bracket);
             bracket.addMatch(matchPlayed.getMatchID());
-            db.updateBracket(bracket);
+            //db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 bracket.addWinTeam2();
                 System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
-                db.addBracketWin(bracket, 2);
+                //db.addBracketWin(bracket, 2);
             } else {
                 bracket.addWinTeam1();
                 System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
-                db.addBracketWin(bracket, 1);
+                //db.addBracketWin(bracket, 1);
             }
+            
             //step 2: check if last match from bracket
             
             if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de brack gedaan
                 bracket.setCompleted("yes");
-                System.out.println("hey");
+                
             } else {
-                Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + bracket.getMatches().size()), "");
+                String MatchNr = bracket.getMatches().get(bracket.getMatches().size() - 1).split("_")[1]; //get the number of the latest played match
+                Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + (Integer.parseInt(MatchNr) + 1)), "");
                 matchlist.add(match);
-                db.storeMatch(match);
+                //db.storeMatch(match);
                 bracket.addMatch(match.getMatchID());
             }
             
@@ -292,6 +296,19 @@ public class Tournament {
         
     }
     
+    public void completeBracket(Bracket bracket) {
+        Team winningTeam = null;
+        
+        if(bracket.getTeam1score() > bracket.getTeam2score()) {
+            winningTeam = bracket.getTeam1();
+        } else {
+            winningTeam = bracket.getTeam2();
+        }
+        
+        
+        
+    }
+    
     public void completePoule(Poule poule) {
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
         Team team2 = poule.getSortedTeams().get(1);
@@ -303,7 +320,7 @@ public class Tournament {
             bracketlist.get(pouleNr + 1).setTeam2(team2);
         }
         
-        System.out.println(bracketlist);
+        //System.out.println(bracketlist);
         
         for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
             if((bracket.getTeam1() != null && bracket.getTeam2() != null)) {
@@ -340,7 +357,7 @@ public class Tournament {
     
     public Bracket getBracketByMatch(Match match) {
         for (Bracket bracket : bracketlist) {
-            if (match.getType().equals(bracket.getName())) {
+            if (match.getType().split("_")[0].equals(bracket.getName())) {
                 return bracket;
             }
         }
