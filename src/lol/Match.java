@@ -5,7 +5,13 @@
  */
 package lol;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,26 +25,29 @@ public class Match implements Comparable<Match> {
     private String type;
     private String timeStamp;
     private String official;
+    private String completed;
     
     //constructor
 
     public Match (String team1, String team2, String type, String official)
     {
-        this.matchID = team1 + "_" + team2 + "_" + type;
+        this.matchID = type + "_" + team1 + "_" + team2;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = null;
         this.official = official;
-        this.type = null;
+        this.type = type;
+        this.completed = "no";
     }
     
-    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official) {
+    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official, String completed) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
         this.timeStamp = timeStamp;
         this.official = official;
         this.type = type;
+        this.completed = completed;
     }
     
     //getter
@@ -62,6 +71,12 @@ public class Match implements Comparable<Match> {
     public String getOfficial () {
         return official;
     }
+
+    public String getCompleted() {
+        return completed;
+    }
+    
+    
     
     //setter
 
@@ -92,6 +107,14 @@ public class Match implements Comparable<Match> {
     public String getType() {
         return this.type;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCompleted(String completed) {
+        this.completed = completed;
+    }
     
     @Override
     public String toString() {
@@ -100,6 +123,31 @@ public class Match implements Comparable<Match> {
 
     @Override
     public int compareTo(Match o) {
-        return this.getTimeStamp().compareTo(o.getTimeStamp())*-1; //we want the order to be inverted
+//        if (o.getTimeStamp() == null || "null".equals(o.getTimeStamp()) || this.getTimeStamp() == null || "null".equals(this.getTimeStamp())) {
+//            return -1;
+//        } else {
+//            try {
+//                //System.out.println(o.getTimeStamp());
+//                DateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+//                Calendar date1 = Calendar.getInstance();
+//                date1.setTime(sdf.parse(o.getTimeStamp()));
+//                Calendar date2 = Calendar.getInstance();
+//                date2.setTime(sdf.parse(this.getTimeStamp()));
+//                //System.out.println(date1.get(Calendar.MONTH) + " - " + date2.get(Calendar.MONTH) + " - " + date1.compareTo(date2));
+//                return date1.compareTo(date2);
+////                if(.before()) {
+////                    return  1;
+////                } else {
+////                    return -1;
+////                }
+//                
+//            } catch (ParseException ex) {
+//                System.out.println("Wrong date format: " + ex);
+//                return -1;
+//            }
+//        }
+    
+        return this.getMatchID().compareTo(o.getMatchID());
+        
     }
 }

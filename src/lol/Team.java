@@ -6,16 +6,18 @@
 package lol;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
  * @author stephan
  */
-public class Team {
+public class Team implements Comparable<Team> {
     private String name;
     private String region;
     private String coach;
     private ArrayList <String> members;
+    private int pouleWins;
 
     public Team ()
     {
@@ -27,6 +29,7 @@ public class Team {
         this.region = null;
         this.coach = null;
         this.members = null;
+        this.pouleWins = 0;
     }
     
     
@@ -35,9 +38,26 @@ public class Team {
         this.region = region;
         this.coach = coach;
         this.members = members;
+        this.pouleWins = 0;
+    }
+    
+    public Team(String name, String region, String coach, ArrayList<String> members, int pouleWins) {
+        this.name = name;
+        this.region = region;
+        this.coach = coach;
+        this.members = members;
+        this.pouleWins = pouleWins;
+    }
+    
+    public void addWin() {
+        this.pouleWins += 1;
     }
 
     //getters
+
+    public int getPouleWins() {
+        return pouleWins;
+    }
     
     public String getName() {
         return name;
@@ -75,12 +95,45 @@ public class Team {
     public void setCoach(String coach) {
         this.coach = coach;
     }
+
+    public void setPouleWins(int pouleWins) {
+        this.pouleWins = pouleWins;
+    }
+    
     
     
 
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Team t = (Team) o;
+        if (t.getName().equals(this.getName())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+    
+    @Override
+    public int compareTo(Team t) {
+        if (t == null){
+            return -1;
+        } else if (t.getPouleWins() > this.pouleWins) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
     
     

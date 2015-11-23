@@ -15,23 +15,47 @@ public class Bracket {
     private String name;
     private Team team1;
     private Team team2;
-    private String timeStamp;
-    private ArrayList <Match> matches;
-    private boolean completed;
+    private int team1score;
+    private int team2score;
+    private int type; //8 for eighth final, 4 for quarter final, 2 for semi final, 1 for final
+    private ArrayList<String> matches;
+    private String completed;
     
     //constructor
 
-    public Bracket () 
+    public Bracket (String name, int type) 
     {
+        this.name = name;
+        this.team1 = null;
+        this.team2 = null;
+        this.team1score = 0;
+        this.team2score = 0;
+        this.type = type;
+        this.matches = new ArrayList<>();
+        this.completed = "no";
     }
-    
-    public Bracket(String name, Team team1, Team team2, String timeStamp, ArrayList<Match> matches, boolean completed) {
+
+    public Bracket(String name, Team team1, Team team2, int team1score, int team2score, int type, ArrayList<String> matches, String completed) {
         this.name = name;
         this.team1 = team1;
         this.team2 = team2;
-        this.timeStamp = timeStamp;
+        this.team1score = team1score;
+        this.team2score = team2score;
+        this.type = type;
         this.matches = matches;
         this.completed = completed;
+    }
+    
+    public void addMatch(String matchID) {
+        this.matches.add(matchID);
+    }
+    
+    public void addWinTeam1(){
+        setTeam1score(getTeam1score() + 1); 
+    }
+    
+    public void addWinTeam2(){
+        setTeam2score(getTeam2score() + 1); 
     }
     
     //getters
@@ -47,18 +71,45 @@ public class Bracket {
     public Team getTeam2() {
         return team2;
     }
-
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getTeam1Name() {
+        if (team1 == null){
+            return "TBA";
+        } else {
+            return team1.getName();
+        }
     }
-
-    public ArrayList<Match> getMatches() {
+    public String getTeam2Name() {
+        if (team2 == null){
+            return "TBA";
+        } else {
+            return team2.getName();
+        }
+    }
+    public ArrayList<String> getMatches() {
         return matches;
     }
 
-    public boolean isCompleted() {
+    public String isCompleted() {
         return completed;
     }
+
+    public int getType() {
+        return type;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
+
+    public int getTeam1score() {
+        return team1score;
+    }
+
+    public int getTeam2score() {
+        return team2score;
+    }
+    
+    
     
     //setters
 
@@ -74,16 +125,30 @@ public class Bracket {
         this.team2 = team2;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public void setMatches(ArrayList<Match> matches) {
+    public void setMatches(ArrayList<String> matches) {
         this.matches = matches;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(String completed) {
         this.completed = completed;
     }
+
+    public void setTeam1score(int team1score) {
+        this.team1score = team1score;
+    }
+
+    public void setTeam2score(int team2score) {
+        this.team2score = team2score;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
     
+    
+    
+    @Override
+    public String toString(){
+        return name + ": " + team1 + " vs " + team2 + " type: " + type;
+    }
 }

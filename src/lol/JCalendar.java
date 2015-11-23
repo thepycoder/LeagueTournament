@@ -22,13 +22,13 @@ public class JCalendar extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     
-    public Tournament to;
+    public Tournament t;
     public String[] items;
     public StartGui parent;
     
-    public JCalendar(Tournament to, StartGui parent) {
+    public JCalendar(Tournament t, StartGui parent) {
         this.parent = parent;
-        this.to = to;
+        this.t = t;
         
         initComponents();
         
@@ -38,8 +38,8 @@ public class JCalendar extends javax.swing.JFrame {
         
         ArrayList<String> matches = new ArrayList<>();
         
-        for (Match match : to.getMatchlist()) {
-            if (match.getTimeStamp() == null || match.getTimeStamp().equals("null")) {
+        for (Match match : t.getMatchlist()) {
+            if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {
                 //items[i] = to.getMatchlist().get(i).getMatchID();
                 matches.add(match.getMatchID());
             }
@@ -102,7 +102,6 @@ public class JCalendar extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setSize(new java.awt.Dimension(800, 0));
 
         jLabel2.setText("Match to plan:");
 
@@ -183,8 +182,9 @@ public class JCalendar extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         //System.out.println(jDateChooser1.getDate());
-        to.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField1.getText());
+        t.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField1.getText());
         parent.updateList2();
+        parent.updateList3();
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked
 
