@@ -225,12 +225,12 @@ public class GuiTeam extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        ArrayList<String> GuiMembers = new ArrayList<String>();
-        GuiMembers.add(getjTextField4());
-        GuiMembers.add(getjTextField5());
-        GuiMembers.add(getjTextField6());
-        GuiMembers.add(getjTextField7());
-        GuiMembers.add(getjTextField8());
+        ArrayList<Player> GuiMembers = new ArrayList<>();
+        GuiMembers.add(new Player(getjTextField4()));
+        GuiMembers.add(new Player(getjTextField5()));
+        GuiMembers.add(new Player(getjTextField6()));
+        GuiMembers.add(new Player(getjTextField7()));
+        GuiMembers.add(new Player(getjTextField8()));
         t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
         parent.updateList1();
         this.dispose();
@@ -247,12 +247,12 @@ public class GuiTeam extends javax.swing.JFrame {
 
     private void jTextField8KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyPressed
         if (evt.getKeyCode()== KeyEvent.VK_ENTER) {
-            ArrayList<String> GuiMembers = new ArrayList<String>();
-            GuiMembers.add(getjTextField4());
-            GuiMembers.add(getjTextField5());
-            GuiMembers.add(getjTextField6());
-            GuiMembers.add(getjTextField7());
-            GuiMembers.add(getjTextField8());
+            ArrayList<Player> GuiMembers = new ArrayList<>();
+            GuiMembers.add(new Player(getjTextField4()));
+            GuiMembers.add(new Player(getjTextField5()));
+            GuiMembers.add(new Player(getjTextField6()));
+            GuiMembers.add(new Player(getjTextField7()));
+            GuiMembers.add(new Player(getjTextField8()));
             t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
             parent.updateList1();
             this.dispose();

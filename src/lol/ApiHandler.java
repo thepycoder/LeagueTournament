@@ -35,9 +35,10 @@ public class ApiHandler {
     public int apiCount = 0;
     public String apiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
     public String matchID = "";
+    public Tournament t;
     
-    public ApiHandler() {
-        
+    public ApiHandler(Tournament t) {
+        this.t = t;
     }
     public JsonObject API(String arg, int call) { //Op basis van 1 player halen we de matchstatistieken op
         try {
@@ -54,6 +55,7 @@ public class ApiHandler {
             }
             apiCount++;
             System.out.println(apiCount);
+            System.out.println(sURL);
             // Connect to the URL using java's native library
             URL url = new URL(sURL);
             HttpURLConnection request = (HttpURLConnection) url.openConnection();
@@ -88,9 +90,10 @@ public class ApiHandler {
         }
     }
     
-    public HashMap<String, Map<String, String>> getMatchSummary(String player) {
+    public HashMap<String, Map<String, String>> getMatchSummary(String playerName) {
+        String playerID = getSummID(playerName);
         HashMap<String, Map<String, String>> summary = new HashMap<>();
-        HashMap<String, String> champSummID = getMembers(player);
+        HashMap<String, String> champSummID = getMembers(playerID);
         HashMap<String, String> champSummName = getSummNames(champSummID);
         
         JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
@@ -149,8 +152,6 @@ public class ApiHandler {
         for(Entry<String, String> id : ids.entrySet()) {
             champSummNames.put(id.getKey(), rootobj.get(id.getValue()).getAsString());
         }
-        
-        
         return champSummNames;
     }
     

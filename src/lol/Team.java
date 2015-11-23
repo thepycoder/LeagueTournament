@@ -16,7 +16,7 @@ public class Team implements Comparable<Team> {
     private String name;
     private String region;
     private String coach;
-    private ArrayList <String> members;
+    private ArrayList<Player> members;
     private int pouleWins;
 
     public Team ()
@@ -33,7 +33,7 @@ public class Team implements Comparable<Team> {
     }
     
     
-    public Team(String name, String region, String coach, ArrayList<String> members) {
+    public Team(String name, String region, String coach, ArrayList<Player> members) {
         this.name = name;
         this.region = region;
         this.coach = coach;
@@ -41,7 +41,7 @@ public class Team implements Comparable<Team> {
         this.pouleWins = 0;
     }
     
-    public Team(String name, String region, String coach, ArrayList<String> members, int pouleWins) {
+    public Team(String name, String region, String coach, ArrayList<Player> members, int pouleWins) {
         this.name = name;
         this.region = region;
         this.coach = coach;
@@ -71,7 +71,7 @@ public class Team implements Comparable<Team> {
         return coach;
     }
 
-    public ArrayList<String> getMembers() {
+    public ArrayList<Player> getMembers() {
         return members;
     }
 
@@ -88,7 +88,7 @@ public class Team implements Comparable<Team> {
         this.coach = coach;
     }
 
-    public void setMembers(ArrayList<String> members) {
+    public void setMembers(ArrayList<Player> members) {
         this.members = members;
     }
 

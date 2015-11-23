@@ -7,6 +7,7 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,12 +23,12 @@ public class Tournament {
     ArrayList<Match> matchlist = new ArrayList<>();
     ArrayList<Bracket> bracketlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
-    ApiHandler api = new ApiHandler();
+    ApiHandler api = new ApiHandler(this);
     
     public Tournament() {
     }
     
-    public void changeTeam (String name, String region, String coach, ArrayList<String> members) {
+    public void changeTeam (String name, String region, String coach, ArrayList<Player> members) {
         Team newTeam = new Team(name, region, coach, members);
         Team oldTeam = null;
         for (Team team : teamlist) {
@@ -66,7 +67,7 @@ public class Tournament {
         teamlist.add(team);
     }
     
-    public void addTeam(String name, ArrayList<String> members, String region, String coach) {
+    public void addTeam(String name, ArrayList<Player> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
         db.storeTeam(name, members, coach, region);
@@ -196,8 +197,9 @@ public class Tournament {
         System.out.println(team2);
         
         matchPlayed.setCompleted("yes");
-        //db.setCompleted(matchPlayed);
+        db.setCompleted(matchPlayed);
         
+        //generate statistics piece
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -207,12 +209,12 @@ public class Tournament {
                 //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
                 System.out.println("team " + team2.getName() + " wint");
-                //db.addPouleWin(team2);
-            } else { // no else if so we only need 1 known player for testing purposes
+                db.addPouleWin(team2);
+            } else {
                 //team1.addWin();
                 poule.addWin(team1);
                 System.out.println("team " + team1.getName() + " wint");
-                //db.addPouleWin(team1);
+                db.addPouleWin(team1);
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -232,17 +234,17 @@ public class Tournament {
             Team winner = null;
             Bracket bracket = getBracketByMatch(matchPlayed);
             bracket.addMatch(matchPlayed.getMatchID());
-            //db.updateBracket(bracket);
+            db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                //db.addBracketWin(bracket, 2);
+                db.addBracketWin(bracket, 2);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
-                //db.addBracketWin(bracket, 1);
+                db.addBracketWin(bracket, 1);
             }
             
             //step 2: check if last match from bracket
@@ -312,41 +314,44 @@ public class Tournament {
         }
         Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + (Integer.parseInt(MatchNr) + 1)), "");
         matchlist.add(match);
-        //db.storeMatch(match);
+        db.storeMatch(match);
         bracket.addMatch(match.getMatchID()); 
     }
     
-    public void completeMatch(String matchID) {
+    public void completeMatch(String matchID) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
         Match matchPlayed = getMatchById(matchID);
-        Team team1 = searchTeam(matchPlayed.getTeam1());
-        Team team2 = searchTeam(matchPlayed.getTeam2());
-        String player1 = team1.getMembers().get(0);
-        String player2 = team2.getMembers().get(0);
-        String summID1 = api.getSummID(player1);
-        System.out.println(summID1);
-        Map<String,Map<String,String>> matchDump = api.getMatchSummary(summID1);
+        String[] ID = matchID.split("_");
+        Team team1 = searchTeam(ID[ID.length - 1]);
+        Team team2 = searchTeam(ID[ID.length - 2]);
+        String team1mem = team1.getMembers().get(0).getName();
+        HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
         
-        System.out.println(matchDump.get(player1).get("winner"));
-        
-        //Step 0: set Match object completed flag
         matchPlayed.setCompleted("yes");
         db.setCompleted(matchPlayed);
         
-        //Step1: determine the winner
-        if (matchDump.get(player1).get("winner").equals("true")) {
-            team1.addWin();
-            db.addPouleWin(team1);
-        } else { // no else if so we only need 1 known player for testing purposes
-            team2.addWin();
-            db.addPouleWin(team2);
+        //generate statistics piece
+        for (Player player : team1.getMembers()) {
+            
         }
         
-        //Step 2: Get Match data and update Statistics + store in DB
-        //TODO
         
-        //Step 3: Check if all matches in poule are played
-        int flag = 0; // if this stays 0, all matches have been played
         if (matchPlayed.getType().startsWith("Poule")) {
+            
+            Poule poule = getPouleByMatch(matchPlayed);
+            
+            if (!matchDump.get(team1mem).get("winner").equals("true")) { // if team 1 lost add win by other team
+                //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                poule.addWin(team2);
+                System.out.println("team " + team2.getName() + " wint");
+                db.addPouleWin(team2);
+            } else {
+                //team1.addWin();
+                poule.addWin(team1);
+                System.out.println("team " + team1.getName() + " wint");
+                db.addPouleWin(team1);
+            }
+            
+            int flag = 0; // if this stays 0, all matches have been played
             for (Match match : matchlist) {
                 if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
                     if(match.getCompleted().equals("no")) {
@@ -355,10 +360,83 @@ public class Tournament {
                 }
             }
             if (flag == 0) {
-                Poule completedPoule = getPouleByMatch(matchPlayed);
-                completedPoule.setCompleted("yes");
-                completePoule(completedPoule);
+                poule.setCompleted("yes");
+                completePoule(poule);
             }
+        } else if(matchPlayed.getType().startsWith("Bracket")) {
+            
+            Team winner = null;
+            Bracket bracket = getBracketByMatch(matchPlayed);
+            bracket.addMatch(matchPlayed.getMatchID());
+            db.updateBracket(bracket);
+            
+            //step 1: add win to right team
+            if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
+                winner = team2;
+                bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                db.addBracketWin(bracket, 2);
+            } else {
+                winner = team1;
+                bracket.addWinTeam2();
+                db.addBracketWin(bracket, 1);
+            }
+            
+            //step 2: check if last match from bracket
+            
+            if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de bracket gedaan
+                bracket.setCompleted("yes");
+                String bracketNr = bracket.getName().substring(bracket.getName().length() - 1);
+                
+                Bracket sem1 = bracketlist.get(4);
+                Bracket sem2 = bracketlist.get(5);
+                
+                if (bracket.getType() == 4) { //quarterfinal
+                    switch (bracketNr) {
+                        case "1":
+                            sem1.setTeam1(winner);
+                            break;
+                        case "2":
+                            sem1.setTeam2(winner);
+                            break;
+                        case "3":
+                            sem2.setTeam1(winner);
+                            break;
+                        case "4":
+                            sem2.setTeam2(winner);
+                            break;
+                    }
+                    
+                    if ((sem1.getTeam1() != null && sem1.getTeam2() != null) && sem1.getMatches().isEmpty()) {
+                        addBracketMatch(sem1);
+                    }
+                    if ((sem2.getTeam1() != null && sem2.getTeam2() != null) && sem2.getMatches().isEmpty()) {
+                        addBracketMatch(sem2);
+                    }
+                    
+                } else if (bracket.getType() == 2) { //semifinal
+                    //check if final bracket already exists
+                    Bracket fin = getFinal();
+                    switch (bracketNr) {
+                        case "5":
+                            // if it is the upper bracket a.k.a 5th bracket
+                            fin.setTeam1(winner);
+                            break;
+                        case "6":
+                            fin.setTeam2(winner);
+                            break;
+                    }
+                    if (fin.getTeam1() != null && fin.getTeam2() != null){
+                        addBracketMatch(fin); //ony add match when both teams are set
+                    }
+                    
+                } else if (bracket.getType() == 1) { //final
+                    System.out.println("feest tis gedaan");
+                }
+                
+            } else {
+                addBracketMatch(bracket);
+            }
+            
         }
         
     }
@@ -451,6 +529,17 @@ public class Tournament {
         }
         System.out.println("finale: " + fin);
         return fin;
+    }
+    
+    public Player getPlayer(String name) {
+        for (Team team : teamlist) {
+            for (Player player : team.getMembers()) {
+                if (player.getName().equals(name)) {
+                    return player;
+                }
+            }
+        }
+        return null;
     }
 
     public ArrayList<Team> getTeamlist() {

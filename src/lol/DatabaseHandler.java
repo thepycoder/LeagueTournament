@@ -49,14 +49,14 @@ public class DatabaseHandler {
         
     }
     
-    public void storeTeam(String name, ArrayList<String> members, String coach, String region){
+    public void storeTeam(String name, ArrayList<Player> members, String coach, String region){
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
             String mem = new String();
             
-            for (String member : members) {
-                mem += member + ",";
+            for (Player member : members) {
+                mem += member.getName() + ",";
             }
             String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
             System.out.println(query);
@@ -295,7 +295,11 @@ public class DatabaseHandler {
             
             while(rs.next()){
                 //Retrieve by column name
-                ArrayList<String> members = new ArrayList<>(Arrays.asList(rs.getString("members").split(",")));
+                ArrayList<Player> members = new ArrayList<>();
+                for (String name : Arrays.asList(rs.getString("members").split(","))) {
+                    Player player = new Player(name);
+                    members.add(player);
+                }
                 members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
                 Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
                 teams.add(team);

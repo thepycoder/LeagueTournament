@@ -10,36 +10,32 @@ package lol;
  * @author stephan
  */
 public class Player {
-    private String player;
-    private String role;
+    private String name;
     private double KDA_ratio;
     private double kill_part;
     private double CS_ratio;
-    private Team name;
     
     //constructor
     
-    public Player() 
+    public Player(String name) 
     {
+        this.name = name;
+        this.KDA_ratio = 0;
+        this.kill_part = 0;
+        this.CS_ratio = 0;
     }
     
-    public Player(String player, String role, double KDA_ratio, double kill_part, double CS_ratio, Team name) {
-        this.player = player;
-        this.role = role;
+    public Player(String name, String role, double KDA_ratio, double kill_part, double CS_ratio) {
+        this.name = name;
         this.KDA_ratio = KDA_ratio;
         this.kill_part = kill_part;
         this.CS_ratio = CS_ratio;
-        this.name = name;
     }
     
     //getters
-    
-    public String getPlayer() {
-        return player;
-    }
 
-    public String getRole() {
-        return role;
+    public String getName() {
+        return name;
     }
 
     public double getKDA_ratio() {
@@ -54,18 +50,6 @@ public class Player {
         return CS_ratio;
     }
 
-    public Team getName() {
-        return name;
-    }
-
-    public void setPlayer(String player) {
-        this.player = player;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public void setKDA_ratio(double KDA_ratio) {
         this.KDA_ratio = KDA_ratio;
     }
@@ -76,10 +60,6 @@ public class Player {
 
     public void setCS_ratio(double CS_ratio) {
         this.CS_ratio = CS_ratio;
-    }
-
-    public void setName(Team name) {
-        this.name = name;
     }
     
 }
