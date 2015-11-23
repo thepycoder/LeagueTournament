@@ -7,7 +7,6 @@ package lol;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -231,6 +230,16 @@ public class Tournament {
             }
             //step 2: check if last match from bracket
             
+            if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de brack gedaan
+                bracket.setCompleted("yes");
+                System.out.println("hey");
+            } else {
+                Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + bracket.getMatches().size()), "");
+                matchlist.add(match);
+                db.storeMatch(match);
+                bracket.addMatch(match.getMatchID());
+            }
+            
         }
         
     }
@@ -298,7 +307,7 @@ public class Tournament {
         for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
             if((bracket.getTeam1() != null && bracket.getTeam2() != null)) {
                 if(bracket.getMatches().isEmpty()) {
-                    Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName(), "");
+                    Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + bracket.getMatches().size()), "");
                     matchlist.add(match);
                     db.storeMatch(match);
                     bracket.addMatch(match.getMatchID());

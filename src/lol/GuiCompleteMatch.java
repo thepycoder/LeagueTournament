@@ -83,14 +83,14 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Team 1 forfaited");
+        jButton2.setText("Team 1 forfeited");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Team 2 forfaited");
+        jButton3.setText("Team 2 forfeited");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
