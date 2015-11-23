@@ -172,7 +172,7 @@ public class Tournament {
         }
     }
     
-    public void forfaitMatch(String matchID, String teamName) {
+    public void forfeitMatch(String matchID, String teamName) {
         Match matchPlayed = getMatchById(matchID);
         String[] ID = matchID.split("_");
         Team team1 = searchTeam(ID[ID.length - 1]);
@@ -215,6 +215,7 @@ public class Tournament {
             }
         } else if(matchPlayed.getType().startsWith("Bracket")) {
             
+            Team winner = null;
             System.out.println(matchPlayed);
             Bracket bracket = getBracketByMatch(matchPlayed);
             System.out.println(bracket);
@@ -223,19 +224,39 @@ public class Tournament {
             
             //step 1: add win to right team
             if (teamName.equals(team1.getName())) { //team 1 forfeited
+                winner = team2;
                 bracket.addWinTeam2();
-                System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
+                System.out.println(team2 + " wint");
                 //db.addBracketWin(bracket, 2);
             } else {
+                winner = team1;
                 bracket.addWinTeam1();
-                System.out.println(bracket.getTeam1score() + " " + bracket.getTeam2score());
+                System.out.println(team1 + " wint");
                 //db.addBracketWin(bracket, 1);
             }
             
             //step 2: check if last match from bracket
             
-            if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de brack gedaan
+            if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de bracket gedaan
                 bracket.setCompleted("yes");
+                
+                if (bracket.getType() == 4) { //quarterfinal
+                    Bracket semi1 = new Bracket("Bracket" + bracketlist.size() + 1, 1);
+                    bracketlist.add(semi1);
+                    Bracket semi2 = new Bracket("Bracket" + bracketlist.size() + 1, 1);
+                    bracketlist.add(semi2);
+                } else if (bracket.getType() == 2) { //semifinal
+                    Bracket fin = new Bracket("Bracket" + bracketlist.size() + 1, 1);
+                    if (bracketlist.indexOf(bracket) == 4) { // if it is the upper bracket a.k.a 5th bracket
+                        fin.setTeam2(winner);
+                    } else {
+                        fin.setTeam1(winner);
+                    }
+                    bracketlist.add(fin);
+                    
+                } else if (bracket.getType() == 1) { //final
+                    System.out.println("feest this gedaan");
+                }
                 
             } else {
                 String MatchNr = bracket.getMatches().get(bracket.getMatches().size() - 1).split("_")[1]; //get the number of the latest played match
