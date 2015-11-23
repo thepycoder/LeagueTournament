@@ -172,6 +172,18 @@ public class Tournament {
             bracketlist.add(bracket);
             db.storeBracket(bracket);
         }
+        Bracket semi1 = new Bracket("Bracket" + (bracketlist.size() + 1), 2);
+        bracketlist.add(semi1);
+        db.storeBracket(semi1);
+        Bracket semi2 = new Bracket("Bracket" + (bracketlist.size() + 1), 2);
+        bracketlist.add(semi2);
+        db.storeBracket(semi2);
+        
+        Bracket fin = new Bracket("Bracket" + (bracketlist.size() + 1), 1);
+        bracketlist.add(fin);
+        db.storeBracket(fin);
+        
+        System.out.println("Bracketlijst: " + bracketlist);
     }
     
     public void forfeitMatch(String matchID, String teamName) {
@@ -237,35 +249,49 @@ public class Tournament {
             
             if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de bracket gedaan
                 bracket.setCompleted("yes");
+                String bracketNr = bracket.getName().substring(bracket.getName().length() - 1);
+                
+                Bracket sem1 = bracketlist.get(4);
+                Bracket sem2 = bracketlist.get(5);
                 
                 if (bracket.getType() == 4) { //quarterfinal
-                    Bracket semi1 = new Bracket("Bracket" + (bracketlist.size() + 1), 1);
-                    bracketlist.add(semi1);
-                    Bracket semi2 = new Bracket("Bracket" + (bracketlist.size() + 1), 1);
-                    bracketlist.add(semi2);
-                } else if (bracket.getType() == 2) { //semifinal
-                    //check if final bracket already exists
-                    Bracket fin = null;
-                    if (getFinal() == null) { //if final does not yet exist, make it
-                        fin = new Bracket("Bracket" + (bracketlist.size() + 1), 1);
-                        bracketlist.add(fin);
-                        
-                        if (getSemi().indexOf(bracket) == 1) { // if it is the upper bracket a.k.a 5th bracket
-                            fin.setTeam2(winner);
-                        } else {
-                            fin.setTeam1(winner);
-                        }
-                        
-                    } else {
-                        fin = getFinal(); //final will now have both teams
-                        if (getSemi().indexOf(bracket) == 1) { // if it is the upper bracket a.k.a 5th bracket
-                            fin.setTeam2(winner);
-                        } else {
-                            fin.setTeam1(winner);
-                        }
-                        addBracketMatch(fin);
+                    switch (bracketNr) {
+                        case "1":
+                            sem1.setTeam1(winner);
+                            break;
+                        case "2":
+                            sem1.setTeam2(winner);
+                            break;
+                        case "3":
+                            sem2.setTeam1(winner);
+                            break;
+                        case "4":
+                            sem2.setTeam2(winner);
+                            break;
                     }
                     
+                    if ((sem1.getTeam1() != null && sem1.getTeam2() != null) && sem1.getMatches().isEmpty()) {
+                        addBracketMatch(sem1);
+                    }
+                    if ((sem2.getTeam1() != null && sem2.getTeam2() != null) && sem2.getMatches().isEmpty()) {
+                        addBracketMatch(sem2);
+                    }
+                    
+                } else if (bracket.getType() == 2) { //semifinal
+                    //check if final bracket already exists
+                    Bracket fin = getFinal();
+                    switch (bracketNr) {
+                        case "5":
+                            // if it is the upper bracket a.k.a 5th bracket
+                            fin.setTeam1(winner);
+                            break;
+                        case "6":
+                            fin.setTeam2(winner);
+                            break;
+                    }
+                    if (fin.getTeam1() != null && fin.getTeam2() != null){
+                        addBracketMatch(fin); //ony add match when both teams are set
+                    }
                     
                 } else if (bracket.getType() == 1) { //final
                     System.out.println("feest tis gedaan");
@@ -423,6 +449,7 @@ public class Tournament {
                 fin = bracket;
             }
         }
+        System.out.println("finale: " + fin);
         return fin;
     }
 
