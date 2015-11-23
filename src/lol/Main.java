@@ -38,6 +38,8 @@ public class Main {
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
         GuiSilke sg = new GuiSilke(t);
-        sg.show();
+        sg.show(); 
+        
+        
     }
 }
