@@ -41,6 +41,20 @@ public class Tournament {
         
     }
     
+    public void changeMatch(String team1, String team2,String timeStamp, String official){
+        Match oldMatch = null;
+        for(Match k: matchlist){
+            if(k.getTeam1().equals(team1) && k.getTeam2().equals(team2)){
+            oldMatch = k;
+                    }
+        }
+        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, timeStamp, oldMatch.getType(), official, oldMatch.getCompleted());
+        newMatch.setType(oldMatch.getType());
+        matchlist.remove(oldMatch);
+        matchlist.add(newMatch);
+        
+    }
+    
     public void removeTeam(String teamName) {
         Team wrongTeam = null;
         for (Team team : teamlist) {
@@ -49,6 +63,11 @@ public class Tournament {
             }
         }
         teamlist.remove(wrongTeam);
+        for(Poule p: poulelist){
+            if(p.getTeams().contains(wrongTeam)){
+                p.getTeams().remove(wrongTeam);
+            }
+        }
     }
     
     public Team searchTeam (String teamName) 
