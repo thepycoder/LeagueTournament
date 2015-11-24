@@ -17,19 +17,19 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
         
-        api.getMatchSummary(api.getSummID("Krepo"));
+        // api.getMatchSummary(api.getSummID("Krepo"));
         
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
-//        if(db.retrievePoules().isEmpty()) {
-//            t.generatePoules(t.getTeamlist(), 2);
-//            t.generatePouleMatches();
-//        } else {
-//            t.setPoulelist(db.retrievePoules());
-//            t.addMatches(db.retrieveMatches());
-//            t.setBracketlist(db.retrieveBrackets());
-//        }
+        if(db.retrievePoules().isEmpty()) {
+            t.generatePoules(t.getTeamlist(), 2);
+            t.generatePouleMatches();
+        } else {
+            t.setPoulelist(db.retrievePoules());
+            t.addMatches(db.retrieveMatches());
+            t.setBracketlist(db.retrieveBrackets());
+        }
         
         //t.completePoule(t.getPoulelist().get(0));
         //t.completePoule(t.getPoulelist().get(1));
@@ -39,8 +39,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        //GuiSilke sg = new GuiSilke(t);
-        //sg.show(); 
+        GuiSilke sg = new GuiSilke(t);
+        sg.show(); 
         
         
     }
