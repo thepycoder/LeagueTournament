@@ -25,3 +25,4 @@ TO-DO
 * [ ] API handler testmethode (voor niet bestaande spelers)
 * [ ] Statistieken in database bijhouden + methode maken die deze terug in een hashmap omzet
 * [ ] rapporten moeten gegenereerd worden
+* [ ] database en schema's laten overeenkomen
