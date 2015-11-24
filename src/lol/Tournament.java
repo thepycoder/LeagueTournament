@@ -368,8 +368,10 @@ public class Tournament {
             double KDA = 0;
             double CS = 0;
             KDA = ((Double.parseDouble(entry.getValue().get("kills")) + Double.parseDouble(entry.getValue().get("assists"))) / Double.parseDouble(entry.getValue().get("assists")));
+            KDA = Math.round(KDA * 100);
+            KDA = KDA / 100;
             teststat += entry.getKey() + ": ";
-            teststat += "KDA: " + KDA;
+            teststat += "KDA: " + KDA + "\n";
         }
         System.out.println(teststat);
         

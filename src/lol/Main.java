@@ -19,10 +19,10 @@ public class Main {
         //api.getMatchSummary(api.getSummID("Krepo"));
 
         
-        System.out.println(t.getMatchlist());
+        //System.out.println(t.getMatchlist());
        
         //t.changeMatch(k.getTeam1(), k.getTeam2(), k.getTimeStamp(), "Victor");
-        System.out.println(t.getMatchlist());
+        //System.out.println(t.getMatchlist());
         //System.out.println(t.getTeamlist());
         //t.removeTeam(t.getTeamlist().get(3).getName());
         //System.out.println(t.getTeamlist());
@@ -42,7 +42,7 @@ public class Main {
             t.setBracketlist(db.retrieveBrackets());
         }
 
-        //t.completeMatch("Poule2_H2K_Fnatic");
+        t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));
         //t.completePoule(t.getPoulelist().get(1));
@@ -52,8 +52,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        GuiSilke sg = new GuiSilke(t);
-        sg.show(); 
+        //GuiSilke sg = new GuiSilke(t);
+        //sg.show();
         
         
     }
