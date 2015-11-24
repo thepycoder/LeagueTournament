@@ -42,7 +42,7 @@ public class Main {
             t.setBracketlist(db.retrieveBrackets());
         }
 
-        //t.completeMatch("Poule2_H2K_Fnatic");
+        t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));
         //t.completePoule(t.getPoulelist().get(1));
