@@ -365,10 +365,13 @@ public class Tournament {
         //Statistics part
         String teststat = "";
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
+            double KDA = 0;
+            double CS = 0;
+            KDA = ((Double.parseDouble(entry.getValue().get("kills")) + Double.parseDouble(entry.getValue().get("assists"))) / Double.parseDouble(entry.getValue().get("assists")));
+            KDA = Math.round(KDA * 100);
+            KDA = KDA / 100;
             teststat += entry.getKey() + ": ";
-            teststat += entry.getValue().get("kills") + "/";
-            teststat += entry.getValue().get("deaths") + "/";
-            teststat += entry.getValue().get("assists") + "\n";
+            teststat += "KDA: " + KDA + "\n";
         }
         System.out.println(teststat);
         
