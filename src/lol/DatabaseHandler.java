@@ -296,11 +296,18 @@ public class DatabaseHandler {
             while(rs.next()){
                 //Retrieve by column name
                 ArrayList<Player> members = new ArrayList<>();
-                for (String name : Arrays.asList(rs.getString("members").split(","))) {
-                    Player player = new Player(name);
-                    members.add(player);
-                }
-                members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
+                
+                Player player1 = new Player(rs.getString("member1"));
+                members.add(player1);
+                Player player2 = new Player(rs.getString("member2"));
+                members.add(player2);
+                Player player3 = new Player(rs.getString("member3"));
+                members.add(player3);
+                Player player4 = new Player(rs.getString("member4"));
+                members.add(player4);
+                Player player5 = new Player(rs.getString("member5"));
+                members.add(player5);
+                //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
                 Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
                 teams.add(team);
              }
