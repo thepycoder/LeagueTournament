@@ -13,9 +13,10 @@ public class Main {
         Tournament t = new Tournament();
         
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
-        DatabaseHandler db = new DatabaseHandler();
+        DatabaseHandler db = new DatabaseHandler(t);
         
         t.addTeams(db.retrieveTeams());
+        System.out.println(t.getTeamlist());
         //api.getMatchSummary(api.getSummID("Krepo"));
 
         
@@ -38,10 +39,10 @@ public class Main {
             t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
+            System.out.println("gedaan");
             t.addMatches(db.retrieveMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
-
         t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));

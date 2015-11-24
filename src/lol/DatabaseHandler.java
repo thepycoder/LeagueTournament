@@ -22,9 +22,11 @@ public class DatabaseHandler {
     public String pass = "f9xff87y";
     public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
     Connection conn = null;
+    public Tournament t;
     
     
-    public DatabaseHandler() {
+    public DatabaseHandler(Tournament t) {
+        this.t = t;
     }
     
     
@@ -179,7 +181,7 @@ public class DatabaseHandler {
             
             while(rs.next()){
                 ArrayList<Team> pouleTeams = new ArrayList<>();
-                ArrayList<Team> storedTeams = this.retrieveTeams();
+                ArrayList<Team> storedTeams = t.getTeamlist();
                 for (String pouleTeam : rs.getString("teams").split(",")) {
                     for (Team storedTeam : storedTeams) {
                         if (storedTeam.getName().equals(pouleTeam)) {
@@ -227,7 +229,7 @@ public class DatabaseHandler {
                     }
                 }
                 
-                ArrayList<Team> storedTeams = this.retrieveTeams();
+                ArrayList<Team> storedTeams = t.getTeamlist();
                 Team team1 = null;
                 Team team2 = null;
                 for (Team storedTeam : storedTeams) {
@@ -284,17 +286,18 @@ public class DatabaseHandler {
    
    public ArrayList<Double> getPlayerStats(String playername){
        
-       ArrayList<Double> stats = new ArrayList<Double>();
+       ArrayList<Double> stats = new ArrayList<>();
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM players WHERE name = '" + playername + "'";
             ResultSet rs = stmt.executeQuery(query);
-            
-            stats.add(rs.getDouble("KDA"));
-            stats.add(rs.getDouble("KP"));
-            stats.add(rs.getDouble("CS"));
+            while(rs.next()) {
+                stats.add(rs.getDouble("KDA"));
+                stats.add(rs.getDouble("KP"));
+                stats.add(rs.getDouble("CS"));
+            }
             
             return stats;
             
@@ -314,7 +317,7 @@ public class DatabaseHandler {
        
    }
    
-   public ArrayList<Team> retrieveTeams() {
+    public ArrayList<Team> retrieveTeams() {
        
         ArrayList<Team> teams = new ArrayList<>();
        
@@ -324,36 +327,41 @@ public class DatabaseHandler {
             
             String query = "SELECT * FROM teams";
             ResultSet rs = stmt.executeQuery(query);
-            
             while(rs.next()){
+                System.out.println(rs.getString("name"));
                 //Retrieve by column name
                 ArrayList<Player> members = new ArrayList<>();
                 ArrayList<Double> stats = null;
                 
-                stats = getPlayerStats(rs.getString("member1"));
-                Player player1 = new Player(rs.getString("member1"), stats.get(0), stats.get(1), stats.get(2));
+                String member1 = rs.getString("member1");
+                stats = getPlayerStats(member1);
+                Player player1 = new Player(member1, stats.get(0), stats.get(1), stats.get(2));
                 members.add(player1);
                 
-                stats = getPlayerStats(rs.getString("member2"));
-                Player player2 = new Player(rs.getString("member2"), stats.get(0), stats.get(1), stats.get(2));
+                String member2 = rs.getString("member2");
+                stats = getPlayerStats(member2);
+                Player player2 = new Player(member2, stats.get(0), stats.get(1), stats.get(2));
                 members.add(player2);
                 
-                stats = getPlayerStats(rs.getString("member3"));
-                Player player3 = new Player(rs.getString("member3"), stats.get(0), stats.get(1), stats.get(2));
+                String member3 = rs.getString("member3");
+                stats = getPlayerStats(member3);
+                Player player3 = new Player(member3, stats.get(0), stats.get(1), stats.get(2));
                 members.add(player3);
                 
-                stats = getPlayerStats(rs.getString("member4"));
-                Player player4 = new Player(rs.getString("member4"), stats.get(0), stats.get(1), stats.get(2));
+                String member4 = rs.getString("member4");
+                stats = getPlayerStats(member4);
+                Player player4 = new Player(member4, stats.get(0), stats.get(1), stats.get(2));
                 members.add(player4);
                 
-                stats = getPlayerStats(rs.getString("member5"));
-                Player player5 = new Player(rs.getString("member5"), stats.get(0), stats.get(1), stats.get(2));
+                String member5 = rs.getString("member5");
+                stats = getPlayerStats(member5);
+                Player player5 = new Player(member5, stats.get(0), stats.get(1), stats.get(2));
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
                 Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
                 teams.add(team);
-             }
+            }
             return teams;
             
         } catch (SQLException ex) {
@@ -451,7 +459,7 @@ public class DatabaseHandler {
             while(rs.next()){
                 Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"), rs.getString("completed"));
                 matches.add(match);
-             }
+            }
             return matches;
             
         } catch (SQLException ex) {

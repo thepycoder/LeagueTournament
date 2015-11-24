@@ -23,7 +23,7 @@ public class Tournament {
     ArrayList<Poule> poulelist = new ArrayList<>();
     ArrayList<Match> matchlist = new ArrayList<>();
     ArrayList<Bracket> bracketlist = new ArrayList<>();
-    DatabaseHandler db = new DatabaseHandler();
+    DatabaseHandler db = new DatabaseHandler(this);
     ApiHandler api = new ApiHandler();
     
     public Tournament() {
@@ -344,13 +344,15 @@ public class Tournament {
         Team team1 = searchTeam(ID[ID.length - 2]);
         Team team2 = searchTeam(ID[ID.length - 1]);
         String team1mem = team1.getMembers().get(0).getName();
-        System.out.println(team1mem);
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
         //matchPlayed.setCompleted("yes");
         //db.setCompleted(matchPlayed);
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = team1.getMembers();
+        ArrayList<Player> allPlayers = new ArrayList<>();
+        
+        allPlayers.addAll(team1.getMembers());
+        
         HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
         allPlayers.addAll(team2.getMembers());
         int index = 0;
@@ -359,21 +361,10 @@ public class Tournament {
             index++;
         }
         matchDump = newMatchDump;
-        System.out.println(matchDump);
         //end testing part
         
         //Statistics part
-        String teststat = "";
-        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            double KDA = 0;
-            double CS = 0;
-            KDA = ((Double.parseDouble(entry.getValue().get("kills")) + Double.parseDouble(entry.getValue().get("assists"))) / Double.parseDouble(entry.getValue().get("assists")));
-            KDA = Math.round(KDA * 100);
-            KDA = KDA / 100;
-            teststat += entry.getKey() + ": ";
-            teststat += "KDA: " + KDA + "\n";
-        }
-        System.out.println(teststat);
+        updateStats(matchDump, team1, team2);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -479,6 +470,43 @@ public class Tournament {
             
         }
         
+    }
+    
+    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
+        String teststat = "";
+        System.out.println(team2.getMembers());
+        int kills1 = 0;
+        int kills2 = 0;
+        
+        for (Player player : team1.getMembers()) { // first calc the total amount of kills for each team
+            kills1 += Integer.parseInt(matchDump.get(player.getName()).get("kills"));
+            kills2 += Integer.parseInt(matchDump.get(player.getName()).get("deaths"));
+        }
+        
+        for (Player player : team1.getMembers()) {
+            teststat += player + ": ";
+            double KDA = 0;
+            int CS = 0;
+            double KP = 0;
+            
+            KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
+            KDA = Math.round(KDA * 100);
+            KDA = KDA / 100;
+            teststat += "KDA: " + KDA + " ";
+            
+            CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
+            teststat += "CS: " + CS + " ";
+            
+            System.out.println("blub: " + matchDump.get(player.getName()).get("kills") + ":" + kills1);
+            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills1;
+            KP = Math.round(KP * 100);
+            KP = KP / 100;
+            teststat += "KP: " + KP + "\n";
+        }
+        
+        System.out.println(teststat);
+        System.out.println(kills1);
+        System.out.println(kills2);
     }
     
     public void completeBracket(Bracket bracket) {
