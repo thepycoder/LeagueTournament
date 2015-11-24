@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -23,7 +24,7 @@ public class Tournament {
     ArrayList<Match> matchlist = new ArrayList<>();
     ArrayList<Bracket> bracketlist = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler();
-    ApiHandler api = new ApiHandler(this);
+    ApiHandler api = new ApiHandler();
     
     public Tournament() {
     }
@@ -41,6 +42,20 @@ public class Tournament {
         
     }
     
+    public void changeMatch(String team1, String team2,String timeStamp, String official){
+        Match oldMatch = null;
+        for(Match k: matchlist){
+            if(k.getTeam1().equals(team1) && k.getTeam2().equals(team2)){
+            oldMatch = k;
+                    }
+        }
+        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, timeStamp, oldMatch.getType(), official, oldMatch.getCompleted());
+        newMatch.setType(oldMatch.getType());
+        matchlist.remove(oldMatch);
+        matchlist.add(newMatch);
+        
+    }
+    
     public void removeTeam(String teamName) {
         Team wrongTeam = null;
         for (Team team : teamlist) {
@@ -49,6 +64,11 @@ public class Tournament {
             }
         }
         teamlist.remove(wrongTeam);
+        for(Poule p: poulelist){
+            if(p.getTeams().contains(wrongTeam)){
+                p.getTeams().remove(wrongTeam);
+            }
+        }
     }
     
     public Team searchTeam (String teamName) 
@@ -321,19 +341,36 @@ public class Tournament {
     public void completeMatch(String matchID) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
         Match matchPlayed = getMatchById(matchID);
         String[] ID = matchID.split("_");
-        Team team1 = searchTeam(ID[ID.length - 1]);
-        Team team2 = searchTeam(ID[ID.length - 2]);
+        Team team1 = searchTeam(ID[ID.length - 2]);
+        Team team2 = searchTeam(ID[ID.length - 1]);
         String team1mem = team1.getMembers().get(0).getName();
+        System.out.println(team1mem);
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
+        //matchPlayed.setCompleted("yes");
+        //db.setCompleted(matchPlayed);
         
-        matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed);
-        
-        //generate statistics piece
-        for (Player player : team1.getMembers()) {
-            
+        //this part is for testing puposes. It sets the names of the members to the ones in the database.
+        ArrayList<Player> allPlayers = team1.getMembers();
+        HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
+        allPlayers.addAll(team2.getMembers());
+        int index = 0;
+        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
+            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            index++;
         }
+        matchDump = newMatchDump;
+        System.out.println(matchDump);
+        //end testing part
         
+        //Statistics part
+        String teststat = "";
+        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
+            teststat += entry.getKey() + ": ";
+            teststat += entry.getValue().get("kills") + "/";
+            teststat += entry.getValue().get("deaths") + "/";
+            teststat += entry.getValue().get("assists") + "\n";
+        }
+        System.out.println(teststat);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -342,13 +379,13 @@ public class Tournament {
             if (!matchDump.get(team1mem).get("winner").equals("true")) { // if team 1 lost add win by other team
                 //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
-                System.out.println("team " + team2.getName() + " wint");
-                db.addPouleWin(team2);
+                //System.out.println("team " + team2.getName() + " wint");
+                //db.addPouleWin(team2);
             } else {
                 //team1.addWin();
                 poule.addWin(team1);
-                System.out.println("team " + team1.getName() + " wint");
-                db.addPouleWin(team1);
+                //System.out.println("team " + team1.getName() + " wint");
+                //db.addPouleWin(team1);
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -368,17 +405,17 @@ public class Tournament {
             Team winner = null;
             Bracket bracket = getBracketByMatch(matchPlayed);
             bracket.addMatch(matchPlayed.getMatchID());
-            db.updateBracket(bracket);
+            //db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                db.addBracketWin(bracket, 2);
+                //db.addBracketWin(bracket, 2);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
-                db.addBracketWin(bracket, 1);
+                //db.addBracketWin(bracket, 1);
             }
             
             //step 2: check if last match from bracket

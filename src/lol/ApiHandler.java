@@ -35,10 +35,8 @@ public class ApiHandler {
     public int apiCount = 0;
     public String apiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
     public String matchID = "";
-    public Tournament t;
     
-    public ApiHandler(Tournament t) {
-        this.t = t;
+    public ApiHandler() {
     }
     public JsonObject API(String arg, int call) { //Op basis van 1 player halen we de matchstatistieken op
         try {
