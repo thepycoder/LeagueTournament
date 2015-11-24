@@ -405,7 +405,7 @@ public class DatabaseHandler {
             return matches;
             
         } catch (SQLException ex) {
-            System.out.println("Probleem bij ophalen teams: " + ex);
+            System.out.println("Probleem bij ophalen matches: " + ex);
             return null;
         } finally {
             if(conn != null) {
