@@ -43,7 +43,7 @@ public class Main {
             t.addMatches(db.retrieveMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
-        t.completeMatch("Poule2_H2K_Fnatic");
+        //t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));
         //t.completePoule(t.getPoulelist().get(1));
@@ -53,8 +53,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        //GuiSilke sg = new GuiSilke(t);
-        //sg.show();
+        GuiSilke sg = new GuiSilke(t);
+        sg.show();
         
         
     }
