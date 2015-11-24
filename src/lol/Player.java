@@ -25,7 +25,7 @@ public class Player {
         this.CS_ratio = 0;
     }
     
-    public Player(String name, String role, double KDA_ratio, double kill_part, double CS_ratio) {
+    public Player(String name, double KDA_ratio, double kill_part, double CS_ratio) {
         this.name = name;
         this.KDA_ratio = KDA_ratio;
         this.kill_part = kill_part;
