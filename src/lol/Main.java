@@ -39,7 +39,6 @@ public class Main {
             t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
-            System.out.println("gedaan");
             t.addMatches(db.retrieveMatches());
             t.setBracketlist(db.retrieveBrackets());
         }

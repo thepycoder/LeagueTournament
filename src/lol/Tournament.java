@@ -188,8 +188,8 @@ public class Tournament {
     }
     
     public void generateBrackets() {
-        for (int i = 0; i < poulelist.size(); i++) { //generate a bracket for each poule, this will be just right
-            Bracket bracket = new Bracket("Bracket" + (i + 1), poulelist.size());
+        for (int i = 0; i < 4; i++) { //generate a bracket for each poule, this will be just right
+            Bracket bracket = new Bracket("Bracket" + (i + 1), 4);
             bracketlist.add(bracket);
             db.storeBracket(bracket);
         }
@@ -345,8 +345,8 @@ public class Tournament {
         Team team2 = searchTeam(ID[ID.length - 1]);
         String team1mem = team1.getMembers().get(0).getName();
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
-        //matchPlayed.setCompleted("yes");
-        //db.setCompleted(matchPlayed);
+        matchPlayed.setCompleted("yes");
+        db.setCompleted(matchPlayed);
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
         ArrayList<Player> allPlayers = new ArrayList<>();
@@ -374,12 +374,12 @@ public class Tournament {
                 //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
                 //System.out.println("team " + team2.getName() + " wint");
-                //db.addPouleWin(team2);
+                db.addPouleWin(team2);
             } else {
                 //team1.addWin();
                 poule.addWin(team1);
                 //System.out.println("team " + team1.getName() + " wint");
-                //db.addPouleWin(team1);
+                db.addPouleWin(team1);
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -399,17 +399,17 @@ public class Tournament {
             Team winner = null;
             Bracket bracket = getBracketByMatch(matchPlayed);
             bracket.addMatch(matchPlayed.getMatchID());
-            //db.updateBracket(bracket);
+            db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                //db.addBracketWin(bracket, 2);
+                db.addBracketWin(bracket, 2);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
-                //db.addBracketWin(bracket, 1);
+                db.addBracketWin(bracket, 1);
             }
             
             //step 2: check if last match from bracket
@@ -525,7 +525,7 @@ public class Tournament {
     public void completePoule(Poule poule) {
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
         Team team2 = poule.getSortedTeams().get(1);
-        int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
+        int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
         bracketlist.get(pouleNr).setTeam1(team1);
         if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
             bracketlist.get(pouleNr - 1).setTeam2(team2);
