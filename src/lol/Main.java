@@ -16,9 +16,22 @@ public class Main {
         DatabaseHandler db = new DatabaseHandler();
         
         t.addTeams(db.retrieveTeams());
+        t.addMatches(db.retrieveMatches());
         
-        api.getMatchSummary(api.getSummID("Krepo"));
+        Match k = t.getMatchlist().get(0);
+       
         
+        System.out.println(t.getMatchlist());
+       
+        t.changeMatch(k.getTeam1(), k.getTeam2(), k.getTimeStamp(), "Victor");
+        System.out.println(t.getMatchlist());
+        //System.out.println(t.getTeamlist());
+        //t.removeTeam(t.getTeamlist().get(3).getName());
+        //System.out.println(t.getTeamlist());
+        //api.getMatchSummary(api.getSummID("Krepo"));
+        //System.out.println(db.retrieveTeams());
+        //db.removeTeam(db.retrieveTeams().get(0));
+       // System.out.println(db.retrieveTeams());
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
         
