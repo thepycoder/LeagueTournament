@@ -62,4 +62,9 @@ public class Player {
         this.CS_ratio = CS_ratio;
     }
     
+    @Override
+    public String toString() {
+        return this.name;
+    }
+    
 }
