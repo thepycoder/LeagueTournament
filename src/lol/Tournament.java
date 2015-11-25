@@ -353,7 +353,6 @@ public class Tournament {
         matchPlayed.setCompleted("yes");
         DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
-        db.setCompleted(matchPlayed, matchDump.toString(), dateFormat.format(date));
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
         ArrayList<Player> allPlayers = new ArrayList<>();
@@ -367,6 +366,8 @@ public class Tournament {
             newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
             index++;
         }
+        
+        db.setCompleted(matchPlayed, matchDump.toString(), dateFormat.format(date));
         matchDump = newMatchDump;
         //end testing part
         
