@@ -377,8 +377,29 @@ public class DatabaseHandler {
             }
         }
    }
+    
+    public void updatePlayerStats(Player player) {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE players SET KDA=" + player.getKDA_ratio() + ", KP=" + player.getKill_part() + ", CS = " + player.getCS_ratio() + " WHERE name='" + player.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
    
-   public void addPouleWin(Team team) {
+    public void addPouleWin(Team team) {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
@@ -425,12 +446,12 @@ public class DatabaseHandler {
         }
    }
    
-   public void setCompleted(Match match) {
+    public void setCompleted(Match match, String matchDump, String timestamp) {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "UPDATE matches SET completed='yes' WHERE matchID='" + match.getMatchID()+ "'";
+            String query = "UPDATE matches SET completed='yes', timestamp='" + timestamp + "', datadump='" + matchDump + "' WHERE matchID='" + match.getMatchID()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -446,7 +467,7 @@ public class DatabaseHandler {
         }
    }
    
-   public ArrayList<Match> retrieveMatches() {
+    public ArrayList<Match> retrieveMatches() {
         ArrayList<Match> matches = new ArrayList<>();
        
         try {

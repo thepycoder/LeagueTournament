@@ -5,8 +5,11 @@
  */
 package lol;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -217,7 +220,9 @@ public class Tournament {
         System.out.println(team2);
         
         matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
         
         //generate statistics piece
         
@@ -346,7 +351,9 @@ public class Tournament {
         String team1mem = team1.getMembers().get(0).getName();
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
         matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
+        Date date = new Date();
+        db.setCompleted(matchPlayed, matchDump.toString(), dateFormat.format(date));
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
         ArrayList<Player> allPlayers = new ArrayList<>();
@@ -489,19 +496,56 @@ public class Tournament {
             int CS = 0;
             double KP = 0;
             
-            KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
-            KDA = Math.round(KDA * 100);
-            KDA = KDA / 100;
+            if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
+                KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
+                KDA = Math.round(KDA * 100);
+                KDA = KDA / 100;
+            } else {
+                KDA = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists")));
+            }
             teststat += "KDA: " + KDA + " ";
             
             CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
             teststat += "CS: " + CS + " ";
             
-            System.out.println("blub: " + matchDump.get(player.getName()).get("kills") + ":" + kills1);
             KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills1;
             KP = Math.round(KP * 100);
             KP = KP / 100;
             teststat += "KP: " + KP + "\n";
+            
+            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+            player.setKill_part((player.getKill_part() + KP) / 2);
+            db.updatePlayerStats(player);
+        }
+        
+        for (Player player : team2.getMembers()) {
+            teststat += player + ": ";
+            double KDA = 0;
+            int CS = 0;
+            double KP = 0;
+            
+            if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
+                KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
+                KDA = Math.round(KDA * 100);
+                KDA = KDA / 100;
+            } else {
+                KDA = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists")));
+            }
+            teststat += "KDA: " + KDA + " ";
+            
+            CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
+            teststat += "CS: " + CS + " ";
+            
+            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills2;
+            KP = Math.round(KP * 100);
+            KP = KP / 100;
+            teststat += "KP: " + KP + "\n";
+            
+            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+            player.setKill_part((player.getKill_part() + KP) / 2);
+            db.updatePlayerStats(player);
         }
         
         System.out.println(teststat);
