@@ -594,6 +594,19 @@ public class Tournament {
         
         
     }
+    public void updateMatch(String matchID, String date, String official){
+        String[] ID = matchID.split("_");
+          String team1 = ID[ID.length - 2];
+          String team2 = ID[ID.length - 1];
+         for(Match k: matchlist) {
+             if(k.getMatchID().equals(matchID)){
+                k.setOfficial(official);
+                k.setTimeStamp(date);
+                db.updateMatch(k);
+            }
+         }
+         
+    }
     
     public Match getMatchById(String matchID) {
         for (Match match : matchlist) {
