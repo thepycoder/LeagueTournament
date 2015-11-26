@@ -287,6 +287,11 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenu4.add(jMenuItem12);
 
         jMenuItem10.setText("Change Match");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem10);
 
         jMenuItem11.setText("Delete all Matches");
@@ -481,6 +486,11 @@ public class GuiSilke extends javax.swing.JFrame {
         GuiRemoveTeam rt = new GuiRemoveTeam (t, this);
         rt.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        GuiChangeMatch k = new GuiChangeMatch(t);
+        k.show();
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
         
     public void updateTable() {
