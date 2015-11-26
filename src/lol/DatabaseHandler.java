@@ -8,6 +8,7 @@ package lol;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +81,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "')";
+            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed, datadump) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "', 'to be played')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -581,7 +582,7 @@ public class DatabaseHandler {
         }
    }
    
-   public void removeTeam(Team team){
+    public void removeTeam(Team team){
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();        
@@ -592,7 +593,7 @@ public class DatabaseHandler {
         }
         catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
-   }
+    }
        finally {
             if(conn != null) {
                 try {
@@ -602,5 +603,50 @@ public class DatabaseHandler {
                 }
             }
         }
-   } 
+   }
+   
+   public HashMap<String, HashMap<String, String>> getMatchDump(String matchID) {
+       System.out.println("hey");
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT datadump FROM matches WHERE matchID = '" + matchID + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                if (!"to be played".equals(rs.getString("datadump"))) {
+                    HashMap<String, HashMap<String, String>> matchSumm = new HashMap<>();
+                    
+                    String dump = rs.getString("datadump");
+                    
+                    dump = dump.substring(1, dump.length() - 1); //substring is to get rid of the brackets
+                    
+                    for (String player : dump.split(", ")) {
+                        HashMap<String, String> stats = new HashMap<>();
+                        String[] nameStats = player.split("=");
+                        System.out.println(nameStats[0]);
+                        //matchSumm.put(player, stats);
+                    }
+                    
+                    return matchSumm;
+                    
+                }
+            }
+            
+            }  
+        catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+       
+       return null;
+   }
 }

@@ -366,9 +366,9 @@ public class Tournament {
             newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
             index++;
         }
-        
-        db.setCompleted(matchPlayed, matchDump.toString(), dateFormat.format(date));
         matchDump = newMatchDump;
+        
+        db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
         //end testing part
         
         //Statistics part
@@ -678,6 +678,18 @@ public class Tournament {
 
     public void setBracketlist(ArrayList<Bracket> bracketlist) {
         this.bracketlist = bracketlist;
+    }
+
+    private String convertHashMapToString(HashMap<String, Map<String, String>> matchDump) {
+        String dbMatchDump = new String();
+        for (Entry<String, Map<String, String>> player : matchDump.entrySet()) {
+            dbMatchDump += player.getKey() + "=";
+            for (Entry<String, String> stat : player.getValue().entrySet()) {
+                dbMatchDump += stat.getKey() + ":" + stat.getValue() + ";";
+            }
+            dbMatchDump += "||";
+        }
+        return dbMatchDump;
     }
     
     
