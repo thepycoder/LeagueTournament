@@ -13,17 +13,17 @@ public class Main {
         Tournament t = new Tournament();
         
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
-        DatabaseHandler db = new DatabaseHandler();
+        DatabaseHandler db = new DatabaseHandler(t);
         
         t.addTeams(db.retrieveTeams());
-       
+        System.out.println(t.getTeamlist());
         //api.getMatchSummary(api.getSummID("Krepo"));
 
         
         //System.out.println(t.getMatchlist());
        
         //t.changeMatch(k.getTeam1(), k.getTeam2(), k.getTimeStamp(), "Victor");
-        
+        //System.out.println(t.getMatchlist());
         //System.out.println(t.getTeamlist());
         //t.removeTeam(t.getTeamlist().get(3).getName());
         //System.out.println(t.getTeamlist());
@@ -42,10 +42,6 @@ public class Main {
             t.addMatches(db.retrieveMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
-        System.out.println(t.getMatchlist());
-        //GuiChangeMatch rr = new GuiChangeMatch(t);
-        //HIER MOET NOG PARENT GUISILKE BIJ
-        //rr.show();
         //t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));
@@ -56,8 +52,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        
-        
+        GuiSilke sg = new GuiSilke(t);
+        sg.show();
         
         
     }

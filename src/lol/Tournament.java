@@ -5,8 +5,11 @@
  */
 package lol;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,7 +26,7 @@ public class Tournament {
     ArrayList<Poule> poulelist = new ArrayList<>();
     ArrayList<Match> matchlist = new ArrayList<>();
     ArrayList<Bracket> bracketlist = new ArrayList<>();
-    DatabaseHandler db = new DatabaseHandler();
+    DatabaseHandler db = new DatabaseHandler(this);
     ApiHandler api = new ApiHandler();
     
     public Tournament() {
@@ -188,8 +191,8 @@ public class Tournament {
     }
     
     public void generateBrackets() {
-        for (int i = 0; i < poulelist.size(); i++) { //generate a bracket for each poule, this will be just right
-            Bracket bracket = new Bracket("Bracket" + (i + 1), poulelist.size());
+        for (int i = 0; i < 4; i++) { //generate a bracket for each poule, this will be just right
+            Bracket bracket = new Bracket("Bracket" + (i + 1), 4);
             bracketlist.add(bracket);
             db.storeBracket(bracket);
         }
@@ -217,7 +220,9 @@ public class Tournament {
         System.out.println(team2);
         
         matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = new Date();
+        db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
         
         //generate statistics piece
         
@@ -344,13 +349,16 @@ public class Tournament {
         Team team1 = searchTeam(ID[ID.length - 2]);
         Team team2 = searchTeam(ID[ID.length - 1]);
         String team1mem = team1.getMembers().get(0).getName();
-        System.out.println(team1mem);
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
-        //matchPlayed.setCompleted("yes");
-        //db.setCompleted(matchPlayed);
+        matchPlayed.setCompleted("yes");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
+        Date date = new Date();
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = team1.getMembers();
+        ArrayList<Player> allPlayers = new ArrayList<>();
+        
+        allPlayers.addAll(team1.getMembers());
+        
         HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
         allPlayers.addAll(team2.getMembers());
         int index = 0;
@@ -358,19 +366,13 @@ public class Tournament {
             newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
             index++;
         }
+        
+        db.setCompleted(matchPlayed, matchDump.toString(), dateFormat.format(date));
         matchDump = newMatchDump;
-        System.out.println(matchDump);
         //end testing part
         
         //Statistics part
-        String teststat = "";
-        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            teststat += entry.getKey() + ": ";
-            teststat += entry.getValue().get("kills") + "/";
-            teststat += entry.getValue().get("deaths") + "/";
-            teststat += entry.getValue().get("assists") + "\n";
-        }
-        System.out.println(teststat);
+        updateStats(matchDump, team1, team2);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -380,12 +382,12 @@ public class Tournament {
                 //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                 poule.addWin(team2);
                 //System.out.println("team " + team2.getName() + " wint");
-                //db.addPouleWin(team2);
+                db.addPouleWin(team2);
             } else {
                 //team1.addWin();
                 poule.addWin(team1);
                 //System.out.println("team " + team1.getName() + " wint");
-                //db.addPouleWin(team1);
+                db.addPouleWin(team1);
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -405,17 +407,17 @@ public class Tournament {
             Team winner = null;
             Bracket bracket = getBracketByMatch(matchPlayed);
             bracket.addMatch(matchPlayed.getMatchID());
-            //db.updateBracket(bracket);
+            db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                //db.addBracketWin(bracket, 2);
+                db.addBracketWin(bracket, 2);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
-                //db.addBracketWin(bracket, 1);
+                db.addBracketWin(bracket, 1);
             }
             
             //step 2: check if last match from bracket
@@ -478,6 +480,80 @@ public class Tournament {
         
     }
     
+    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
+        String teststat = "";
+        System.out.println(team2.getMembers());
+        int kills1 = 0;
+        int kills2 = 0;
+        
+        for (Player player : team1.getMembers()) { // first calc the total amount of kills for each team
+            kills1 += Integer.parseInt(matchDump.get(player.getName()).get("kills"));
+            kills2 += Integer.parseInt(matchDump.get(player.getName()).get("deaths"));
+        }
+        
+        for (Player player : team1.getMembers()) {
+            teststat += player + ": ";
+            double KDA = 0;
+            int CS = 0;
+            double KP = 0;
+            
+            if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
+                KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
+                KDA = Math.round(KDA * 100);
+                KDA = KDA / 100;
+            } else {
+                KDA = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists")));
+            }
+            teststat += "KDA: " + KDA + " ";
+            
+            CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
+            teststat += "CS: " + CS + " ";
+            
+            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills1;
+            KP = Math.round(KP * 100);
+            KP = KP / 100;
+            teststat += "KP: " + KP + "\n";
+            
+            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+            player.setKill_part((player.getKill_part() + KP) / 2);
+            db.updatePlayerStats(player);
+        }
+        
+        for (Player player : team2.getMembers()) {
+            teststat += player + ": ";
+            double KDA = 0;
+            int CS = 0;
+            double KP = 0;
+            
+            if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
+                KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
+                KDA = Math.round(KDA * 100);
+                KDA = KDA / 100;
+            } else {
+                KDA = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists")));
+            }
+            teststat += "KDA: " + KDA + " ";
+            
+            CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
+            teststat += "CS: " + CS + " ";
+            
+            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills2;
+            KP = Math.round(KP * 100);
+            KP = KP / 100;
+            teststat += "KP: " + KP + "\n";
+            
+            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+            player.setKill_part((player.getKill_part() + KP) / 2);
+            db.updatePlayerStats(player);
+        }
+        
+        System.out.println(teststat);
+        System.out.println(kills1);
+        System.out.println(kills2);
+    }
+    
     public void completeBracket(Bracket bracket) {
         Team winningTeam = null;
         
@@ -494,7 +570,7 @@ public class Tournament {
     public void completePoule(Poule poule) {
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
         Team team2 = poule.getSortedTeams().get(1);
-        int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
+        int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
         bracketlist.get(pouleNr).setTeam1(team1);
         if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
             bracketlist.get(pouleNr - 1).setTeam2(team2);
