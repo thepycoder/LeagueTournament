@@ -44,9 +44,6 @@ public class Poule {
     }
     
     public void addWin(Team team) {
-        System.out.println(team);
-        System.out.println(teams);
-        System.out.println(teams.indexOf(team));
         teams.get(teams.indexOf(team)).addWin();
     }
     

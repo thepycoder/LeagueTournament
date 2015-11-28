@@ -359,7 +359,7 @@ public class DatabaseHandler {
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("poulewins"), rs.getInt("tiebreakerwins"));
                 teams.add(team);
             }
             return teams;
@@ -405,6 +405,27 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+    
+   public void addTieBreakerWin(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE name='" + team.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -565,7 +586,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "UPDATE teams SET poulewins=0";
+            String query = "UPDATE teams SET poulewins=0, tiebreakerwins=0";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

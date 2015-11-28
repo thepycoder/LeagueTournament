@@ -224,23 +224,30 @@ public class Tournament {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
-        
-        //generate statistics piece
+
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
-            Poule poule = getPouleByMatch(matchPlayed);
-            
             if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
-                //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
-                poule.addWin(team2);
-                System.out.println("team " + team2.getName() + " wint");
-                db.addPouleWin(team2);
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team2.addTieWin();
+                    db.addTieBreakerWin(team2);
+                } else {
+                    team2.addWin(); 
+                    //poule.addWin(team2);
+                    System.out.println("team " + team2.getName() + " wint");
+                    db.addPouleWin(team2);
+                }
             } else {
-                //team1.addWin();
-                poule.addWin(team1);
-                System.out.println("team " + team1.getName() + " wint");
-                db.addPouleWin(team1);
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team1.addTieWin();
+                    db.addTieBreakerWin(team1);
+                } else {
+                    team1.addWin();
+                    //poule.addWin(team1);
+                    System.out.println("team " + team1.getName() + " wint");
+                    db.addPouleWin(team1);
+                }
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -252,6 +259,7 @@ public class Tournament {
                 }
             }
             if (flag == 0) {
+                Poule poule = getPouleByMatch(matchPlayed);
                 poule.setCompleted("yes");
                 completePoule(poule);
             }
@@ -380,13 +388,13 @@ public class Tournament {
             Poule poule = getPouleByMatch(matchPlayed);
             
             if (!matchDump.get(team1mem).get("winner").equals("true")) { // if team 1 lost add win by other team
-                //team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
-                poule.addWin(team2);
+                team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                //poule.addWin(team2);
                 //System.out.println("team " + team2.getName() + " wint");
                 db.addPouleWin(team2);
             } else {
-                //team1.addWin();
-                poule.addWin(team1);
+                team1.addWin();
+                //poule.addWin(team1);
                 //System.out.println("team " + team1.getName() + " wint");
                 db.addPouleWin(team1);
             }
@@ -572,45 +580,47 @@ public class Tournament {
         
         //since this is hard, i'll be working with cases instead of one completed solution
         List<Team> standing = poule.getSortedTeams();
+        System.out.println(standing);
         //situation 1: 2 team tie for first place
-        if (standing.get(0).getPouleWins() == standing.get(1).getPouleWins()) {
+        if ((standing.get(0).getPouleWins() + standing.get(0).getTieBreakerWins()) == (standing.get(1).getPouleWins() + standing.get(1).getTieBreakerWins())) {
             System.out.println("tiebreaker!");
-            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "-TB", ""); //TB for tiebreaker
+            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
+            matchlist.add(tiebreaker);
             db.storeMatch(tiebreaker);
-        }
+        } else
         //situation 2: 2 team tie for 2nd place
-        if (standing.get(0).getPouleWins() == standing.get(1).getPouleWins()) {
+        if ((standing.get(1).getPouleWins() + standing.get(1).getTieBreakerWins()) == (standing.get(2).getPouleWins() + standing.get(2).getTieBreakerWins())) {
             System.out.println("tiebreaker!");
-            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "-TB", ""); //TB for tiebreaker
+            Match tiebreaker = new Match(standing.get(1).getName(), standing.get(2).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
+            matchlist.add(tiebreaker);
             db.storeMatch(tiebreaker);
-        }
-        
-        System.exit(0);
-        
-        Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
-        Team team2 = poule.getSortedTeams().get(1);
-        int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
-        bracketlist.get(pouleNr).setTeam1(team1);
-        if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
-            bracketlist.get(pouleNr - 1).setTeam2(team2);
         } else {
-            bracketlist.get(pouleNr + 1).setTeam2(team2);
-        }
-        
-        //System.out.println(bracketlist);
-        
-        for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
-            if((bracket.getTeam1() != null && bracket.getTeam2() != null)) {
-                if(bracket.getMatches().isEmpty()) {
-                    Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + bracket.getMatches().size()), "");
-                    matchlist.add(match);
-                    db.storeMatch(match);
-                    bracket.addMatch(match.getMatchID());
-                }
-                db.updateBracket(bracket);
+
+            Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
+            Team team2 = poule.getSortedTeams().get(1);
+            int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
+            bracketlist.get(pouleNr).setTeam1(team1);
+            if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
+                bracketlist.get(pouleNr - 1).setTeam2(team2);
+            } else {
+                bracketlist.get(pouleNr + 1).setTeam2(team2);
             }
+
+            //System.out.println(bracketlist);
+
+            for (Bracket bracket : bracketlist) { //check if any brackets have 2 team and zero matches ie. just filled and add first match to tournament
+                if((bracket.getTeam1() != null && bracket.getTeam2() != null)) {
+                    if(bracket.getMatches().isEmpty()) {
+                        Match match = new Match(bracket.getTeam1().getName(), bracket.getTeam2().getName(), bracket.getName().concat("_" + bracket.getMatches().size()), "");
+                        matchlist.add(match);
+                        db.storeMatch(match);
+                        bracket.addMatch(match.getMatchID());
+                    }
+                    db.updateBracket(bracket);
+                }
+            }
+            
         }
-        
         
     }
     public void updateMatch(String matchID, String date, String official){
@@ -638,7 +648,7 @@ public class Tournament {
     
     public Poule getPouleByMatch(Match match) {
         for (Poule poule : poulelist) {
-            if (match.getType().equals(poule.getName())) {
+            if (match.getType().startsWith(poule.getName())) { //startswith because tiebreakers add the TB mark at the end
                 return poule;
             }
         }
