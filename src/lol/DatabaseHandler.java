@@ -80,7 +80,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "')";
+            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed, datadump) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "', 'to be played')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

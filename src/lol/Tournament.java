@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -568,6 +569,24 @@ public class Tournament {
     }
     
     public void completePoule(Poule poule) {
+        
+        //since this is hard, i'll be working with cases instead of one completed solution
+        List<Team> standing = poule.getSortedTeams();
+        //situation 1: 2 team tie for first place
+        if (standing.get(0).getPouleWins() == standing.get(1).getPouleWins()) {
+            System.out.println("tiebreaker!");
+            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "-TB", ""); //TB for tiebreaker
+            db.storeMatch(tiebreaker);
+        }
+        //situation 2: 2 team tie for 2nd place
+        if (standing.get(0).getPouleWins() == standing.get(1).getPouleWins()) {
+            System.out.println("tiebreaker!");
+            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "-TB", ""); //TB for tiebreaker
+            db.storeMatch(tiebreaker);
+        }
+        
+        System.exit(0);
+        
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
         Team team2 = poule.getSortedTeams().get(1);
         int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
