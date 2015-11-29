@@ -96,7 +96,7 @@ public class DatabaseHandler {
         }
     }
   
-  public void updateMatch(Match match) {
+public void updateMatch(Match match) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
@@ -115,7 +115,7 @@ public class DatabaseHandler {
                 }
             }
         }
-  }
+}
   
   public void updateBracket(Bracket bracket) {
       try {
@@ -127,7 +127,7 @@ public class DatabaseHandler {
                 matches += match + ",";
             }
             
-            String query = "UPDATE brackets SET team1='" + bracket.getTeam1Name() + "', team2='" + bracket.getTeam2Name() + "', matches='" + matches + "', completed='" + bracket.getCompleted() + "', type=" + bracket.getType() + " WHERE name='" + bracket.getName()+ "'";
+            String query = "UPDATE brackets SET team1='" + bracket.getTeam1Name() + "', team2='" + bracket.getTeam2Name() + "', team1score='" + bracket.getTeam1score() + "', team2score='" + bracket.getTeam2score() + "', matches='" + matches + "', completed='" + bracket.getCompleted() + "', type=" + bracket.getType() + " WHERE name='" + bracket.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -378,6 +378,27 @@ public class DatabaseHandler {
         }
    }
     
+    public void updateTeam(Team team) {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET region='" + team.getRegion()+ "', coach='" + team.getCoach()+ "', poulewins=" + team.getPouleWins()+ ", tiebreakerwins=" + team.getTieBreakerWins() + ", member1='" + team.getMembers().get(0) + "', member2='"  + team.getMembers().get(1)+ "', member3='"  + team.getMembers().get(2) + "', member4='"  + team.getMembers().get(3) + "', member5='"  + team.getMembers().get(4)+ "' WHERE name='" + team.getName() + "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
+    
    public void storePlayer(Player player) {
         try {            
             conn = createConnection(url);
@@ -587,6 +608,7 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();
             
             String query = "DELETE FROM brackets";
+            System.out.println(query);
             stmt.executeUpdate(query);
             
         } catch (SQLException ex) {
@@ -602,14 +624,16 @@ public class DatabaseHandler {
         }
    }
    
-   public void resetScores() {
+    public void resetScores() {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=0, tiebreakerwins=0";
+            String query2 = "UPDATE players SET KDA=0, KP=0, CS=0";
             System.out.println(query);
             stmt.executeUpdate(query);
+            stmt.executeUpdate(query2);
         } catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
         } finally {
@@ -621,7 +645,7 @@ public class DatabaseHandler {
                 }
             }
         }
-   }
+    }
    
     public void removeTeam(Team team){
        try {
@@ -646,7 +670,7 @@ public class DatabaseHandler {
         }
    }
    
-   public HashMap<String, HashMap<String, String>> getMatchDump(String matchID) {
+    public HashMap<String, HashMap<String, String>> getMatchDump(String matchID) {
        System.out.println("hey");
         try {
             conn = createConnection(url);
@@ -688,6 +712,6 @@ public class DatabaseHandler {
             }
         }
        
-       return null;
+        return null;
    }
 }

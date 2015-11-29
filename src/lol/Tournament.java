@@ -43,7 +43,7 @@ public class Tournament {
         }
         teamlist.remove(oldTeam);
         teamlist.add(newTeam);
-        
+        db.updateTeam(newTeam);
     }
     
     public void changeMatch(String team1, String team2,String timeStamp, String official){
@@ -99,6 +99,8 @@ public class Tournament {
         for (Player member : members) {
             db.storePlayer(member);
         }
+        generatePoules(teamlist, poulelist.size());
+        generatePouleMatches();
     }
     
     public void addTeams(ArrayList<Team> teams) {
@@ -274,18 +276,19 @@ public class Tournament {
             Team winner = null;
             Bracket bracket = getBracketByMatch(matchPlayed);
             bracket.addMatch(matchPlayed.getMatchID());
-            db.updateBracket(bracket);
             
             //step 1: add win to right team
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                db.addBracketWin(bracket, 2);
+                //db.addBracketWin(bracket, 2);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
-                db.addBracketWin(bracket, 1);
+                //db.addBracketWin(bracket, 1);
             }
+            
+            db.updateBracket(bracket);
             
             //step 2: check if last match from bracket
             
@@ -391,18 +394,26 @@ public class Tournament {
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
-            Poule poule = getPouleByMatch(matchPlayed);
-            
             if (!matchDump.get(team1mem).get("winner").equals("true")) { // if team 1 lost add win by other team
-                team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
-                //poule.addWin(team2);
-                //System.out.println("team " + team2.getName() + " wint");
-                db.addPouleWin(team2);
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team2.addTieWin();
+                    db.addTieBreakerWin(team2);
+                } else {
+                    team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                    //poule.addWin(team2);
+                    //System.out.println("team " + team2.getName() + " wint");
+                    db.addPouleWin(team2);
+                }
             } else {
-                team1.addWin();
-                //poule.addWin(team1);
-                //System.out.println("team " + team1.getName() + " wint");
-                db.addPouleWin(team1);
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team1.addTieWin();
+                    db.addTieBreakerWin(team1);
+                } else {
+                    team1.addWin();
+                    //poule.addWin(team1);
+                    //System.out.println("team " + team1.getName() + " wint");
+                    db.addPouleWin(team1);
+                }
             }
             
             int flag = 0; // if this stays 0, all matches have been played
@@ -415,6 +426,7 @@ public class Tournament {
             }
             
             if (flag == 0) {
+                Poule poule = getPouleByMatch(matchPlayed);
                 if (checkTies(poule)) { //if false, new macthes will have been added to resolve the tie
                     poule.setCompleted("yes");
                     completePoule(poule);
@@ -719,7 +731,10 @@ public class Tournament {
                 }
             }
         }
-        return null;
+        //player doesn't exist yet
+        Player newPlayer = new Player(name);
+        db.storePlayer(newPlayer);
+        return newPlayer;
     }
 
     public ArrayList<Team> getTeamlist() {

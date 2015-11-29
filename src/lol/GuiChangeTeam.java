@@ -299,11 +299,12 @@ public class GuiChangeTeam extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         t.searchTeam(jComboBox1.getSelectedItem().toString()).getMembers().get(0);
         ArrayList<Player> members = new ArrayList<>();
-        members.add(t.getPlayer(jTextField3.getText()));
-        members.add(t.getPlayer(jTextField4.getText()));
-        members.add(t.getPlayer(jTextField5.getText()));
-        members.add(t.getPlayer(jTextField6.getText()));
-        members.add(t.getPlayer(jTextField7.getText()));
+        members.add(t.getPlayer(getjTextField3()));
+        members.add(t.getPlayer(getjTextField4()));
+        members.add(t.getPlayer(getjTextField5()));
+        members.add(t.getPlayer(getjTextField6()));
+        members.add(t.getPlayer(getjTextField7()));
+        System.out.println(members);
         
         t.changeTeam((jComboBox1.getSelectedItem().toString()), jTextField1.getText(), jTextField2.getText(), members);
         
