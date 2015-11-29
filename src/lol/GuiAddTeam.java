@@ -14,7 +14,7 @@ import javax.swing.JTextField;
  *
  * @author stephan
  */
-public class GuiTeam extends javax.swing.JFrame {
+public class GuiAddTeam extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiTeam
@@ -23,7 +23,7 @@ public class GuiTeam extends javax.swing.JFrame {
     public Tournament t;
     public GuiSilke parent;
     
-    public GuiTeam(Tournament t, GuiSilke parent) {
+    public GuiAddTeam(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         initComponents();

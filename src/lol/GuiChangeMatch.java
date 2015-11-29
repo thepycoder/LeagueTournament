@@ -7,6 +7,7 @@ package lol;
 
 import java.awt.AWTEvent;
 import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JComboBox;
@@ -23,7 +24,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
     /**
      * Creates new form GuiMatch
      */
-    public GuiChangeMatch(Tournament t) {
+    public GuiChangeMatch(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         
@@ -41,7 +42,8 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                 matches.add(match.getMatchID());
             }
             
-    }
+        }
+        
         items = matches.toArray(new String[matches.size()]);
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(items));
         String x = jComboBox3.getSelectedItem().toString();
@@ -99,7 +101,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel3.setText("Date");
+        jLabel3.setText("New date");
 
         jLabel4.setText("Official");
 
@@ -121,7 +123,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Match to Plan");
+        jLabel5.setText("Match to Change");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox3.addItemListener(new java.awt.event.ItemListener() {
@@ -129,6 +131,8 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                 jComboBox3ItemStateChanged(evt);
             }
         });
+
+        jDateChooser1.setDateFormatString("yyyy MM dd");
 
         jLabel1.setText("Old date");
 
@@ -157,7 +161,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,13 +186,10 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(37, 37, 37)
@@ -233,10 +234,11 @@ public class GuiChangeMatch extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        
-      
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        t.addMatch(jComboBox3.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField2.getText());
         
-        t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField2.getText());
-        
+        //t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField2.getText());
+        parent.updateList2();
         
         this.dispose();
     }//GEN-LAST:event_jButton1MouseClicked

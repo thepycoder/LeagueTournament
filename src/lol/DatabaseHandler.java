@@ -8,6 +8,7 @@ package lol;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,9 +19,12 @@ import java.util.logging.Logger;
  */
 public class DatabaseHandler {
     
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    //public String user = "BINFG16";
+    //public String pass = "f9xff87y";
+    //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/binfg16";
     Connection conn = null;
     public Tournament t;
     
@@ -55,12 +59,8 @@ public class DatabaseHandler {
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-            String mem = new String();
             
-            for (Player member : members) {
-                mem += member.getName() + ",";
-            }
-            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
+            String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -80,7 +80,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "')";
+            String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed, datadump) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "', 'to be played')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -96,7 +96,7 @@ public class DatabaseHandler {
         }
     }
   
-  public void updateMatch(Match match) {
+public void updateMatch(Match match) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
@@ -115,7 +115,7 @@ public class DatabaseHandler {
                 }
             }
         }
-  }
+}
   
   public void updateBracket(Bracket bracket) {
       try {
@@ -127,7 +127,7 @@ public class DatabaseHandler {
                 matches += match + ",";
             }
             
-            String query = "UPDATE brackets SET team1='" + bracket.getTeam1Name() + "', team2='" + bracket.getTeam2Name() + "', matches='" + matches + "', completed='" + bracket.getCompleted() + "', type=" + bracket.getType() + " WHERE name='" + bracket.getName()+ "'";
+            String query = "UPDATE brackets SET team1='" + bracket.getTeam1Name() + "', team2='" + bracket.getTeam2Name() + "', team1score='" + bracket.getTeam1score() + "', team2score='" + bracket.getTeam2score() + "', matches='" + matches + "', completed='" + bracket.getCompleted() + "', type=" + bracket.getType() + " WHERE name='" + bracket.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -359,7 +359,7 @@ public class DatabaseHandler {
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("poulewins"), rs.getInt("tiebreakerwins"));
                 teams.add(team);
             }
             return teams;
@@ -377,6 +377,48 @@ public class DatabaseHandler {
             }
         }
    }
+    
+    public void updateTeam(Team team) {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET region='" + team.getRegion()+ "', coach='" + team.getCoach()+ "', poulewins=" + team.getPouleWins()+ ", tiebreakerwins=" + team.getTieBreakerWins() + ", member1='" + team.getMembers().get(0) + "', member2='"  + team.getMembers().get(1)+ "', member3='"  + team.getMembers().get(2) + "', member4='"  + team.getMembers().get(3) + "', member5='"  + team.getMembers().get(4)+ "' WHERE name='" + team.getName() + "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
+    
+   public void storePlayer(Player player) {
+        try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+
+            String query = "INSERT INTO players (name) VALUES('" + player.getName() + "')"; 
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
     
     public void updatePlayerStats(Player player) {
         try {
@@ -405,6 +447,27 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+    
+   public void addTieBreakerWin(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE name='" + team.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -545,6 +608,7 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();
             
             String query = "DELETE FROM brackets";
+            System.out.println(query);
             stmt.executeUpdate(query);
             
         } catch (SQLException ex) {
@@ -560,14 +624,16 @@ public class DatabaseHandler {
         }
    }
    
-   public void resetScores() {
+    public void resetScores() {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "UPDATE teams SET poulewins=0";
+            String query = "UPDATE teams SET poulewins=0, tiebreakerwins=0";
+            String query2 = "UPDATE players SET KDA=0, KP=0, CS=0";
             System.out.println(query);
             stmt.executeUpdate(query);
+            stmt.executeUpdate(query2);
         } catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
         } finally {
@@ -579,9 +645,9 @@ public class DatabaseHandler {
                 }
             }
         }
-   }
+    }
    
-   public void removeTeam(Team team){
+    public void removeTeam(Team team){
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();        
@@ -592,7 +658,7 @@ public class DatabaseHandler {
         }
         catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
-   }
+    }
        finally {
             if(conn != null) {
                 try {
@@ -602,5 +668,50 @@ public class DatabaseHandler {
                 }
             }
         }
-   } 
+   }
+   
+    public HashMap<String, HashMap<String, String>> getMatchDump(String matchID) {
+       System.out.println("hey");
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT datadump FROM matches WHERE matchID = '" + matchID + "'";
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                if (!"to be played".equals(rs.getString("datadump"))) {
+                    HashMap<String, HashMap<String, String>> matchSumm = new HashMap<>();
+                    
+                    String dump = rs.getString("datadump");
+                    
+                    dump = dump.substring(1, dump.length() - 1); //substring is to get rid of the brackets
+                    
+                    for (String player : dump.split(", ")) {
+                        HashMap<String, String> stats = new HashMap<>();
+                        String[] nameStats = player.split("=");
+                        System.out.println(nameStats[0]);
+                        //matchSumm.put(player, stats);
+                    }
+                    
+                    return matchSumm;
+                    
+                }
+            }
+            
+            }  
+        catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen teams: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+       
+        return null;
+   }
 }

@@ -98,14 +98,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem7ActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Regenerate into 8 pools"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
-              </Events>
-            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>
@@ -153,14 +145,14 @@
                           <Component id="jScrollPane12" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane13" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane14" max="32767" attributes="0"/>
                           <Component id="jScrollPane15" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane16" alignment="0" max="32767" attributes="0"/>
                           <Component id="jScrollPane17" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane19" alignment="1" pref="150" max="32767" attributes="0"/>
                           <Component id="jScrollPane18" alignment="1" max="32767" attributes="0"/>

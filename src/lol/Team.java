@@ -18,6 +18,7 @@ public class Team implements Comparable<Team> {
     private String coach;
     private ArrayList<Player> members;
     private int pouleWins;
+    private int tieBreakerWins;
 
     public Team ()
     {
@@ -30,6 +31,7 @@ public class Team implements Comparable<Team> {
         this.coach = null;
         this.members = null;
         this.pouleWins = 0;
+        this.tieBreakerWins = 0;
     }
     
     
@@ -39,22 +41,31 @@ public class Team implements Comparable<Team> {
         this.coach = coach;
         this.members = members;
         this.pouleWins = 0;
+        this.tieBreakerWins = 0;
     }
     
-    public Team(String name, String region, String coach, ArrayList<Player> members, int pouleWins) {
+    public Team(String name, String region, String coach, ArrayList<Player> members, int pouleWins, int tieBreakerWins) {
         this.name = name;
         this.region = region;
         this.coach = coach;
         this.members = members;
         this.pouleWins = pouleWins;
+        this.tieBreakerWins = tieBreakerWins;
     }
     
     public void addWin() {
         this.pouleWins += 1;
     }
+    
+    public void addTieWin() {
+        this.tieBreakerWins += 1;
+    }
 
     //getters
 
+    public int getTieBreakerWins() {
+        return tieBreakerWins;
+    }
     public int getPouleWins() {
         return pouleWins;
     }
@@ -131,6 +142,12 @@ public class Team implements Comparable<Team> {
             return -1;
         } else if (t.getPouleWins() > this.pouleWins) {
             return 1;
+        } else if (t.getPouleWins() == this.pouleWins) { //when ordinairy points form a tie
+            if (t.getTieBreakerWins() > this.tieBreakerWins) {
+                return 1;
+            } else {
+                return -1;
+            }
         } else {
             return -1;
         }
