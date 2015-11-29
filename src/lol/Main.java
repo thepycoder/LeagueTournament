@@ -20,7 +20,7 @@ public class Main {
         
         t.addTeams(db.retrieveTeams());
 //        System.out.println(t.getTeamlist());
-        t.completeMatch("Poule2_H2K_Koo Tigers");
+        //t.completeMatch("Poule2_H2K_Koo Tigers");
         //api.getMatchSummary(api.getSummID("Krepo"));
 
         
@@ -47,7 +47,7 @@ public class Main {
             t.setBracketlist(db.retrieveBrackets());
         }
         
-        System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
+        //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
         
         //t.completePoule(t.getPoulelist().get(0));
@@ -58,9 +58,11 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-//        GuiSilke sg = new GuiSilke(t);
-//        sg.show();
-        
+     GuiSilke sg = new GuiSilke(t);
+      sg.show();
+//        GuiChangeMatch k = new GuiChangeMatch(t);
+//        k.show();
+//        
         
     }
 }

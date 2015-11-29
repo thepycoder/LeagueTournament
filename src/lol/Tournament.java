@@ -350,7 +350,6 @@ public class Tournament {
         Team team2 = searchTeam(ID[ID.length - 1]);
         String team1mem = team1.getMembers().get(0).getName();
         HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
-        matchPlayed.setCompleted("yes");
         DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
         
@@ -368,6 +367,7 @@ public class Tournament {
         }
         matchDump = newMatchDump;
         
+        matchPlayed.setCompleted("yes");
         db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
         //end testing part
         
@@ -568,8 +568,13 @@ public class Tournament {
     }
     
     public void completePoule(Poule poule) {
+        
+        //Tiebreaker handling
+        
+        
+        
         Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
-        Team team2 = poule.getSortedTeams().get(1);
+        Team team2 = poule.getSortedTeams().get(1);        
         int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
         bracketlist.get(pouleNr).setTeam1(team1);
         if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
@@ -593,6 +598,19 @@ public class Tournament {
         }
         
         
+    }
+    public void updateMatch(String matchID, String date, String official){
+        String[] ID = matchID.split("_");
+          String team1 = ID[ID.length - 2];
+          String team2 = ID[ID.length - 1];
+         for(Match k: matchlist) {
+             if(k.getMatchID().equals(matchID)){
+                k.setOfficial(official);
+                k.setTimeStamp(date);
+                db.updateMatch(k);
+            }
+         }
+         
     }
     
     public Match getMatchById(String matchID) {
@@ -680,7 +698,7 @@ public class Tournament {
         this.bracketlist = bracketlist;
     }
 
-    private String convertHashMapToString(HashMap<String, Map<String, String>> matchDump) {
+    public String convertHashMapToString(HashMap<String, Map<String, String>> matchDump) {
         String dbMatchDump = new String();
         for (Entry<String, Map<String, String>> player : matchDump.entrySet()) {
             dbMatchDump += player.getKey() + "=";
