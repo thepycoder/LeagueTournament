@@ -225,7 +225,7 @@ public class Tournament {
         System.out.println(team2);
         
         matchPlayed.setCompleted("yes");
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
         db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
 
@@ -599,9 +599,10 @@ public class Tournament {
         
         for (Entry<Integer, ArrayList<Team>> entry : scoreDist.entrySet()) {
             System.out.println("value: " + entry.getValue());
-            if (entry.getValue().size() > 1) { //now we have a tie -> generate the required matches
+            if (entry.getValue().size() > 1) { //now we have a tie -> generate the required matches IF the noraml AND tie scores are the same
                 for(int i = 0 ; i < entry.getValue().size(); i ++){
                     for(int j = i+1 ; j < entry.getValue().size(); j ++){
+                        if (entry.getValue().get(i).getPouleWins() == entry.getValue().get(j).getPouleWins() && entry.getValue().get(i).getTieBreakerWins() == entry.getValue().get(j).getTieBreakerWins())
                         System.out.println(entry.getValue().get(i) + "," + entry.getValue().get(j));
                         flag = false;
                         Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB_" + tieBreakerRound, ""); //TB for tiebreaker
