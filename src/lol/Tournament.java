@@ -602,15 +602,16 @@ public class Tournament {
             if (entry.getValue().size() > 1) { //now we have a tie -> generate the required matches IF the noraml AND tie scores are the same
                 for(int i = 0 ; i < entry.getValue().size(); i ++){
                     for(int j = i+1 ; j < entry.getValue().size(); j ++){
-                        if (entry.getValue().get(i).getPouleWins() == entry.getValue().get(j).getPouleWins() && entry.getValue().get(i).getTieBreakerWins() == entry.getValue().get(j).getTieBreakerWins())
-                        System.out.println(entry.getValue().get(i) + "," + entry.getValue().get(j));
-                        flag = false;
-                        Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB_" + tieBreakerRound, ""); //TB for tiebreaker
-                        if (matchlist.contains(tiebreaker)) {
-                            flag = true; //the tertiairy way of sorting teams in poulelist is supposed to be average time to victory. If the first round of tiebreaker macthes doesn't solve the tie, team are ordened and selected this way
-                        } else {
-                            matchlist.add(tiebreaker);
-                            db.storeMatch(tiebreaker);
+                        if (entry.getValue().get(i).getPouleWins() == entry.getValue().get(j).getPouleWins() && entry.getValue().get(i).getTieBreakerWins() == entry.getValue().get(j).getTieBreakerWins()) {
+                            System.out.println(entry.getValue().get(i) + "," + entry.getValue().get(j));
+                            flag = false;
+                            Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB_" + tieBreakerRound, ""); //TB for tiebreaker
+                            if (matchlist.contains(tiebreaker)) {
+                                flag = true; //the tertiairy way of sorting teams in poulelist is supposed to be average time to victory. If the first round of tiebreaker macthes doesn't solve the tie, team are ordened and selected this way
+                            } else {
+                                matchlist.add(tiebreaker);
+                                db.storeMatch(tiebreaker);
+                            }
                         }
                     }
                 }
@@ -642,8 +643,8 @@ public class Tournament {
                         db.storeMatch(match);
                         bracket.addMatch(match.getMatchID());
                     }
-                    db.updateBracket(bracket);
                 }
+                db.updateBracket(bracket);
             }
         
     }
