@@ -120,7 +120,19 @@ public class Match implements Comparable<Match> {
     public String toString() {
         return matchID + " " + official;
     }
-
+    
+    @Override
+    public boolean equals(Object o) {
+        Match match = (Match) o;
+        if (match == null) {
+            return false;
+        } else if (match.getMatchID().equals(this.matchID)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     @Override
     public int compareTo(Match o) {
 //        if (o.getTimeStamp() == null || "null".equals(o.getTimeStamp()) || this.getTimeStamp() == null || "null".equals(this.getTimeStamp())) {

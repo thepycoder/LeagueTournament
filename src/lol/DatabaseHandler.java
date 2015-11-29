@@ -18,9 +18,12 @@ import java.util.logging.Logger;
  */
 public class DatabaseHandler {
     
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    //public String user = "BINFG16";
+    //public String pass = "f9xff87y";
+    //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/binfg16";
     Connection conn = null;
     public Tournament t;
     

@@ -578,23 +578,43 @@ public class Tournament {
     
     public void completePoule(Poule poule) {
         
-        //since this is hard, i'll be working with cases instead of one completed solution
+        boolean flag = true;
         List<Team> standing = poule.getSortedTeams();
         System.out.println(standing);
-        //situation 1: 2 team tie for first place
-        if ((standing.get(0).getPouleWins() + standing.get(0).getTieBreakerWins()) == (standing.get(1).getPouleWins() + standing.get(1).getTieBreakerWins())) {
-            System.out.println("tiebreaker!");
-            Match tiebreaker = new Match(standing.get(0).getName(), standing.get(1).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
-            matchlist.add(tiebreaker);
-            db.storeMatch(tiebreaker);
-        } else
-        //situation 2: 2 team tie for 2nd place
-        if ((standing.get(1).getPouleWins() + standing.get(1).getTieBreakerWins()) == (standing.get(2).getPouleWins() + standing.get(2).getTieBreakerWins())) {
-            System.out.println("tiebreaker!");
-            Match tiebreaker = new Match(standing.get(1).getName(), standing.get(2).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
-            matchlist.add(tiebreaker);
-            db.storeMatch(tiebreaker);
-        } else {
+        
+        HashMap<Integer, ArrayList<Team>> scoreDist = new HashMap<>();
+        
+        for (Team team : standing) {
+            if(!scoreDist.containsKey(team.getPouleWins() + team.getTieBreakerWins())) {
+                ArrayList<Team> teamsWithTheSameScore = new ArrayList<>();
+                teamsWithTheSameScore.add(team);
+                scoreDist.put(team.getPouleWins() + team.getTieBreakerWins(), teamsWithTheSameScore);
+            } else {
+                scoreDist.get(team.getPouleWins() + team.getTieBreakerWins()).add(team);
+            }
+        }
+        
+        for (Entry<Integer, ArrayList<Team>> entry : scoreDist.entrySet()) {
+            System.out.println("value: " + entry.getValue());
+            if (entry.getValue().size() > 1) { //now we have a tie -> generate the required matches
+                for(int i = 0 ; i < entry.getValue().size(); i ++){
+                    for(int j = i+1 ; j < entry.getValue().size(); j ++){
+                        System.out.println(entry.getValue().get(i) + "," + entry.getValue().get(j));
+                        flag = false;
+                        Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
+                        if (matchlist.contains(tiebreaker)) {
+                            flag = true; //the tertiairy way of sorting teams in poulelist is supposed to be average time to victory. If the first round of tiebreaker macthes doesn't solve the tie, team are ordened and selected this way
+                        } else {
+                            matchlist.add(tiebreaker);
+                            db.storeMatch(tiebreaker);
+                        }
+                    }
+                }
+            }
+        }
+        
+        //System.exit(0);
+        if (flag) {
 
             Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
             Team team2 = poule.getSortedTeams().get(1);
@@ -625,15 +645,15 @@ public class Tournament {
     }
     public void updateMatch(String matchID, String date, String official){
         String[] ID = matchID.split("_");
-          String team1 = ID[ID.length - 2];
-          String team2 = ID[ID.length - 1];
-         for(Match k: matchlist) {
-             if(k.getMatchID().equals(matchID)){
+        String team1 = ID[ID.length - 2];
+        String team2 = ID[ID.length - 1];
+        for(Match k: matchlist) {
+            if(k.getMatchID().equals(matchID)){
                 k.setOfficial(official);
                 k.setTimeStamp(date);
                 db.updateMatch(k);
             }
-         }
+        }
          
     }
     
