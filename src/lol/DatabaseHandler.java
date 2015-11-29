@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import java.beans.PropertyVetoException;
 
 /**
  *
@@ -29,34 +31,33 @@ public class DatabaseHandler {
     
     
     public DatabaseHandler(Tournament t) {
-        this.t = t;
-    }
-    
-    
-    public Connection createConnection(String url) {
         try {
+            this.t = t;
             
-            Class.forName("com.mysql.jdbc.Driver");
+            ComboPooledDataSource cpds = new ComboPooledDataSource();
+            cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
+            cpds.setJdbcUrl(url);
+            cpds.setUser(user);
+            cpds.setPassword(pass);
+            // the settings below are optional -- c3p0 can work with defaults
+            cpds.setMinPoolSize(1);
+            cpds.setAcquireIncrement(1);
+            cpds.setMaxPoolSize(5);
+            cpds.setMaxStatements(180);
             
-            Connection conn = DriverManager.getConnection(url,user,pass);
+            this.conn = cpds.getConnection();
             
-            return conn;
-            
-        } catch (ClassNotFoundException ex) {
-            //Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("The jdbc driver was not found! " + ex);
-            return null;
+        } catch (PropertyVetoException ex) {
+            System.out.println("Driver not found! " + ex);
         } catch (SQLException ex) {
-            //Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("A connection to the databse could not be established! " + ex);
-            return null;
+            System.out.println("Sql problem: " + ex);
         }
-        
+            
     }
     
     public void storeTeam(String name, ArrayList<Player> members, String coach, String region){
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
@@ -76,7 +77,7 @@ public class DatabaseHandler {
     }
   public void storeMatch(Match match){
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "INSERT INTO matches (matchID, team1, team2, timestamp, official, type, completed, datadump) VALUES ('" + match.getMatchID() + "', '" + match.getTeam1() + "', '" + match.getTeam2() + "', '" + match.getTimeStamp() + "', '" + match.getOfficial() + "', '" + match.getType() + "', '" + match.getCompleted() + "', 'to be played')";
@@ -97,7 +98,7 @@ public class DatabaseHandler {
   
   public void updateMatch(Match match) {
       try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE matches SET timestamp='" + match.getTimeStamp()+ "', official='" + match.getOfficial() + "' WHERE matchID='" + match.getMatchID() + "'";
@@ -118,7 +119,7 @@ public class DatabaseHandler {
   
   public void updateBracket(Bracket bracket) {
       try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String matches = new String();
@@ -144,7 +145,7 @@ public class DatabaseHandler {
   
   public void storePoule(Poule poule){
         try {            
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement(); 
             
             String teams = "'";
@@ -172,7 +173,7 @@ public class DatabaseHandler {
       ArrayList<Poule> poules = new ArrayList<>();
        
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM poules";
@@ -211,7 +212,7 @@ public class DatabaseHandler {
       ArrayList<Bracket> brackets = new ArrayList<>();
        
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM brackets";
@@ -261,7 +262,7 @@ public class DatabaseHandler {
   
    public void storeBracket(Bracket bracket){
         try {            
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             String matches = new String();
             for (String match : bracket.getMatches()) {
@@ -287,7 +288,7 @@ public class DatabaseHandler {
        
        ArrayList<Double> stats = new ArrayList<>();
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM players WHERE name = '" + playername + "'";
@@ -321,13 +322,13 @@ public class DatabaseHandler {
         ArrayList<Team> teams = new ArrayList<>();
        
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM teams";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
-                System.out.println(rs.getString("name"));
+                //System.out.println(rs.getString("name"));
                 //Retrieve by column name
                 ArrayList<Player> members = new ArrayList<>();
                 ArrayList<Double> stats = null;
@@ -379,7 +380,7 @@ public class DatabaseHandler {
     
    public void storePlayer(Player player) {
         try {            
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
             String query = "INSERT INTO players (name) VALUES('" + player.getName() + "')"; 
@@ -400,7 +401,7 @@ public class DatabaseHandler {
     
     public void updatePlayerStats(Player player) {
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE players SET KDA=" + player.getKDA_ratio() + ", KP=" + player.getKill_part() + ", CS = " + player.getCS_ratio() + " WHERE name='" + player.getName()+ "'";
@@ -421,7 +422,7 @@ public class DatabaseHandler {
    
     public void addPouleWin(Team team) {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
@@ -442,7 +443,7 @@ public class DatabaseHandler {
     
    public void addTieBreakerWin(Team team) {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE name='" + team.getName()+ "'";
@@ -463,7 +464,7 @@ public class DatabaseHandler {
    
    public void addBracketWin(Bracket bracket, int teamNr) {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             String query = "";
             
@@ -489,7 +490,7 @@ public class DatabaseHandler {
    
     public void setCompleted(Match match, String matchDump, String timestamp) {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE matches SET completed='yes', timestamp='" + timestamp + "', datadump='" + matchDump + "' WHERE matchID='" + match.getMatchID()+ "'";
@@ -512,7 +513,7 @@ public class DatabaseHandler {
         ArrayList<Match> matches = new ArrayList<>();
        
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "SELECT * FROM matches";
@@ -540,7 +541,7 @@ public class DatabaseHandler {
 
    public void resetMatches() {
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "DELETE FROM matches";
@@ -561,7 +562,7 @@ public class DatabaseHandler {
    
    public void resetPoules() {
         try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "DELETE FROM poules";
@@ -582,7 +583,7 @@ public class DatabaseHandler {
    
    public void resetBrackets() {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();
             
             String query = "DELETE FROM brackets";
@@ -603,7 +604,7 @@ public class DatabaseHandler {
    
    public void resetScores() {
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=0, tiebreakerwins=0";
@@ -624,7 +625,7 @@ public class DatabaseHandler {
    
    public void removeTeam(Team team){
        try {
-            conn = createConnection(url);
+            //conn = createConnection(url);
             Statement stmt = conn.createStatement();        
             
             String query = "DELETE FROM teams WHERE name = '" + team.getName() + "'";
