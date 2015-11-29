@@ -260,8 +260,10 @@ public class Tournament {
             }
             if (flag == 0) {
                 Poule poule = getPouleByMatch(matchPlayed);
-                poule.setCompleted("yes");
-                completePoule(poule);
+                if (checkTies(poule)) { //if false, new macthes will have been added to resolve the tie
+                    poule.setCompleted("yes");
+                    completePoule(poule);
+                }
             }
         } else if(matchPlayed.getType().startsWith("Bracket")) {
             
@@ -407,9 +409,12 @@ public class Tournament {
                     }
                 }
             }
+            
             if (flag == 0) {
-                poule.setCompleted("yes");
-                completePoule(poule);
+                if (checkTies(poule)) { //if false, new macthes will have been added to resolve the tie
+                    poule.setCompleted("yes");
+                    completePoule(poule);
+                }
             }
         } else if(matchPlayed.getType().startsWith("Bracket")) {
             
@@ -563,24 +568,18 @@ public class Tournament {
         System.out.println(kills2);
     }
     
-    public void completeBracket(Bracket bracket) {
-        Team winningTeam = null;
-        
-        if(bracket.getTeam1score() > bracket.getTeam2score()) {
-            winningTeam = bracket.getTeam1();
-        } else {
-            winningTeam = bracket.getTeam2();
-        }
-        
-        
-        
-    }
-    
-    public void completePoule(Poule poule) {
-        
+    public boolean checkTies(Poule poule) {
         boolean flag = true;
         List<Team> standing = poule.getSortedTeams();
         System.out.println(standing);
+        
+        int tieBreakerRound = 1;
+        
+        for (Match match : matchlist) {
+            if (match.getType().startsWith(poule.getName() + "_TB_")) { //if the match is a tiebreaker
+                tieBreakerRound = Integer.parseInt(match.getType().split("_")[2]) + 1; //this is a numbering system to prevent the matches from having the same id when a tiebreaker round ends up with yet another tie
+            }
+        }
         
         HashMap<Integer, ArrayList<Team>> scoreDist = new HashMap<>();
         
@@ -601,7 +600,7 @@ public class Tournament {
                     for(int j = i+1 ; j < entry.getValue().size(); j ++){
                         System.out.println(entry.getValue().get(i) + "," + entry.getValue().get(j));
                         flag = false;
-                        Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB", ""); //TB for tiebreaker
+                        Match tiebreaker = new Match(entry.getValue().get(i).getName(), entry.getValue().get(j).getName(), poule.getName() + "_TB_" + tieBreakerRound, ""); //TB for tiebreaker
                         if (matchlist.contains(tiebreaker)) {
                             flag = true; //the tertiairy way of sorting teams in poulelist is supposed to be average time to victory. If the first round of tiebreaker macthes doesn't solve the tie, team are ordened and selected this way
                         } else {
@@ -613,8 +612,10 @@ public class Tournament {
             }
         }
         
-        //System.exit(0);
-        if (flag) {
+        return flag; //if flag is false, the poule contains ties
+    }
+    
+    public void completePoule(Poule poule) {
 
             Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
             Team team2 = poule.getSortedTeams().get(1);
@@ -639,8 +640,6 @@ public class Tournament {
                     db.updateBracket(bracket);
                 }
             }
-            
-        }
         
     }
     public void updateMatch(String matchID, String date, String official){
