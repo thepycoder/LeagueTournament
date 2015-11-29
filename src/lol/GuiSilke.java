@@ -142,7 +142,6 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -293,14 +292,6 @@ public class GuiSilke extends javax.swing.JFrame {
             }
         });
         jMenu4.add(jMenuItem10);
-
-        jMenuItem11.setText("Delete all Matches");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem11);
 
         jMenuBar1.add(jMenu4);
 
@@ -466,12 +457,6 @@ public class GuiSilke extends javax.swing.JFrame {
         updateBrackets();
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        t.resetMatches();
-        updateList2();
-        updateList3();
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         GuiCompleteMatch gcm = new GuiCompleteMatch(t, this);
         gcm.show();
@@ -632,7 +617,6 @@ public class GuiSilke extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
