@@ -19,9 +19,12 @@ import java.util.logging.Logger;
  */
 public class DatabaseHandler {
     
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    //public String user = "BINFG16";
+    //public String pass = "f9xff87y";
+    //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/binfg16";
     Connection conn = null;
     public Tournament t;
     
@@ -56,12 +59,8 @@ public class DatabaseHandler {
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-            String mem = new String();
             
-            for (Player member : members) {
-                mem += member.getName() + ",";
-            }
-            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
+            String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -360,7 +359,7 @@ public class DatabaseHandler {
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("pouleWins"));
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), members, rs.getInt("poulewins"), rs.getInt("tiebreakerwins"));
                 teams.add(team);
             }
             return teams;
@@ -378,6 +377,27 @@ public class DatabaseHandler {
             }
         }
    }
+    
+   public void storePlayer(Player player) {
+        try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+
+            String query = "INSERT INTO players (name) VALUES('" + player.getName() + "')"; 
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
     
     public void updatePlayerStats(Player player) {
         try {
@@ -406,6 +426,27 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET poulewins=" + team.getPouleWins() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+    
+   public void addTieBreakerWin(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE name='" + team.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -566,7 +607,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
-            String query = "UPDATE teams SET poulewins=0";
+            String query = "UPDATE teams SET poulewins=0, tiebreakerwins=0";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

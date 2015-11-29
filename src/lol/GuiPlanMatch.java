@@ -6,6 +6,7 @@
 package lol;
 
 import com.toedter.calendar.JDateChooser;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.ComboBoxModel;
@@ -133,6 +134,8 @@ public class GuiPlanMatch extends javax.swing.JFrame {
             }
         });
 
+        jDateChooser1.setDateFormatString("yyyy MM dd");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,7 +187,8 @@ public class GuiPlanMatch extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         //System.out.println(jDateChooser1.getDate());
-        t.addMatch(jComboBox1.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField1.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        t.addMatch(jComboBox1.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField1.getText());
         parent.updateList2();
         parent.updateList3();
         this.dispose();

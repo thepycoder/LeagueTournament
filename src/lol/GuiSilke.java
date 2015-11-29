@@ -142,11 +142,9 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
 
         jScrollPane3.setViewportView(jTree1);
 
@@ -294,14 +292,6 @@ public class GuiSilke extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem10);
 
-        jMenuItem11.setText("Delete all Matches");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem11);
-
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Poule");
@@ -321,14 +311,6 @@ public class GuiSilke extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenuItem7);
-
-        jMenuItem8.setText("Regenerate into 8 pools");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem8);
 
         jMenuBar1.add(jMenu5);
 
@@ -427,7 +409,7 @@ public class GuiSilke extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        GuiTeam gt = new GuiTeam(t, this);
+        GuiAddTeam gt = new GuiAddTeam(t, this);
         gt.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -456,22 +438,6 @@ public class GuiSilke extends javax.swing.JFrame {
         updateBrackets();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        t.generatePoules(t.getTeamlist(), 8);
-        updateTable();
-        t.resetMatches();
-        t.generatePouleMatches();
-        updateList2();
-        updateList3();
-        updateBrackets();
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        t.resetMatches();
-        updateList2();
-        updateList3();
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
-
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         GuiCompleteMatch gcm = new GuiCompleteMatch(t, this);
         gcm.show();
@@ -488,7 +454,7 @@ public class GuiSilke extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        GuiChangeMatch k = new GuiChangeMatch(t);
+        GuiChangeMatch k = new GuiChangeMatch(t, this);
         k.show();
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
@@ -520,13 +486,13 @@ public class GuiSilke extends javax.swing.JFrame {
         
         ArrayList<String> plannedMatches = new ArrayList<>();
         ArrayList<Match> matchlist = t.getMatchlist();
-        Collections.sort(t.getMatchlist());
         for (Match match : matchlist) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null") || match.getCompleted().equals("yes"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
                 plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
             }
         }
+        Collections.sort(plannedMatches, new DateComparator());
         planned = plannedMatches.toArray(new String[plannedMatches.size()]);
         
         jList2.setModel(new javax.swing.AbstractListModel() {
@@ -632,14 +598,12 @@ public class GuiSilke extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
