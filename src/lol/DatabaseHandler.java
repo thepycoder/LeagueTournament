@@ -58,12 +58,8 @@ public class DatabaseHandler {
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-            String mem = new String();
             
-            for (Player member : members) {
-                mem += member.getName() + ",";
-            }
-            String query = "INSERT INTO teams (name, region, members, coach) VALUES ('" + name + "', '" + region + "', '" + mem + "', '" + coach + "')";
+            String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -380,6 +376,27 @@ public class DatabaseHandler {
             }
         }
    }
+    
+   public void storePlayer(Player player) {
+        try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+
+            String query = "INSERT INTO players (name) VALUES('" + player.getName() + "')"; 
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
     
     public void updatePlayerStats(Player player) {
         try {

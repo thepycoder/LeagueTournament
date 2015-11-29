@@ -68,6 +68,7 @@ public class Tournament {
             }
         }
         teamlist.remove(wrongTeam);
+        db.removeTeam(wrongTeam);
         for(Poule p: poulelist){
             if(p.getTeams().contains(wrongTeam)){
                 p.getTeams().remove(wrongTeam);
@@ -95,6 +96,9 @@ public class Tournament {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
         db.storeTeam(name, members, coach, region);
+        for (Player member : members) {
+            db.storePlayer(member);
+        }
     }
     
     public void addTeams(ArrayList<Team> teams) {
