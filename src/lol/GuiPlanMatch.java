@@ -9,6 +9,7 @@ import com.toedter.calendar.JDateChooser;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -92,6 +93,7 @@ public class GuiPlanMatch extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jOptionPane1 = new javax.swing.JOptionPane();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel3 = new javax.swing.JLabel();
@@ -186,12 +188,20 @@ public class GuiPlanMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        //System.out.println(jDateChooser1.getDate());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
-        t.addMatch(jComboBox1.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField1.getText());
-        parent.updateList2();
-        parent.updateList3();
-        this.dispose();
+        //System.out.println(jDateChooser1.getDate());      
+       Date date;
+       date = jDateChooser1.getDate();
+       
+        if (date == null) {               
+            jOptionPane1.showMessageDialog(null, "No date entered");            
+            }
+        else{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+            t.addMatch(jComboBox1.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField1.getText());
+            parent.updateList2();
+            parent.updateList3();
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -211,6 +221,7 @@ public class GuiPlanMatch extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
