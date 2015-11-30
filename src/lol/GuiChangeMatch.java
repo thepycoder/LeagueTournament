@@ -235,9 +235,9 @@ public class GuiChangeMatch extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
-        t.addMatch(jComboBox3.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField2.getText());
+        //t.addMatch(jComboBox3.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField2.getText());
         
-        //t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField2.getText());
+        t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField2.getText());
         parent.updateList2();
         
         this.dispose();

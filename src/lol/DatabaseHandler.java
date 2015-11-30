@@ -24,7 +24,7 @@ public class DatabaseHandler {
     //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
     public String user = "root";
     public String pass = "";
-    public String url = "jdbc:mysql://localhost/binfg16";
+    public String url = "jdbc:mysql://localhost/BINFG16";
     Connection conn = null;
     public Tournament t;
     
@@ -268,7 +268,8 @@ public void updateMatch(Match match) {
             for (String match : bracket.getMatches()) {
                 matches += match + ",";
             }
-            String query = "INSERT INTO brackets (name, team1, team2, matches, completed, type) VALUES('" + bracket.getName() + "', '" + bracket.getTeam1Name() + "', '" + bracket.getTeam2Name() + "', '" + matches + "', '" + bracket.getCompleted() + "', " +  bracket.getType() + ")"; 
+            //String query = "INSERT INTO brackets (name, team1, team2, matches, completed, type) VALUES('" + bracket.getName() + "', '" + bracket.getTeam1Name() + "', '" + bracket.getTeam2Name() + "', '" + matches + "', '" + bracket.getCompleted() + "', " +  bracket.getType() + ")";
+            String query = "INSERT INTO brackets (name, matches, completed, type) VALUES('" + bracket.getName() + "', '" + matches + "', '" + bracket.getCompleted() + "', " +  bracket.getType() + ")";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {

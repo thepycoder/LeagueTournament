@@ -5,8 +5,6 @@
  */
 package lol;
 
-import java.util.HashMap;
-
 /**
  *
  * @author Temp
