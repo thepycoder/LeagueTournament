@@ -489,7 +489,7 @@ public class GuiSilke extends javax.swing.JFrame {
         for (Match match : matchlist) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null") || match.getCompleted().equals("yes"))) {
                     //items[i] = to.getMatchlist().get(i).getMatchID();
-                plannedMatches.add(match.getTimeStamp() + " :    " + match.getMatchID());
+                plannedMatches.add(match.getTimeStamp() + " :    " + match.getTeam1() + " vs " + match.getTeam2());
             }
         }
         Collections.sort(plannedMatches, new DateComparator());
@@ -512,7 +512,7 @@ public class GuiSilke extends javax.swing.JFrame {
         ArrayList<Match> matchlist = t.getMatchlist();
         for (Match match : matchlist) {
             if ((match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {
-                unPlannedMatches.add(match.getMatchID());
+                unPlannedMatches.add(match.getTeam1() + " vs " + match.getTeam2());
             }
         }
         unplanned = unPlannedMatches.toArray(new String[unPlannedMatches.size()]);
