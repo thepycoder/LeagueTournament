@@ -82,6 +82,7 @@ public class GuiAddTeam extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -225,6 +226,27 @@ public class GuiAddTeam extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        String[] namen = new String[5];
+        namen[0] = getjTextField4();
+        namen[1] = getjTextField5();
+        namen[2] = getjTextField6();
+        namen[3] = getjTextField7();
+        namen[4] = getjTextField8();
+        boolean h = true;
+        for(String k: namen){
+            if(k.isEmpty()){
+                h = false;
+            }
+        }
+        if(jTextField1.getText().isEmpty()){
+            jOptionPane1.showMessageDialog(null, "No teamname entered");
+        }
+        else if(h == false) {
+            jOptionPane1.showMessageDialog(null, "Not all teammembers entered");
+                
+            }
+        
+        else{
         ArrayList<Player> GuiMembers = new ArrayList<>();
         GuiMembers.add(new Player(getjTextField4()));
         GuiMembers.add(new Player(getjTextField5()));
@@ -234,6 +256,7 @@ public class GuiAddTeam extends javax.swing.JFrame {
         t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());
         parent.updateList1();
         this.dispose();
+        }
         
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -266,6 +289,7 @@ public class GuiAddTeam extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

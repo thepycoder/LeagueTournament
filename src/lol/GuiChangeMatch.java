@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JComboBox;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -233,7 +234,20 @@ public class GuiChangeMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-       
+        String oldDate = "";
+        String x = jComboBox3.getSelectedItem().toString();
+        for(Match k: t.getMatchlist()){
+            if(k.getMatchID().equals(x)){
+                oldDate = k.getTimeStamp();
+            }
+        }
+        Date date;
+        date = jDateChooser1.getDate();       
+        if(date == null){
+           t.addMatch(jComboBox3.getSelectedItem().toString(), oldDate, jTextField2.getText()); 
+           this.dispose();
+        }
+        else{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
         t.addMatch(jComboBox3.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField2.getText());
         
@@ -241,6 +255,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         parent.updateList2();
         
         this.dispose();
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     
