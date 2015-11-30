@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import static java.util.regex.Pattern.matches;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 /**

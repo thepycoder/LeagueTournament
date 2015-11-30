@@ -151,6 +151,14 @@ public class Tournament {
         db.resetBrackets();
         db.resetScores();
         
+        for (Team team : teamlist) { // reset all local scores
+            for (Player player : team.getMembers()) {
+                player.setCS_ratio(0);
+                player.setKDA_ratio(0);
+                player.setKill_part(0);
+            }
+        }
+        
         this.poulelist = new ArrayList<>();
         this.bracketlist = new ArrayList<>(); //brackets are depending on poules
         
@@ -539,14 +547,23 @@ public class Tournament {
             CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
             teststat += "CS: " + CS + " ";
             
-            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills1;
+            //System.out.println(player.getName() + " " + matchDump.get(player.getName()).get("kills") + " " + matchDump.get(player.getName()).get("assists") + " " + kills1 + ((11 + 7)/27));
+            KP = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / (double) (kills1);
             KP = Math.round(KP * 100);
             KP = KP / 100;
             teststat += "KP: " + KP + "\n";
             
-            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
-            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
-            player.setKill_part((player.getKill_part() + KP) / 2);
+            if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
+                System.out.println("hey");
+                player.setKDA_ratio(KDA);
+                player.setCS_ratio(CS);
+                player.setKill_part(KP);
+            } else {
+                System.out.println("hey2");
+                player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+                player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+                player.setKill_part((player.getKill_part() + KP) / 2);
+            }
             db.updatePlayerStats(player);
         }
         
@@ -568,14 +585,22 @@ public class Tournament {
             CS = Integer.parseInt(matchDump.get(player.getName()).get("minionsKilled")) + Integer.parseInt(matchDump.get(player.getName()).get("neutralMinionsKilled"));
             teststat += "CS: " + CS + " ";
             
-            KP = Double.parseDouble(matchDump.get(player.getName()).get("kills")) / kills2;
+            KP = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / (double) kills2;
             KP = Math.round(KP * 100);
             KP = KP / 100;
             teststat += "KP: " + KP + "\n";
             
-            player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
-            player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
-            player.setKill_part((player.getKill_part() + KP) / 2);
+            if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
+                System.out.println("hey");
+                player.setKDA_ratio(KDA);
+                player.setCS_ratio(CS);
+                player.setKill_part(KP);
+            } else {
+                System.out.println("hey2");
+                player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
+                player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
+                player.setKill_part((player.getKill_part() + KP) / 2);
+            }
             db.updatePlayerStats(player);
         }
         
