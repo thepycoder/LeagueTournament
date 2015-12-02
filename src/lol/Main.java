@@ -16,6 +16,7 @@ public class Main {
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
         DatabaseHandler db = new DatabaseHandler(t);
         
+        //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
 //        System.out.println(t.getTeamlist());
         //t.completeMatch("Poule2_H2K_Koo Tigers");

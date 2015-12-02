@@ -147,6 +147,7 @@ public class Tournament {
     }
 
     public void generatePoules(ArrayList<Team> teamlist, int amountOfPoules) {
+        db.resetMatches();
         db.resetPoules();
         db.resetBrackets();
         db.resetScores();
