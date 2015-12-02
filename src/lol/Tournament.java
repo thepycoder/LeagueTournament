@@ -303,7 +303,7 @@ public class Tournament {
             
             if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de bracket gedaan
                 bracket.setCompleted("yes");
-                String bracketNr = bracket.getName().substring(bracket.getName().length() - 1);
+                String bracketNr = bracket.getName().substring(bracket.getName().length() - 1); //in de database staat deze appart
                 
                 Bracket sem1 = bracketlist.get(4);
                 Bracket sem2 = bracketlist.get(5);
@@ -330,6 +330,8 @@ public class Tournament {
                     if ((sem2.getTeam1() != null && sem2.getTeam2() != null) && sem2.getMatches().isEmpty()) {
                         addBracketMatch(sem2);
                     }
+                    db.updateBracket(sem1);
+                    db.updateBracket(sem2);
                     
                 } else if (bracket.getType() == 2) { //semifinal
                     //check if final bracket already exists
@@ -346,6 +348,7 @@ public class Tournament {
                     if (fin.getTeam1() != null && fin.getTeam2() != null){
                         addBracketMatch(fin); //ony add match when both teams are set
                     }
+                    db.updateBracket(fin);
                     
                 } else if (bracket.getType() == 1) { //final
                     System.out.println("feest tis gedaan");
