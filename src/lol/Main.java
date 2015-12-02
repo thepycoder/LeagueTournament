@@ -41,7 +41,8 @@ public class Main {
             t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
-            t.addMatches(db.retrieveMatches());
+            t.addMatches(db.retrieveBracketMatches());
+            t.addMatches(db.retrievePouleMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
         
