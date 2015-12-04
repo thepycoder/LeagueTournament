@@ -16,6 +16,7 @@ public class Main {
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
         DatabaseHandler db = new DatabaseHandler(t);
         
+        //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
 //        System.out.println(t.getTeamlist());
         //t.completeMatch("Poule2_H2K_Koo Tigers");
@@ -41,7 +42,8 @@ public class Main {
             t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
-            t.addMatches(db.retrieveMatches());
+            t.addMatches(db.retrieveBracketMatches());
+            t.addMatches(db.retrievePouleMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
         
