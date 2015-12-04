@@ -19,7 +19,7 @@ public class Main {
         //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
         t.addOfficials(db.retrieveOfficials());
-        System.out.println(t.getOfficials());
+        
         
 //        System.out.println(t.getTeamlist());
         //t.completeMatch("Poule2_H2K_Koo Tigers");

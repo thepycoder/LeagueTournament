@@ -17,7 +17,7 @@ public class GuiRemoveOfficial extends javax.swing.JFrame {
     public Tournament t;
     public GuiSilke parent;
     public String[] items;
-    public GuiRemoveOfficial(Tournament t) {
+    public GuiRemoveOfficial(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         initComponents();
