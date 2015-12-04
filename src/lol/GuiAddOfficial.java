@@ -16,7 +16,7 @@ public class GuiAddOfficial extends javax.swing.JFrame {
     public Tournament t;
     public GuiSilke parent;
     public GuiAddOfficial(Tournament t, GuiSilke parent) {
-       this.parent = parent;
+        this.parent = parent;
         this.t = t;
         initComponents();
         setTitle("Add a new official");
