@@ -6,6 +6,7 @@
 package lol;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -50,6 +51,7 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
 
@@ -98,14 +100,27 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        t.removeTeam(t.searchTeam(jComboBox1.getSelectedItem().toString()).getName());
-        parent.updateList1();
-        this.dispose();
+        
+     int selectedOption = JOptionPane.showConfirmDialog(null, 
+                                  "Are you sure you want to remove the team?","", 
+                                  JOptionPane.YES_NO_OPTION); 
+     if (selectedOption == JOptionPane.YES_OPTION) {
+                t.removeTeam(t.searchTeam(jComboBox1.getSelectedItem().toString()).getName());
+                parent.updateList1();
+                this.dispose();
+     }
+
+   
+    //JOptionPane optionPane = new JOptionPane(
+               // "Are you sure you want to remove this?",
+               // JOptionPane.QUESTION_MESSAGE,
+               // JOptionPane.YES_NO_OPTION);
     }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JOptionPane jOptionPane1;
     // End of variables declaration//GEN-END:variables
 }
