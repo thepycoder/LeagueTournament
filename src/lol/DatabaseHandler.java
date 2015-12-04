@@ -352,11 +352,13 @@ public void updateMatch(Match match) {
             
             String query = "SELECT * FROM officials";
             ResultSet rs = stmt.executeQuery(query);         
-            
+            while(rs.next()) {
+                officials.add(rs.getString("name"));                
+            }
             return officials;
             
         } catch (SQLException ex) {
-            System.out.println("Probleem bij ophalen teams: " + ex);
+            System.out.println("Probleem bij ophalen officials: " + ex);
             return null;
         } finally {
             if(conn != null) {

@@ -6,6 +6,7 @@
 package lol;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,6 +41,7 @@ public class GuiRemoveOfficial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jOptionPane1 = new javax.swing.JOptionPane();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
@@ -89,7 +91,14 @@ public class GuiRemoveOfficial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       t.removeOfficial(jComboBox1.getSelectedItem().toString());
+      int selectedOption = JOptionPane.showConfirmDialog(null, 
+                                  "Are you sure you want to remove " + jComboBox1.getSelectedItem().toString() + " as official?","", 
+                                  JOptionPane.YES_NO_OPTION); 
+     if (selectedOption == JOptionPane.YES_OPTION) {
+                t.removeOfficial(jComboBox1.getSelectedItem().toString());                
+                //parent.updateList1();
+                this.dispose();  }      
+     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -101,5 +110,6 @@ public class GuiRemoveOfficial extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JOptionPane jOptionPane1;
     // End of variables declaration//GEN-END:variables
 }

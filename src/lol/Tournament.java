@@ -98,8 +98,9 @@ public class Tournament {
     }
     
     public void removeOfficial(String name){
-        officials.remove(name);
-        db.removeOfficial(name);
+       officials.remove(name);
+       db.removeOfficial(name);
+        
     }
     public void addOfficials(ArrayList<String> officialz){
         for(String k : officialz){
