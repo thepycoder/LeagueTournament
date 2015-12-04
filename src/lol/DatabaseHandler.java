@@ -33,6 +33,9 @@ public class DatabaseHandler {
         this.t = t;
     }
     
+    public DatabaseHandler() {
+        this.t = null;
+    }
     
     public Connection createConnection(String url) {
         try {
@@ -542,7 +545,7 @@ public void updateMatch(Match match) {
             ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"), rs.getString("completed"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("type"), rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"));
                 matches.add(match);
             }
             return matches;
@@ -714,5 +717,30 @@ public void updateMatch(Match match) {
         }
        
         return null;
+   }
+    
+    
+    public ResultSet CustomSQL(String query){
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
+            
+            return rs;
+        }
+        catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+            return null;
+        } finally {
+           if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
    }
 }

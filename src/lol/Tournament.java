@@ -53,7 +53,7 @@ public class Tournament {
             oldMatch = k;
                     }
         }
-        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, timeStamp, oldMatch.getType(), official, oldMatch.getCompleted());
+        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, timeStamp, oldMatch.getType(), official, oldMatch.getCompleted(), oldMatch.getTieBreaker());
         newMatch.setType(oldMatch.getType());
         matchlist.remove(oldMatch);
         matchlist.add(newMatch);

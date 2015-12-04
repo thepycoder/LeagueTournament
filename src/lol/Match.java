@@ -26,6 +26,7 @@ public class Match implements Comparable<Match> {
     private String timeStamp;
     private String official;
     private String completed;
+    private String tieBreaker;
     
     //constructor
 
@@ -40,7 +41,7 @@ public class Match implements Comparable<Match> {
         this.completed = "no";
     }
     
-    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official, String completed) {
+    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official, String completed, String tieBreaker) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
@@ -48,10 +49,14 @@ public class Match implements Comparable<Match> {
         this.official = official;
         this.type = type;
         this.completed = completed;
+        this.tieBreaker = tieBreaker;
     }
     
     //getter
 
+    public String getTieBreaker() {
+        return tieBreaker;
+    }
     public String getMatchID() {
         return matchID;
     }
