@@ -74,12 +74,21 @@ public class Team implements Comparable<Team> {
         this.tieBreakerWins += 1;
     }
     
+    public void addTieLoss(){
+        this.tieBreakerLosses +=1;
+    }
+    
 
     //getters
 
     public int getTieBreakerWins() {
         return tieBreakerWins;
     }
+
+    public int getTieBreakerLosses() {
+        return tieBreakerLosses;
+    }
+    
     public int getPouleWins() {
         return pouleWins;
     }
@@ -136,8 +145,11 @@ public class Team implements Comparable<Team> {
     public void setTieBreakerWins(int tieBreakerWins) {
         this.tieBreakerWins = tieBreakerWins;
     }
-    
 
+    public void setTieBreakerLosses(int tieBreakerLosses) {
+        this.tieBreakerLosses = tieBreakerLosses;
+    }
+    
     @Override
     public String toString() {
         return name;
