@@ -16,9 +16,14 @@ public class Team implements Comparable<Team> {
     private String name;
     private String region;
     private String coach;
+    private double barons;
+    private double golds;
+    private double dragons;
     private ArrayList<Player> members;
     private int pouleWins;
+    private int pouleLosses;
     private int tieBreakerWins;
+    private int tieBreakerLosses;
 
     public Team ()
     {
@@ -29,9 +34,14 @@ public class Team implements Comparable<Team> {
         this.name = name;
         this.region = null;
         this.coach = null;
+        this.barons = 0.0;
+        this.golds = 0.0;
+        this.dragons = 0.0;
         this.members = null;
         this.pouleWins = 0;
+        this.pouleLosses = 0;
         this.tieBreakerWins = 0;
+        this.tieBreakerLosses = 0;
     }
     
     
@@ -39,35 +49,64 @@ public class Team implements Comparable<Team> {
         this.name = name;
         this.region = region;
         this.coach = coach;
+        this.barons = 0.0;
+        this.golds = 0.0;
+        this.dragons = 0.0;
         this.members = members;
         this.pouleWins = 0;
+        this.pouleLosses = 0;
         this.tieBreakerWins = 0;
+        this.tieBreakerLosses = 0;
     }
     
-    public Team(String name, String region, String coach, ArrayList<Player> members, int pouleWins, int tieBreakerWins) {
+    public Team(String name, String region, String coach, double barons, double golds, double dragons, ArrayList<Player> members, int pouleWins, int pouleLosses, int tieBreakerWins, int tieBreakerLosses) {
         this.name = name;
         this.region = region;
         this.coach = coach;
+        this.barons = barons;
+        this.golds = golds;
+        this.dragons = dragons;
         this.members = members;
         this.pouleWins = pouleWins;
+        this.pouleLosses = pouleLosses;
         this.tieBreakerWins = tieBreakerWins;
+        this.tieBreakerLosses = tieBreakerLosses;
+        
     }
     
     public void addWin() {
         this.pouleWins += 1;
     }
     
+    public void addLoss(){
+        this.pouleLosses += 1;
+    }
+    
     public void addTieWin() {
         this.tieBreakerWins += 1;
     }
+    
+    public void addTieLoss(){
+        this.tieBreakerLosses +=1;
+    }
+    
 
     //getters
 
     public int getTieBreakerWins() {
         return tieBreakerWins;
     }
+
+    public int getTieBreakerLosses() {
+        return tieBreakerLosses;
+    }
+    
     public int getPouleWins() {
         return pouleWins;
+    }
+
+    public int getPouleLosses() {
+        return pouleLosses;
     }
     
     public String getName() {
@@ -107,13 +146,34 @@ public class Team implements Comparable<Team> {
         this.coach = coach;
     }
 
+    public void setBarons(double barons) {
+        this.barons = barons;
+    }
+
+    public void setGolds(double golds) {
+        this.golds = golds;
+    }
+
+    public void setDragons(double dragons) {
+        this.dragons = dragons;
+    }
+    
     public void setPouleWins(int pouleWins) {
         this.pouleWins = pouleWins;
     }
-    
-    
-    
 
+    public void setPouleLosses(int pouleLosses) {
+        this.pouleLosses = pouleLosses;
+    }
+
+    public void setTieBreakerWins(int tieBreakerWins) {
+        this.tieBreakerWins = tieBreakerWins;
+    }
+
+    public void setTieBreakerLosses(int tieBreakerLosses) {
+        this.tieBreakerLosses = tieBreakerLosses;
+    }
+    
     @Override
     public String toString() {
         return name;

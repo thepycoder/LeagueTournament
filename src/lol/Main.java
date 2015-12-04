@@ -17,6 +17,7 @@ public class Main {
         DatabaseHandler db = new DatabaseHandler(t);
         ReportHandler rh = new ReportHandler(t);
         
+        //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
         
         rh.generate();
@@ -64,6 +65,8 @@ public class Main {
 //        GuiChangeMatch k = new GuiChangeMatch(t);
 //        k.show();
 //        
+        
+        
         
     }
 }
