@@ -54,10 +54,17 @@ public class Bracket implements Comparable<Bracket> {
         setTeam1score(getTeam1score() + 1); 
     }
     
+     public void addLossTeam1(){
+        setTeam1score(getTeam1score() + 1); 
+    }
+    
     public void addWinTeam2(){
         setTeam2score(getTeam2score() + 1); 
     }
     
+     public void addLossTeam2(){
+        setTeam1score(getTeam1score() + 1); 
+    }
     //getters
 
     public String getName() {

@@ -261,22 +261,33 @@ public class Tournament {
             if (teamName.equals(team1.getName())) { // if team 1 forfaited add win by other team
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team2.addTieWin();
+                    team1.addTieLoss();
                     db.addTieBreakerWin(team2);
+                    // db.addTieBreakerLoss(team1);
+                    
                 } else {
-                    team2.addWin(); 
+                    team2.addWin();
+                    team1.addLoss();
                     //poule.addWin(team2);
+                    //poule.addLoss(team1);
                     System.out.println("team " + team2.getName() + " wint");
                     db.addPouleWin(team2);
+                    //db.addPouleLoss(team1);
                 }
             } else {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team1.addTieWin();
+                    team2.addTieLoss();
                     db.addTieBreakerWin(team1);
+                    //db.addTieBreakerLoss(team2);
                 } else {
                     team1.addWin();
+                    team2.addLoss();
                     //poule.addWin(team1);
+                    //poule.addLoss(team2);
                     System.out.println("team " + team1.getName() + " wint");
                     db.addPouleWin(team1);
+                    //db.addPouleLoss(team2);
                 }
             }
             
@@ -305,11 +316,15 @@ public class Tournament {
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
+                //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
+                bracket.addLossTeam1();
                 //db.addBracketWin(bracket, 1);
+                //db.addBracketLoss(bracket, 2);
             }
             
             db.updateBracket(bracket);
@@ -563,22 +578,33 @@ public class Tournament {
             if (!matchDump.get(team1mem).get("winner").equals("true")) { // if team 1 lost add win by other team
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team2.addTieWin();
+                    team1.addTieLoss();
                     db.addTieBreakerWin(team2);
+                    //db.addTieBreakerWin(team1);
                 } else {
                     team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                    team1.addLoss();
                     //poule.addWin(team2);
+                    //poule.addLosst(team1);
                     //System.out.println("team " + team2.getName() + " wint");
+                    //System.out.println("team " + team1.getName() + " verliest");
                     db.addPouleWin(team2);
+                    //db.addPouleLoss(team1);
                 }
             } else {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team1.addTieWin();
+                    team2.addTieLoss();
                     db.addTieBreakerWin(team1);
+                    //db.addTieBreakerLoss(team2);
                 } else {
                     team1.addWin();
+                    team2.addLoss();
                     //poule.addWin(team1);
+                    //poule.addLoss(team2);
                     //System.out.println("team " + team1.getName() + " wint");
                     db.addPouleWin(team1);
+                    //db.addPouleLoss(team2);
                 }
             }
             
@@ -609,11 +635,15 @@ public class Tournament {
             if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                bracket.addLossTeam2();
                 db.addBracketWin(bracket, 2);
+                //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
+                bracket.addLossTeam1();
                 db.addBracketWin(bracket, 1);
+                //db.addBracketLoss(bracket, 2);
             }
             
             //step 2: check if last match from bracket
