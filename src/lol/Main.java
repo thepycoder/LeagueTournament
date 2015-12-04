@@ -16,7 +16,11 @@ public class Main {
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
         DatabaseHandler db = new DatabaseHandler(t);
         
+        //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
+        t.addOfficials(db.retrieveOfficials());
+        System.out.println(t.getOfficials());
+        
 //        System.out.println(t.getTeamlist());
         //t.completeMatch("Poule2_H2K_Koo Tigers");
         //api.getMatchSummary(api.getSummID("Krepo"));
@@ -41,9 +45,11 @@ public class Main {
             t.generatePouleMatches();
         } else {
             t.setPoulelist(db.retrievePoules());
-            t.addMatches(db.retrieveMatches());
+            t.addMatches(db.retrieveBracketMatches());
+            t.addMatches(db.retrievePouleMatches());
             t.setBracketlist(db.retrieveBrackets());
         }
+        
         
         //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
@@ -55,8 +61,8 @@ public class Main {
         
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
-        GuiConcludeMatch sk = new GuiConcludeMatch(t);
-        sk.show();
+//        GuiRemoveOfficial sk = new GuiRemoveOfficial(t);
+//        sk.show();
        // GuiSilke sg = new GuiSilke(t);
         //sg.show();
 //        GuiChangeMatch k = new GuiChangeMatch(t);

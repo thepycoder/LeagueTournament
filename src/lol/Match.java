@@ -118,7 +118,7 @@ public class Match implements Comparable<Match> {
     
     @Override
     public String toString() {
-        return matchID + " " + official;
+        return matchID + " " + team1 + team2;
     }
     
     @Override

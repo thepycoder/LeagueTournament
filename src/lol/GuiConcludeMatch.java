@@ -5,6 +5,7 @@
  */
 package lol;
 
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
@@ -21,7 +22,7 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
         this.parent = parent;
         this.t = t;
         initComponents();
-        setTitle("Change match");
+        setTitle("Conclude match");
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
@@ -33,17 +34,18 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
     }
         items = matches.toArray(new String[matches.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
-        String[] aa = new String[2];
+        ArrayList<String> teams = new ArrayList<>();
         String x = jComboBox1.getSelectedItem().toString();
-        for(Match k: t.getMatchlist()){
-            if(k.getMatchID().toString().equals(x))
-                aa[0] = k.getTeam1();
-                aa[1] = k.getTeam2();
+        for(Match k: t.getMatchlist()){            
+            if(k.getMatchID().equals(x)){
+               teams.add(k.getTeam1());
+               teams.add(k.getTeam2());
+        }   
         }
-        
-        
+       items2 = teams.toArray(new String[teams.size()]);
       
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(aa));
+       jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(items2));
+        
                 
        
     }
@@ -66,12 +68,22 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel1.setText("Select a match");
 
         jLabel2.setText("Select the winner");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jButton1.setText("Confirm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -120,8 +132,29 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+     t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+     this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+        ArrayList<String> teams = new ArrayList<>();
+        String x = jComboBox1.getSelectedItem().toString();
+        for(Match k: t.getMatchlist()){            
+            if(k.getMatchID().equals(x)){
+               teams.add(k.getTeam1());
+               teams.add(k.getTeam2());
+        }   
+        }
+       items2 = teams.toArray(new String[teams.size()]);
+      
+       jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(items2));
+        }
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments
