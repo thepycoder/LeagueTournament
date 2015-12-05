@@ -20,7 +20,7 @@ public class DatabaseHandler {
     //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
     public String user = "root";
     public String pass = "";
-    public String url = "jdbc:mysql://localhost/binfg16_foreal";
+    public String url = "jdbc:mysql://localhost/BINFG16";
     Connection conn = null;
     public Tournament t;
     
@@ -387,7 +387,7 @@ public void updateMatch(Match match) {
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), rs.getDouble("barons"), rs.getDouble("golds"), rs.getDouble("dragons"), members, rs.getInt("wins"), rs.getInt("losses"), rs.getInt("tiebreakerwins"), rs.getInt("tiebreakerlosses"));
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), rs.getDouble("barons"), rs.getDouble("gold"), rs.getDouble("dragons"), members, rs.getInt("wins"), rs.getInt("losses"), rs.getInt("tiebreakerwins"), rs.getInt("tiebreakerlosses"));
                 teams.add(team);
             }
             return teams;
