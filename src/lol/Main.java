@@ -15,6 +15,7 @@ public class Main {
         
         ApiHandler api = new ApiHandler(); //t wordt enkel voor tests meegegeven
         DatabaseHandler db = new DatabaseHandler(t);
+        ReportHandler rh = new ReportHandler(t);
         
         //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
@@ -47,6 +48,8 @@ public class Main {
             t.setBracketlist(db.retrieveBrackets());
         }
         
+        rh.generate();
+        
         //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
         
@@ -58,8 +61,8 @@ public class Main {
         //t.completeMatch("Poule2_test_H2K");
         //System.out.println(api.getMatchSummary("41710596").get("ClownEffect"));
         
-        GuiSilke sg = new GuiSilke(t);
-        sg.show();
+        //GuiSilke sg = new GuiSilke(t);
+        //sg.show();
 //        GuiChangeMatch k = new GuiChangeMatch(t);
 //        k.show();
 //        
