@@ -133,6 +133,8 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
      t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+     parent.updateTable();
+     parent.updateBrackets();
      this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
