@@ -100,10 +100,10 @@ public class ReportHandler {
         String now = sdfDate.format(currentDate);
         
         for (Match match : t.getMatchlist()) {
-            if (match.getCompleted().equals("no") && match.getTimeStamp() == null) { //match isn't played nor planned
+            if (match.getCompleted().equals("no") && match.getTimeStamp().equals("null")) { //match isn't played nor planned
                 toplay.add(match);
             }
-            if (match.getCompleted().equals("no") && !(match.getTimeStamp() == null)) { // match is planned and not yet played
+            if (match.getCompleted().equals("no") && !(match.getTimeStamp().equals("null"))) { // match is planned and not yet played
                 planned.add(match);
             }
             if (match.getTimeStamp().equals(now) && match.getCompleted().equals("yes")) { // if a match was played today
