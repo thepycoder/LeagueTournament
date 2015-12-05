@@ -28,7 +28,7 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
         
         ArrayList<String> matches = new ArrayList<>();
         for (Match match : t.getMatchlist()) {
-            if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {                
+            if (match.getCompleted().equals("no")) {                
                 matches.add(match.getMatchID());
             }
     }

@@ -99,18 +99,18 @@ public class ReportHandler {
         String now = sdfDate.format(currentDate);
         
         for (Match match : t.getMatchlist()) {
+            if (match.getCompleted().equals("no") && match.getTimeStamp().equals("null")) { //match isn't played nor planned
+                toplay.add(match);
+            }
+            if (match.getCompleted().equals("no") && !match.getTimeStamp().equals("null")) { // match is planned and not yet played
+                planned.add(match);
+            }
             if (match.getTimeStamp().equals(now) && match.getCompleted().equals("yes")) { // if a match was played today
                 System.out.println(match.getTimeStamp() + " " + now);
                 today.add(match);
             }
             if (!match.getTimeStamp().equals(now) && match.getCompleted().equals("yes")) { //match is played but not today
                 history.add(match);
-            }
-            if (match.getCompleted().equals("no") && !match.getTimeStamp().equals("null")) { // match is planned and not yet played
-                planned.add(match);
-            }
-            if (match.getCompleted().equals("no") && match.getTimeStamp().equals("null")) { //match isn't played nor planned
-                toplay.add(match);
             }
         }
         

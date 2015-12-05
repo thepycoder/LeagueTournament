@@ -253,6 +253,7 @@ public class Tournament {
         matchPlayed.setCompleted("yes");
         DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
+        matchPlayed.setTimeStamp(dateFormat.format(date));
         db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
 
         
@@ -416,15 +417,27 @@ public class Tournament {
         String[] ID = matchID.split("_");
         Team team1 = searchTeam(ID[ID.length - 2]);
         Team team2 = searchTeam(ID[ID.length - 1]);
-        String team1mem = team1.getMembers().get(0).getName();        
+        String team1mem = team1.getMembers().get(0).getName();
+        HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);
         DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
         
-        //this part is for testing purposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = new ArrayList<>();        
-        allPlayers.addAll(team1.getMembers());     
-        HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);                     
-        matchPlayed.setCompleted("yes");        
+        //this part is for testing puposes. It sets the names of the members to the ones in the database.
+        ArrayList<Player> allPlayers = new ArrayList<>();
+        
+        allPlayers.addAll(team1.getMembers());
+        
+        HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
+        allPlayers.addAll(team2.getMembers());
+        int index = 0;
+        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
+            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            index++;
+        }
+        matchDump = newMatchDump;
+        
+        matchPlayed.setCompleted("yes");
+        matchPlayed.setTimeStamp(dateFormat.format(date));
         db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
         //end testing part
         
@@ -436,22 +449,37 @@ public class Tournament {
             if (matchPlayed.getTeam2().equals(winnerr)) { // if team 1 lost add win by other team
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team2.addTieWin();
+                    team1.addTieLoss();
+                    matchPlayed.setWinner(team2.getName());
                     db.addTieBreakerWin(team2);
+                    db.addTieBreakerLoss(team1);
+                    
                 } else {
-                    team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                    team2.addWin();
+                    team1.addLoss();
+                    matchPlayed.setWinner(team2.getName());
                     //poule.addWin(team2);
-                    //System.out.println("team " + team2.getName() + " wint");
+                    //poule.addLoss(team1);
+                    System.out.println("team " + team2.getName() + " wint");
                     db.addPouleWin(team2);
+                    db.addPouleLoss(team1);
                 }
             } else {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team1.addTieWin();
+                    team2.addTieLoss();
+                    matchPlayed.setWinner(team1.getName());
                     db.addTieBreakerWin(team1);
+                    db.addTieBreakerLoss(team2);
                 } else {
                     team1.addWin();
+                    team2.addLoss();
+                    matchPlayed.setWinner(team1.getName());
                     //poule.addWin(team1);
-                    //System.out.println("team " + team1.getName() + " wint");
+                    //poule.addLoss(team2);
+                    System.out.println("team " + team1.getName() + " wint");
                     db.addPouleWin(team1);
+                    db.addPouleLoss(team2);
                 }
             }
             
@@ -481,12 +509,18 @@ public class Tournament {
             //step 1: add win to right team
             if (matchPlayed.getTeam2().equals(winnerr)) { //team 1 lost
                 winner = team2;
+                matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                db.addBracketWin(bracket, 2);
+                bracket.addLossTeam2();
+                //db.addBracketWin(bracket, 2);
+                //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
+                matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam2();
-                db.addBracketWin(bracket, 1);
+                bracket.addLossTeam1();
+                //db.addBracketWin(bracket, 1);
+                //db.addBracketLoss(bracket, 2);
             }
             
             //step 2: check if last match from bracket
@@ -546,7 +580,7 @@ public class Tournament {
             }
             
         }
-        
+        db.updateMatch(matchPlayed); // add winners to the database
     }
     
     
