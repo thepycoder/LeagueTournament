@@ -22,6 +22,7 @@ public class Match implements Comparable<Match> {
     private String matchID;
     private String team1;
     private String team2;
+    private String winner;
     private String type;
     private String timeStamp;
     private String official;
@@ -35,16 +36,18 @@ public class Match implements Comparable<Match> {
         this.matchID = type + "_" + team1 + "_" + team2;
         this.team1 = team1;
         this.team2 = team2;
+        this.winner = null;
         this.timeStamp = null;
         this.official = official;
         this.type = type;
         this.completed = "no";
     }
     
-    public Match(String matchID, String team1, String team2, String timeStamp, String type, String official, String completed, String tieBreaker) {
+    public Match(String matchID, String team1, String team2, String winner, String timeStamp, String type, String official, String completed, String tieBreaker) {
         this.matchID = matchID;
         this.team1 = team1;
         this.team2 = team2;
+        this.winner = winner;
         this.timeStamp = timeStamp;
         this.official = official;
         this.type = type;
@@ -54,6 +57,11 @@ public class Match implements Comparable<Match> {
     
     //getter
 
+    public String getWinner() {
+        return winner;
+    }
+
+    
     public String getTieBreaker() {
         return tieBreaker;
     }
@@ -84,6 +92,10 @@ public class Match implements Comparable<Match> {
     
     
     //setter
+    
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
 
     public void setMatchID(String matchID) {
         this.matchID = matchID;

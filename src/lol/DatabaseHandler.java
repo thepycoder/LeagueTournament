@@ -118,9 +118,9 @@ public void updateMatch(Match match) {
                 official = "'" + official + "'";
             }
             if (match.getType().startsWith("Bracket")) {
-                query = "UPDATE bracketmatches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + " WHERE matchID='" + match.getMatchID() + "'";
+                query = "UPDATE bracketmatches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "', WHERE matchID='" + match.getMatchID() + "'";
             } else {
-                query = "UPDATE poulematches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + " WHERE matchID='" + match.getMatchID() + "'";
+                query = "UPDATE poulematches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "', WHERE matchID='" + match.getMatchID() + "'";
             }
             
             System.out.println(query);
@@ -412,7 +412,7 @@ public void updateMatch(Match match) {
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE teams SET region='" + team.getRegion()+ "', coach='" + team.getCoach()+ "', poulewins=" + team.getPouleWins()+ ", tiebreakerwins=" + team.getTieBreakerWins() + ", member1='" + team.getMembers().get(0) + "', member2='"  + team.getMembers().get(1)+ "', member3='"  + team.getMembers().get(2) + "', member4='"  + team.getMembers().get(3) + "', member5='"  + team.getMembers().get(4)+ "' WHERE name='" + team.getName() + "'";
-            String query2 = "UPDATE poulescores SET wins=" + team.getPouleWins() + ", tiebreakerwins=" + team.getTieBreakerWins() + " WHERE team='" + team.getName() + "'";
+            String query2 = "UPDATE poulescores SET wins=" + team.getPouleWins() + ", losses=" + team.getPouleLosses() + ", tiebreakerwins=" + team.getTieBreakerWins() + " WHERE team='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
             System.out.println(query2);
@@ -493,12 +493,54 @@ public void updateMatch(Match match) {
         }
    }
     
+    public void addPouleLoss(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE poulescores SET losses=" + team.getPouleLosses()+ " WHERE team='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+    
     public void addTieBreakerWin(Team team) {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();           
             
             String query = "UPDATE poulescores SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE team='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
+    
+    public void addTieBreakerLoss(Team team) {
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE poulescores SET tiebreakerlosses=" + team.getTieBreakerWins() + " WHERE team='" + team.getName()+ "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -576,7 +618,7 @@ public void updateMatch(Match match) {
             ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("bracketname") + "_" + rs.getString("matchnr"), rs.getString("official"), rs.getString("completed"), "no");
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), rs.getString("timestamp"), rs.getString("bracketname") + "_" + rs.getString("matchnr"), rs.getString("official"), rs.getString("completed"), "no");
                 matches.add(match);
             }
             return matches;
@@ -610,7 +652,7 @@ public void updateMatch(Match match) {
                 if (rs.getString("tiebreaker").equals("yes")) {
                     type += "_TB";
                 }
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"));
                 matches.add(match);
             }
             return matches;

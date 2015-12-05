@@ -122,8 +122,13 @@ public class ReportHandler {
         for (Match match : today) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
-            builder.append("<td>" + match.getTeam1()+ "</td>");
-            builder.append("<td>" + match.getTeam2()+ "</td>");
+            if (match.getWinner() != null && match.getWinner().equals(match.getTeam1())) {
+                builder.append("<td bgcolor='#E8AF0C'>" + match.getTeam1()+ "</td>");
+                builder.append("<td>" + match.getTeam2()+ "</td>");
+            } else {
+                builder.append("<td>" + match.getTeam1()+ "</td>");
+                builder.append("<td bgcolor='#E8AF0C'>" + match.getTeam2()+ "</td>");
+            }
             builder.append("<td>" + match.getTimeStamp() + "</td>");
             builder.append("<td>" + match.getOfficial() + "</td>");
             if (match.getType().startsWith("Poule")) {

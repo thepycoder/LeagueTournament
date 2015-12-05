@@ -53,7 +53,7 @@ public class Tournament {
             oldMatch = k;
                     }
         }
-        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, timeStamp, oldMatch.getType(), official, oldMatch.getCompleted(), oldMatch.getTieBreaker());
+        Match newMatch = new Match(oldMatch.getMatchID(),team1, team2, oldMatch.getWinner(), timeStamp, oldMatch.getType(), official, oldMatch.getCompleted(), oldMatch.getTieBreaker());
         newMatch.setType(oldMatch.getType());
         matchlist.remove(oldMatch);
         matchlist.add(newMatch);
@@ -247,32 +247,36 @@ public class Tournament {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team2.addTieWin();
                     team1.addTieLoss();
+                    matchPlayed.setWinner(team2.getName());
                     db.addTieBreakerWin(team2);
-                    // db.addTieBreakerLoss(team1);
+                    db.addTieBreakerLoss(team1);
                     
                 } else {
                     team2.addWin();
                     team1.addLoss();
+                    matchPlayed.setWinner(team2.getName());
                     //poule.addWin(team2);
                     //poule.addLoss(team1);
                     System.out.println("team " + team2.getName() + " wint");
                     db.addPouleWin(team2);
-                    //db.addPouleLoss(team1);
+                    db.addPouleLoss(team1);
                 }
             } else {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team1.addTieWin();
                     team2.addTieLoss();
+                    matchPlayed.setWinner(team1.getName());
                     db.addTieBreakerWin(team1);
-                    //db.addTieBreakerLoss(team2);
+                    db.addTieBreakerLoss(team2);
                 } else {
                     team1.addWin();
                     team2.addLoss();
+                    matchPlayed.setWinner(team1.getName());
                     //poule.addWin(team1);
                     //poule.addLoss(team2);
                     System.out.println("team " + team1.getName() + " wint");
                     db.addPouleWin(team1);
-                    //db.addPouleLoss(team2);
+                    db.addPouleLoss(team2);
                 }
             }
             
@@ -300,12 +304,14 @@ public class Tournament {
             //step 1: add win to right team
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 winner = team2;
+                matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
                 bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
+                matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam2();
                 bracket.addLossTeam1();
                 //db.addBracketWin(bracket, 1);
@@ -375,6 +381,8 @@ public class Tournament {
             
         }
         
+        db.updateMatch(matchPlayed); // add winners to the database
+        
     }
     
     public void addBracketMatch(Bracket bracket) {
@@ -425,32 +433,36 @@ public class Tournament {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team2.addTieWin();
                     team1.addTieLoss();
+                    matchPlayed.setWinner(team2.getName());
                     db.addTieBreakerWin(team2);
-                    //db.addTieBreakerWin(team1);
+                    db.addTieBreakerLoss(team1);
                 } else {
                     team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
                     team1.addLoss();
+                    matchPlayed.setWinner(team2.getName());
                     //poule.addWin(team2);
                     //poule.addLosst(team1);
                     //System.out.println("team " + team2.getName() + " wint");
                     //System.out.println("team " + team1.getName() + " verliest");
                     db.addPouleWin(team2);
-                    //db.addPouleLoss(team1);
+                    db.addPouleLoss(team1);
                 }
             } else {
                 if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
                     team1.addTieWin();
                     team2.addTieLoss();
+                    matchPlayed.setWinner(team1.getName());
                     db.addTieBreakerWin(team1);
-                    //db.addTieBreakerLoss(team2);
+                    db.addTieBreakerLoss(team2);
                 } else {
                     team1.addWin();
                     team2.addLoss();
+                    matchPlayed.setWinner(team1.getName());
                     //poule.addWin(team1);
                     //poule.addLoss(team2);
                     //System.out.println("team " + team1.getName() + " wint");
                     db.addPouleWin(team1);
-                    //db.addPouleLoss(team2);
+                    db.addPouleLoss(team2);
                 }
             }
             
@@ -482,12 +494,14 @@ public class Tournament {
                 winner = team2;
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
                 bracket.addLossTeam2();
+                matchPlayed.setWinner(winner.getName());
                 db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
                 bracket.addWinTeam2();
                 bracket.addLossTeam1();
+                matchPlayed.setWinner(winner.getName());
                 db.addBracketWin(bracket, 1);
                 //db.addBracketLoss(bracket, 2);
             }
@@ -549,7 +563,7 @@ public class Tournament {
             }
             
         }
-        
+        db.updateMatch(matchPlayed);
     }
     
     public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
