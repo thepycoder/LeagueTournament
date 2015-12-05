@@ -18,7 +18,7 @@ public class GuiConcludeMatch extends javax.swing.JFrame {
     public GuiSilke parent;
     public String[] items;
     public String[] items2;
-    public GuiConcludeMatch(Tournament t) {
+    public GuiConcludeMatch(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         initComponents();

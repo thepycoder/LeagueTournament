@@ -23,7 +23,8 @@ TO-DO
 * [x] Er moet een beetje errorhandling gedaan worden, zodat het spel nie platvalt als iemand geen datum intypt
 * [x] API handler testmethode (voor niet bestaande spelers)
 * [x] Gelijkstand in de poules juist verwerken
-* [?] 8 poules?
 * [ ] Statistieken in database bijhouden + methode maken die deze terug in een hashmap omzet
-* [ ] rapporten moeten gegenereerd worden
-* [ ] database en schema's laten overeenkomen
+* [*] rapporten moeten gegenereerd worden
+* [*] database en schema's laten overeenkomen
+* [ ] winner per match bijhouden
+* [ ] tiebreaker als variabele maken ipv in de matchID

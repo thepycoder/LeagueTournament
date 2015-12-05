@@ -15,12 +15,15 @@ import java.util.HashMap;
  */
 public class DatabaseHandler {
     
+
+   
     public String user = "BINFG16";
     public String pass = "f9xff87y";
     public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
     //public String user = "root";
     //public String pass = "";
     //public String url = "jdbc:mysql://localhost/BINFG16";
+
     Connection conn = null;
     public Tournament t;
     
@@ -29,6 +32,9 @@ public class DatabaseHandler {
         this.t = t;
     }
     
+    public DatabaseHandler() {
+        this.t = null;
+    }
     
     public Connection createConnection(String url) {
         try {
@@ -413,7 +419,7 @@ public void updateMatch(Match match) {
                 members.add(player5);
                 
                 //members.remove(members.size() - 1); //due to manner of input, an empty space at the end is created, this truncates this
-                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), rs.getDouble("barons"), rs.getDouble("golds"), rs.getDouble("dragons"), members, rs.getInt("wins"), rs.getInt("losses"), rs.getInt("tiebreakerwins"), rs.getInt("tiebreakerlosses"));
+                Team team = new Team(rs.getString("name"), rs.getString("region"), rs.getString("coach"), rs.getDouble("barons"), rs.getDouble("gold"), rs.getDouble("dragons"), members, rs.getInt("wins"), rs.getInt("losses"), rs.getInt("tiebreakerwins"), rs.getInt("tiebreakerlosses"));
                 teams.add(team);
             }
             return teams;
@@ -646,7 +652,7 @@ public void updateMatch(Match match) {
             ResultSet rs = stmt.executeQuery(query);
             
             while(rs.next()){
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("bracketname") + "_" + rs.getString("matchnr"), rs.getString("official"), rs.getString("completed"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), rs.getString("bracketname") + "_" + rs.getString("matchnr"), rs.getString("official"), rs.getString("completed"), "no");
                 matches.add(match);
             }
             return matches;
@@ -680,7 +686,7 @@ public void updateMatch(Match match) {
                 if (rs.getString("tiebreaker").equals("yes")) {
                     type += "_TB";
                 }
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"));
                 matches.add(match);
             }
             return matches;
@@ -854,5 +860,30 @@ public void updateMatch(Match match) {
         }
        
         return null;
+   }
+    
+    
+    public ResultSet CustomSQL(String query){
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            System.out.println(query);
+            ResultSet rs = stmt.executeQuery(query);
+            
+            return rs;
+        }
+        catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+            return null;
+        } finally {
+           if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
    }
 }
