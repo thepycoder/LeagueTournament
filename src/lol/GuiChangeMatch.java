@@ -22,6 +22,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
     public Tournament t;
     public GuiSilke parent;
     public String[] items;
+    public String[] items2;
     /**
      * Creates new form GuiMatch
      */
@@ -36,22 +37,25 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         ArrayList<String> matches = new ArrayList<>();
-        
+        ArrayList<String> officials = new ArrayList<>();
         for (Match match : t.getMatchlist()) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null")) && match.getCompleted().equals("no")) {
                 //items[i] = to.getMatchlist().get(i).getMatchID();
                 matches.add(match.getMatchID());
-            }
-            
+            }            
         }
-        
+        for(String k: t.getOfficials()){
+            officials.add(k);
+    }
         items = matches.toArray(new String[matches.size()]);
+        items2 = officials.toArray(new String[officials.size()]);
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(items));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items2));
         String x = jComboBox3.getSelectedItem().toString();
         for(Match k: t.getMatchlist()){
             if(k.getMatchID().equals(x)){
                 jTextField3.setText(k.getTimeStamp());
-                jTextField2.setText(k.getOfficial());
+                
             }
         }
        
@@ -75,13 +79,13 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -105,12 +109,6 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         jLabel3.setText("New date");
 
         jLabel4.setText("Official");
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jButton1.setText("Change");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -145,6 +143,8 @@ public class GuiChangeMatch extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -170,8 +170,8 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
+                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(123, 123, 123))
         );
         layout.setVerticalGroup(
@@ -191,8 +191,8 @@ public class GuiChangeMatch extends javax.swing.JFrame {
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addComponent(jButton1)
                 .addGap(27, 27, 27))
@@ -205,10 +205,6 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -219,8 +215,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         for (Match k: t.getMatchlist()){
             if(k.getMatchID().equalsIgnoreCase(x))
             {
-                jTextField3.setText(k.getTimeStamp());
-                jTextField2.setText(k.getOfficial());
+                jTextField3.setText(k.getTimeStamp());                
             }
                 
         }      
@@ -244,14 +239,14 @@ public class GuiChangeMatch extends javax.swing.JFrame {
         Date date;
         date = jDateChooser1.getDate();       
         if(date == null){
-           t.addMatch(jComboBox3.getSelectedItem().toString(), oldDate, jTextField2.getText()); 
+           t.addMatch(jComboBox3.getSelectedItem().toString(), oldDate, jComboBox1.getSelectedItem().toString()); 
            this.dispose();
         }
         else{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
         //t.addMatch(jComboBox3.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jTextField2.getText());
         
-        t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jTextField2.getText());
+        t.updateMatch(jComboBox3.getSelectedItem().toString(), jDateChooser1.getCalendar().get(Calendar.YEAR) + " " + jDateChooser1.getCalendar().get(Calendar.MONTH) + " " + jDateChooser1.getCalendar().get(Calendar.DAY_OF_MONTH), jComboBox1.getSelectedItem().toString());
         parent.updateList2();
         
         this.dispose();
@@ -262,6 +257,7 @@ public class GuiChangeMatch extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox3;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
@@ -270,7 +266,6 @@ public class GuiChangeMatch extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }

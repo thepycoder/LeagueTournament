@@ -27,6 +27,7 @@ public class Tournament {
     ArrayList<Poule> poulelist = new ArrayList<>();
     ArrayList<Match> matchlist = new ArrayList<>();
     ArrayList<Bracket> bracketlist = new ArrayList<>();
+    ArrayList<String> officials = new ArrayList<>();
     DatabaseHandler db = new DatabaseHandler(this);
     ApiHandler api = new ApiHandler();
     
@@ -91,7 +92,21 @@ public class Tournament {
         Team team = new Team(name);
         teamlist.add(team);
     }
+    public void addOfficial(String name) {
+        officials.add(name);
+        db.storeOfficial(name);
+    }
     
+    public void removeOfficial(String name){
+       officials.remove(name);
+       db.removeOfficial(name);
+        
+    }
+    public void addOfficials(ArrayList<String> officialz){
+        for(String k : officialz){
+            officials.add(k);
+        }
+    }
     public void addTeam(String name, ArrayList<Player> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
@@ -395,6 +410,145 @@ public class Tournament {
         db.storeMatch(match);
         bracket.addMatch(match.getMatchID()); 
     }
+    
+    public void manualCompleteMatch(String matchID, String winnerr) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
+        Match matchPlayed = getMatchById(matchID);
+        String[] ID = matchID.split("_");
+        Team team1 = searchTeam(ID[ID.length - 2]);
+        Team team2 = searchTeam(ID[ID.length - 1]);
+        String team1mem = team1.getMembers().get(0).getName();        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
+        Date date = new Date();
+        
+        //this part is for testing purposes. It sets the names of the members to the ones in the database.
+        ArrayList<Player> allPlayers = new ArrayList<>();        
+        allPlayers.addAll(team1.getMembers());     
+        HashMap<String,Map<String,String>> matchDump = api.getMatchSummary(team1mem);                     
+        matchPlayed.setCompleted("yes");        
+        db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
+        //end testing part
+        
+        //Statistics part
+        updateStats(matchDump, team1, team2);
+        
+        if (matchPlayed.getType().startsWith("Poule")) {
+            
+            if (matchPlayed.getTeam2().equals(winnerr)) { // if team 1 lost add win by other team
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team2.addTieWin();
+                    db.addTieBreakerWin(team2);
+                } else {
+                    team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                    //poule.addWin(team2);
+                    //System.out.println("team " + team2.getName() + " wint");
+                    db.addPouleWin(team2);
+                }
+            } else {
+                if (matchID.split("_")[1].equals("TB")) { // check if match is tiebreaker, using different scoring systems then
+                    team1.addTieWin();
+                    db.addTieBreakerWin(team1);
+                } else {
+                    team1.addWin();
+                    //poule.addWin(team1);
+                    //System.out.println("team " + team1.getName() + " wint");
+                    db.addPouleWin(team1);
+                }
+            }
+            
+            int flag = 0; // if this stays 0, all matches have been played
+            for (Match match : matchlist) {
+                if (match.getType().equals(matchPlayed.getType())) { //if match is from the current poule
+                    if(match.getCompleted().equals("no")) {
+                        flag++;
+                    }
+                }
+            }
+            
+            if (flag == 0) {
+                Poule poule = getPouleByMatch(matchPlayed);
+                if (checkTies(poule)) { //if false, new macthes will have been added to resolve the tie
+                    poule.setCompleted("yes");
+                    completePoule(poule);
+                }
+            }
+        } else if(matchPlayed.getType().startsWith("Bracket")) {
+            
+            Team winner = null;
+            Bracket bracket = getBracketByMatch(matchPlayed);
+            bracket.addMatch(matchPlayed.getMatchID());
+            db.updateBracket(bracket);
+            
+            //step 1: add win to right team
+            if (matchPlayed.getTeam2().equals(winnerr)) { //team 1 lost
+                winner = team2;
+                bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                db.addBracketWin(bracket, 2);
+            } else {
+                winner = team1;
+                bracket.addWinTeam2();
+                db.addBracketWin(bracket, 1);
+            }
+            
+            //step 2: check if last match from bracket
+            
+            if (bracket.getTeam1score() == 3 || bracket.getTeam2score() == 3) { //dan is de bracket gedaan
+                bracket.setCompleted("yes");
+                String bracketNr = bracket.getName().substring(bracket.getName().length() - 1);
+                
+                Bracket sem1 = bracketlist.get(4);
+                Bracket sem2 = bracketlist.get(5);
+                
+                if (bracket.getType() == 4) { //quarterfinal
+                    switch (bracketNr) {
+                        case "1":
+                            sem1.setTeam1(winner);
+                            break;
+                        case "2":
+                            sem1.setTeam2(winner);
+                            break;
+                        case "3":
+                            sem2.setTeam1(winner);
+                            break;
+                        case "4":
+                            sem2.setTeam2(winner);
+                            break;
+                    }
+                    
+                    if ((sem1.getTeam1() != null && sem1.getTeam2() != null) && sem1.getMatches().isEmpty()) {
+                        addBracketMatch(sem1);
+                    }
+                    if ((sem2.getTeam1() != null && sem2.getTeam2() != null) && sem2.getMatches().isEmpty()) {
+                        addBracketMatch(sem2);
+                    }
+                    
+                } else if (bracket.getType() == 2) { //semifinal
+                    //check if final bracket already exists
+                    Bracket fin = getFinal();
+                    switch (bracketNr) {
+                        case "5":
+                            // if it is the upper bracket a.k.a 5th bracket
+                            fin.setTeam1(winner);
+                            break;
+                        case "6":
+                            fin.setTeam2(winner);
+                            break;
+                    }
+                    if (fin.getTeam1() != null && fin.getTeam2() != null){
+                        addBracketMatch(fin); //ony add match when both teams are set
+                    }
+                    
+                } else if (bracket.getType() == 1) { //final
+                    System.out.println("feest tis gedaan");
+                }
+                
+            } else {
+                addBracketMatch(bracket);
+            }
+            
+        }
+        
+    }
+    
     
     public void completeMatch(String matchID) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
         Match matchPlayed = getMatchById(matchID);
@@ -825,6 +979,14 @@ public class Tournament {
 
     public ArrayList<Bracket> getBracketlist() {
         return bracketlist;
+    }
+
+    public ArrayList<String> getOfficials() {
+        return officials;
+    }
+
+    public void setOfficials(ArrayList<String> officials) {
+        this.officials = officials;
     }
 
     public void setPoulelist(ArrayList<Poule> poulelist) {

@@ -10,37 +10,27 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author pieddeck
+ * @author cesar
  */
-public class GuiRemoveTeam extends javax.swing.JFrame {
+public class GuiRemoveOfficial extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GuiRemoveTeam
-     */
-    
     public Tournament t;
     public GuiSilke parent;
     public String[] items;
-    
-    public GuiRemoveTeam(Tournament t, GuiSilke parent) {
-        this.t = t;
+    public GuiRemoveOfficial(Tournament t, GuiSilke parent) {
         this.parent = parent;
-        setTitle("Delete team");
+        this.t = t;
         initComponents();
-        
+        setTitle("remove an official");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ArrayList<String> officials = new ArrayList<>();
         
-        ArrayList<String> teamNames = new ArrayList<>();
-        
-        for (Team team : t.getTeamlist()) {
-                teamNames.add(team.getName());
-        }
-        
-        items = teamNames.toArray(new String[teamNames.size()]);
+        for (String k : t.getOfficials()) {
+               officials.add(k);
+        }        
+        items = officials.toArray(new String[officials.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
-        
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,19 +42,17 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
     private void initComponents() {
 
         jOptionPane1 = new javax.swing.JOptionPane();
+        jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setText("Select the official you want to remove:");
+
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("Remove Team");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
+        jButton1.setText("Confirm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -76,51 +64,52 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(50, 50, 50))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(28, 28, 28)
+                        .addComponent(jComboBox1, 0, 197, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(55, 55, 55)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        
-     int selectedOption = JOptionPane.showConfirmDialog(null, 
-                                  "Are you sure you want to remove the team?","", 
+      int selectedOption = JOptionPane.showConfirmDialog(null, 
+                                  "Are you sure you want to remove " + jComboBox1.getSelectedItem().toString() + " as official?","", 
                                   JOptionPane.YES_NO_OPTION); 
      if (selectedOption == JOptionPane.YES_OPTION) {
-                t.removeTeam(t.searchTeam(jComboBox1.getSelectedItem().toString()).getName());
-                parent.updateList1();
-                this.dispose();
-     }
+                t.removeOfficial(jComboBox1.getSelectedItem().toString());                
+                //parent.updateList1();
+                this.dispose();  }      
+     
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-   
-    //JOptionPane optionPane = new JOptionPane(
-               // "Are you sure you want to remove this?",
-               // JOptionPane.QUESTION_MESSAGE,
-               // JOptionPane.YES_NO_OPTION);
-    }//GEN-LAST:event_jButton1MouseClicked
-
+    /**
+     * @param args the command line arguments
+     */
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JOptionPane jOptionPane1;
     // End of variables declaration//GEN-END:variables
 }

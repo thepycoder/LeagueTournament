@@ -15,12 +15,15 @@ import java.util.HashMap;
  */
 public class DatabaseHandler {
     
-    //public String user = "BINFG16";
-    //public String pass = "f9xff87y";
-    //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
-    public String user = "root";
-    public String pass = "";
-    public String url = "jdbc:mysql://localhost/BINFG16";
+
+   
+    public String user = "BINFG16";
+    public String pass = "f9xff87y";
+    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    //public String user = "root";
+    //public String pass = "";
+    //public String url = "jdbc:mysql://localhost/BINFG16";
+
     Connection conn = null;
     public Tournament t;
     
@@ -105,6 +108,7 @@ public class DatabaseHandler {
             }
         }
     }
+  
   
 public void updateMatch(Match match) {
       try {
@@ -344,6 +348,34 @@ public void updateMatch(Match match) {
         }
        
    }
+     public ArrayList<String> retrieveOfficials() {
+       
+        ArrayList<String> officials = new ArrayList<>();
+       
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            
+            String query = "SELECT * FROM officials";
+            ResultSet rs = stmt.executeQuery(query);         
+            while(rs.next()) {
+                officials.add(rs.getString("name"));                
+            }
+            return officials;
+            
+        } catch (SQLException ex) {
+            System.out.println("Probleem bij ophalen officials: " + ex);
+            return null;
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+   }
    
     public ArrayList<Team> retrieveTeams() {
        
@@ -492,6 +524,49 @@ public void updateMatch(Match match) {
             }
         }
    }
+  public void storeOfficial(String naam){
+      try {            
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+
+            String query = "INSERT INTO officials (name) VALUES('" + naam + "')"; 
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
+  
+  public void removeOfficial(String naam){
+       try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();        
+            
+            String query = "DELETE FROM officials WHERE name = '" + naam + "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        }
+        catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+    }
+       finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+  }
     
     public void addPouleLoss(Team team) {
        try {
@@ -555,6 +630,7 @@ public void updateMatch(Match match) {
             }
         }
    }
+   
    
    public void addBracketWin(Bracket bracket, int teamNr) {
        try {
