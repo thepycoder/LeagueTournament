@@ -22,14 +22,14 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
     public Tournament t;
     public String[] items;
     public GuiSilke parent;
-    
+    public String[] items2;
     public GuiCompleteMatch(Tournament t, GuiSilke parent) {
         this.parent = parent;
         this.t = t;
         
         initComponents();
         
-        setTitle("Matchplanner");
+        setTitle("Complete Match");
         
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
@@ -43,12 +43,17 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         }
         items = matches.toArray(new String[matches.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
-        
-        String[] matchID = jComboBox1.getSelectedItem().toString().split("_");
-        jButton2.setText(matchID[matchID.length - 2] + " forfeited");
-        jButton3.setText(matchID[matchID.length - 1] + " forfeited");
-        
-    }
+        ArrayList<String> teams = new ArrayList<>();
+        String x = jComboBox1.getSelectedItem().toString();
+        for(Match k: t.getMatchlist()){            
+            if(k.getMatchID().equals(x)){
+               teams.add(k.getTeam1());
+               teams.add(k.getTeam2());
+        }   
+        }
+       items2 = teams.toArray(new String[teams.size()]);      
+       jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(items2));       
+                    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,11 +64,21 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jButton4 = new javax.swing.JButton();
+
+        jButton1.setText("End Match");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,24 +91,28 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
 
         jLabel1.setText("Match to end");
 
-        jButton1.setText("End Match");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Team 1 forfeited");
+        jButton2.setText("Manual");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Team 2 forfeited");
+        jButton3.setText("API");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Winner");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton4.setText("Forfeit");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
             }
         });
 
@@ -105,16 +124,21 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jButton3)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(132, Short.MAX_VALUE))
+                        .addComponent(jButton4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 18, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,43 +147,33 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(32, 32, 32))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.t.completeMatch(jComboBox1.getSelectedItem().toString());
-        parent.updateList1();
-        parent.updateList2();
-        parent.updateList3();
-        parent.updateTable();
-        parent.updateBrackets();
+        t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String matchID = jComboBox1.getSelectedItem().toString();
-        String[] matchIDArray = matchID.split("_");
-        t.forfeitMatch(matchID, matchIDArray[matchIDArray.length - 2]);
-        parent.updateList1();
-        parent.updateList2();
-        parent.updateList3();
-        parent.updateTable();
-        parent.updateBrackets();
-        this.dispose();
+     t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+     this.dispose();               
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        String matchID = jComboBox1.getSelectedItem().toString();
-        String[] matchIDArray = matchID.split("_");
-        t.forfeitMatch(matchID, matchIDArray[matchIDArray.length - 1]);
+        this.t.completeMatch(jComboBox1.getSelectedItem().toString());        
         parent.updateList1();
         parent.updateList2();
         parent.updateList3();
@@ -169,20 +183,42 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED)
-        {
-            String[] matchID = jComboBox1.getSelectedItem().toString().split("_");
-            jButton2.setText(matchID[matchID.length - 2] + " forfeited");
-            jButton3.setText(matchID[matchID.length - 1] + " forfeited");
+        if(evt.getStateChange() == ItemEvent.SELECTED){
+        ArrayList<String> teams = new ArrayList<>();
+        String x = jComboBox1.getSelectedItem().toString();
+        for(Match k: t.getMatchlist()){            
+            if(k.getMatchID().equals(x)){
+               teams.add(k.getTeam1());
+               teams.add(k.getTeam2());
+        }   
+        }
+       items2 = teams.toArray(new String[teams.size()]);
+      
+       jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(items2));
         }
     }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        String loser = null;
+        for(String h : items2) {
+            if(!(h.equals(jComboBox2.getSelectedItem()))){
+                loser = h;
+            }
+        }
+        t.forfeitMatch(jComboBox1.getSelectedItem().toString(),loser); 
+        this.dispose();
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

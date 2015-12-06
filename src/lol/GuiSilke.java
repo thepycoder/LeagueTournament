@@ -142,7 +142,6 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem12 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
@@ -151,6 +150,8 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem11 = new javax.swing.JMenuItem();
 
         jScrollPane3.setViewportView(jTree1);
 
@@ -282,14 +283,6 @@ public class GuiSilke extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem4);
 
-        jMenuItem12.setText("Conclude Match");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem12);
-
         jMenuItem10.setText("Change Match");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,6 +345,18 @@ public class GuiSilke extends javax.swing.JFrame {
         jMenu1.add(jMenuItem8);
 
         jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Reports");
+
+        jMenuItem11.setText("Generate");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -479,11 +484,6 @@ public class GuiSilke extends javax.swing.JFrame {
         updateBrackets();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        GuiConcludeMatch gcm = new GuiConcludeMatch(t, this);
-        gcm.show();
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         GuiChangeTeam jc = new GuiChangeTeam(t, this);
         jc.show();
@@ -533,6 +533,11 @@ public class GuiSilke extends javax.swing.JFrame {
            GuiCompleteMatch gcm = new GuiCompleteMatch(t, this);
         gcm.show();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        GuiReportGen grg = new GuiReportGen(t,this);
+        grg.show();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
         
     public void updateTable() {
@@ -669,13 +674,14 @@ public class GuiSilke extends javax.swing.JFrame {
     private javax.swing.JList jList2;
     private javax.swing.JList jList3;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
