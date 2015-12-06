@@ -64,7 +64,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        
         jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -73,12 +73,8 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jButton4 = new javax.swing.JButton();
 
-        jButton1.setText("End Match");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        
+        
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -162,10 +158,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
-        this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+   
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
@@ -212,7 +205,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
