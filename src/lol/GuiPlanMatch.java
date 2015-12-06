@@ -205,7 +205,7 @@ public class GuiPlanMatch extends javax.swing.JFrame {
             }
         else{
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
-            t.addMatch(jComboBox1.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jComboBox2.getSelectedItem().toString());
+            t.updateMatch(jComboBox1.getSelectedItem().toString(), sdf.format(jDateChooser1.getDate()), jComboBox2.getSelectedItem().toString());
             parent.updateList2();
             parent.updateList3();
             this.dispose();

@@ -67,6 +67,7 @@ public class ReportHandler {
         builder.append("</body>");
         builder.append("</html>");
         writeToFile(builder.toString());
+        builder = new StringBuilder();
     }
     
     public void genTeams() {
@@ -99,18 +100,18 @@ public class ReportHandler {
         String now = sdfDate.format(currentDate);
         
         for (Match match : t.getMatchlist()) {
+            if (match.getCompleted().equals("no") && match.getTimeStamp().equals("null")) { //match isn't played nor planned
+                toplay.add(match);
+            }
+            if (match.getCompleted().equals("no") && !(match.getTimeStamp().equals("null"))) { // match is planned and not yet played
+                planned.add(match);
+            }
             if (match.getTimeStamp().equals(now) && match.getCompleted().equals("yes")) { // if a match was played today
                 System.out.println(match.getTimeStamp() + " " + now);
                 today.add(match);
             }
             if (!match.getTimeStamp().equals(now) && match.getCompleted().equals("yes")) { //match is played but not today
                 history.add(match);
-            }
-            if (match.getCompleted().equals("no") && !match.getTimeStamp().equals("null")) { // match is planned and not yet played
-                planned.add(match);
-            }
-            if (match.getCompleted().equals("no") && match.getTimeStamp().equals("null")) { //match isn't played nor planned
-                toplay.add(match);
             }
         }
         
@@ -188,8 +189,13 @@ public class ReportHandler {
         for (Match match : history) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
-            builder.append("<td>" + match.getTeam1()+ "</td>");
-            builder.append("<td>" + match.getTeam2()+ "</td>");
+            if (match.getWinner() != null && match.getWinner().equals(match.getTeam1())) {
+                builder.append("<td bgcolor='#E8AF0C'>" + match.getTeam1()+ "</td>");
+                builder.append("<td>" + match.getTeam2()+ "</td>");
+            } else {
+                builder.append("<td>" + match.getTeam1()+ "</td>");
+                builder.append("<td bgcolor='#E8AF0C'>" + match.getTeam2()+ "</td>");
+            }
             builder.append("<td>" + match.getTimeStamp() + "</td>");
             builder.append("<td>" + match.getOfficial() + "</td>");
             if (match.getType().startsWith("Poule")) {
@@ -222,6 +228,7 @@ public class ReportHandler {
     }
     
     public void genBrackets() {
+        System.out.println(t.bracketlist);
         ArrayList<Bracket> quarterFinals = new ArrayList<>();
         ArrayList<Bracket> semiFinals = new ArrayList<>();
         ArrayList<Bracket> finals = new ArrayList<>();
@@ -260,7 +267,7 @@ public class ReportHandler {
         builder.append("<h1>Semi Finals</h1>");
         builder.append("<table border=\"1\" style=\"width:100%\">");
         builder.append("<tr><th>Team 1</th><th>score</th><th>Team 2</th><th>score</th>");
-        for (Bracket b : quarterFinals) {
+        for (Bracket b : semiFinals) {
             builder.append("<tr>");
             builder.append("<td>" + b.getTeam1Name()+ "</td>");
             builder.append("<td>" + b.getTeam1score()+ "</td>");

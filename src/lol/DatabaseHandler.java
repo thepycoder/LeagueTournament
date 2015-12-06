@@ -17,12 +17,12 @@ public class DatabaseHandler {
     
 
    
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
-    //public String user = "root";
-    //public String pass = "";
-    //public String url = "jdbc:mysql://localhost/BINFG16";
+    //public String user = "BINFG16";
+    //public String pass = "f9xff87y";
+    //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -116,15 +116,15 @@ public void updateMatch(Match match) {
             Statement stmt = conn.createStatement();
             String query = "";
             String official = match.getOfficial();
-            if (official.equals("")) {
-                official = null;
-            } else {
+            if (!"".equals(official) && official != null) {
                 official = "'" + official + "'";
+            } else {
+                official = "null";
             }
             if (match.getType().startsWith("Bracket")) {
-                query = "UPDATE bracketmatches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "', WHERE matchID='" + match.getMatchID() + "'";
+                query = "UPDATE bracketmatches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "' WHERE matchID='" + match.getMatchID() + "'";
             } else {
-                query = "UPDATE poulematches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "', WHERE matchID='" + match.getMatchID() + "'";
+                query = "UPDATE poulematches SET timestamp='" + match.getTimeStamp()+ "', official=" + official + ", winner='" + match.getWinner() + "' WHERE matchID='" + match.getMatchID() + "'";
             }
             
             System.out.println(query);
