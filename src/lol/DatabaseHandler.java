@@ -17,14 +17,14 @@ public class DatabaseHandler {
     
 
    
+//
+//    public String user = "BINFG16";
+//    public String pass = "f9xff87y";
+//    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
-
- //   public String user = "root";
- //   public String pass = "";
- //   public String url = "jdbc:mysql://localhost/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -505,6 +505,27 @@ public void updateMatch(Match match) {
             }
         }
     }
+    
+    public void updateTeamStats(Team team) {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();           
+            
+            String query = "UPDATE teams SET dragons=" + team.getDragons() + ", barons=" + team.getBarons()+ ", gold = " + team.getGold() + " WHERE name='" + team.getName()+ "'";
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
    
     public void addPouleWin(Team team) {
        try {
@@ -660,15 +681,15 @@ public void updateMatch(Match match) {
         }
    }
    
-    public void setCompleted(Match match, String matchDump, String timestamp) {
+    public void setCompleted(Match match, String timestamp) {
        try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
             String query = "";
             if (match.getType().startsWith("Bracket")) {
-                query = "UPDATE bracketmatches SET completed='yes', timestamp='" + timestamp + "', datadump='" + matchDump + "' WHERE matchID='" + match.getMatchID()+ "'";
+                query = "UPDATE bracketmatches SET completed='yes', timestamp='" + timestamp + "' WHERE matchID='" + match.getMatchID()+ "'";
             } else {
-                query = "UPDATE poulematches SET completed='yes', timestamp='" + timestamp + "', datadump='" + matchDump + "' WHERE matchID='" + match.getMatchID()+ "'";
+                query = "UPDATE poulematches SET completed='yes', timestamp='" + timestamp + "' WHERE matchID='" + match.getMatchID()+ "'";
             }
             
             System.out.println(query);

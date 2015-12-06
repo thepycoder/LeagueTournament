@@ -17,7 +17,7 @@ public class Team implements Comparable<Team> {
     private String region;
     private String coach;
     private double barons;
-    private double golds;
+    private double gold;
     private double dragons;
     private ArrayList<Player> members;
     private int pouleWins;
@@ -35,7 +35,7 @@ public class Team implements Comparable<Team> {
         this.region = null;
         this.coach = null;
         this.barons = 0.0;
-        this.golds = 0.0;
+        this.gold = 0.0;
         this.dragons = 0.0;
         this.members = null;
         this.pouleWins = 0;
@@ -50,7 +50,7 @@ public class Team implements Comparable<Team> {
         this.region = region;
         this.coach = coach;
         this.barons = 0.0;
-        this.golds = 0.0;
+        this.gold = 0.0;
         this.dragons = 0.0;
         this.members = members;
         this.pouleWins = 0;
@@ -59,12 +59,12 @@ public class Team implements Comparable<Team> {
         this.tieBreakerLosses = 0;
     }
     
-    public Team(String name, String region, String coach, double barons, double golds, double dragons, ArrayList<Player> members, int pouleWins, int pouleLosses, int tieBreakerWins, int tieBreakerLosses) {
+    public Team(String name, String region, String coach, double barons, double gold, double dragons, ArrayList<Player> members, int pouleWins, int pouleLosses, int tieBreakerWins, int tieBreakerLosses) {
         this.name = name;
         this.region = region;
         this.coach = coach;
         this.barons = barons;
-        this.golds = golds;
+        this.gold = gold;
         this.dragons = dragons;
         this.members = members;
         this.pouleWins = pouleWins;
@@ -90,8 +90,42 @@ public class Team implements Comparable<Team> {
         this.tieBreakerLosses +=1;
     }
     
+    public void addDragons(double amount) {
+        if ((this.pouleLosses + this.pouleWins) > 0) { //aka if the team already played matches, so we don't count the 0 it is from the start
+            this.setDragons((dragons + amount) / 2.0);
+        } else {
+            this.setDragons(amount);
+        }
+    }
+    
+    public void addBarons(double amount) {
+        if ((this.pouleLosses + this.pouleWins) > 0) { //aka if the team already played matches, so we don't count the 0 it is from the start
+            this.setBarons((barons + amount) / 2.0);
+        } else {
+            this.setBarons(amount);
+        }
+    }
+    
+    public void addGold(double amount) {
+        if ((this.pouleLosses + this.pouleWins) > 0) { //aka if the team already played matches, so we don't count the 0 it is from the start
+            this.setGold((gold + amount) / 2.0);
+        } else {
+            this.setGold(amount);
+        }
+    }
+    
+    public double getBarons() {
+        return barons;
+    }
+
+    public double getGold() {
+        return gold;
+    }
 
     //getters
+    public double getDragons() {    
+        return dragons;
+    }
 
     public int getTieBreakerWins() {
         return tieBreakerWins;
@@ -150,8 +184,8 @@ public class Team implements Comparable<Team> {
         this.barons = barons;
     }
 
-    public void setGolds(double golds) {
-        this.golds = golds;
+    public void setGold(double gold) {
+        this.gold = gold;
     }
 
     public void setDragons(double dragons) {

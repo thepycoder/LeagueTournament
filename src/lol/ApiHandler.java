@@ -40,7 +40,7 @@ public class ApiHandler {
     public List<String> statsToKeep;
     
     public ApiHandler() {
-        this.statsToKeep = Arrays.asList("kills", "deaths", "assists", "minionsKilled");
+        this.statsToKeep = Arrays.asList("kills", "deaths", "assists", "minionsKilled", "neutralMinionsKilled", "goldEarned", "winner");
         
     }
     public JsonObject API(String arg, int call) { //Op basis van 1 player halen we de matchstatistieken op
@@ -119,12 +119,12 @@ public class ApiHandler {
                     
                     if (p.get("teamId").getAsString().equals("100")) {
                         JsonObject team1 = rootobj.get("teams").getAsJsonArray().get(0).getAsJsonObject();
-                        stats.put("dragons", team1.get("dragonKills"));
-                        stats.put("barons", team1.get("baronKills"));
+                        stats.put("dragons", team1.get("dragonKills").getAsString());
+                        stats.put("barons", team1.get("baronKills").getAsString());
                     } else {
                         JsonObject team2 = rootobj.get("teams").getAsJsonArray().get(1).getAsJsonObject();
-                        stats.put("dragons", team2.get("dragonKills"));
-                        stats.put("barons", team2.get("baronKills"));
+                        stats.put("dragons", team2.get("dragonKills").getAsString());
+                        stats.put("barons", team2.get("baronKills").getAsString());
                     }
                     
                     summary.put(entry.getValue(), stats);
