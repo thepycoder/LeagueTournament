@@ -18,9 +18,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -35,8 +37,11 @@ public class ApiHandler {
     public int apiCount = 0;
     public String apiKey = "efe95977-e5a3-4bef-875d-d3555438d6a5";
     public String matchID = "";
+    public List<String> statsToKeep;
     
     public ApiHandler() {
+        this.statsToKeep = Arrays.asList("kills", "deaths", "assists", "minionsKilled");
+        
     }
     public JsonObject API(String arg, int call) { //Op basis van 1 player halen we de matchstatistieken op
         try {
@@ -96,6 +101,7 @@ public class ApiHandler {
         
         JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
         
+        
         JsonArray participants = rootobj.getAsJsonArray("participants");
         
         for (JsonElement participant : participants) {
@@ -106,7 +112,19 @@ public class ApiHandler {
                     
                     Map stats = new HashMap();
                     for (Entry<String, JsonElement> stat : p.get("stats").getAsJsonObject().entrySet()) {
-                        stats.put(stat.getKey(), stat.getValue().getAsString());
+                        if (statsToKeep.contains(stat.getKey())) {
+                            stats.put(stat.getKey(), stat.getValue().getAsString());
+                        }
+                    }
+                    
+                    if (p.get("teamId").getAsString().equals("100")) {
+                        JsonObject team1 = rootobj.get("teams").getAsJsonArray().get(0).getAsJsonObject();
+                        stats.put("dragons", team1.get("dragonKills"));
+                        stats.put("barons", team1.get("baronKills"));
+                    } else {
+                        JsonObject team2 = rootobj.get("teams").getAsJsonArray().get(1).getAsJsonObject();
+                        stats.put("dragons", team2.get("dragonKills"));
+                        stats.put("barons", team2.get("baronKills"));
                     }
                     
                     summary.put(entry.getValue(), stats);
