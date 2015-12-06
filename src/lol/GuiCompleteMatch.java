@@ -162,6 +162,11 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
      t.manualCompleteMatch(jComboBox1.getSelectedItem().toString(), jComboBox2.getSelectedItem().toString());
+     parent.updateList1();
+     parent.updateList2();
+     parent.updateList3();
+     parent.updateTable();
+     parent.updateBrackets();
      this.dispose();               
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -198,7 +203,12 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
                 loser = h;
             }
         }
-        t.forfeitMatch(jComboBox1.getSelectedItem().toString(),loser); 
+        t.forfeitMatch(jComboBox1.getSelectedItem().toString(),loser);
+        parent.updateList1();
+        parent.updateList2();
+        parent.updateList3();
+        parent.updateTable();
+        parent.updateBrackets();
         this.dispose();
         
     }//GEN-LAST:event_jButton4ActionPerformed
