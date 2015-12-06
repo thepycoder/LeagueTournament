@@ -22,9 +22,8 @@ public class Main {
         ReportHandler rh = new ReportHandler(t);
         
         //System.out.println(db.retrieveTeams());
-        //t.addTeams(db.retrieveTeams());
+        t.addTeams(db.retrieveTeams());
         //t.addOfficials(db.retrieveOfficials());
-//        System.out.println(t.getTeamlist());
         //t.completeMatch("Poule2_H2K_Koo Tigers");
 //        HashMap<String, Map<String, String>> blub = api.getMatchSummary("Krepo");
 //        System.out.println(blub);
@@ -43,15 +42,15 @@ public class Main {
         // System.out.println(db.retrieveTeams());
         //db.resetMatches();
         //System.out.println(t.getMatchlist());
-//        if(db.retrievePoules().isEmpty()) {
-//            t.generatePoules(t.getTeamlist(), 2);
-//            t.generatePouleMatches();
-//        } else {
-//            t.setPoulelist(db.retrievePoules());
-//            t.addMatches(db.retrieveBracketMatches());
-//            t.addMatches(db.retrievePouleMatches());
-//            t.setBracketlist(db.retrieveBrackets());
-//        }
+        if(db.retrievePoules().isEmpty()) {
+            t.generatePoules(t.getTeamlist(), 2);
+            t.generatePouleMatches();
+        } else {
+            t.setPoulelist(db.retrievePoules());
+            t.addMatches(db.retrieveBracketMatches());
+            t.addMatches(db.retrievePouleMatches());
+            t.setBracketlist(db.retrieveBrackets());
+        }
 //
 //
 //        rh.generate();

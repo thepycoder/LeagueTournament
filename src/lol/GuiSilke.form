@@ -129,6 +129,7 @@
           </SubComponents>
         </Menu>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Reports"/>
@@ -137,6 +138,16 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem11">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Generate"/>
+=======
+        <Menu class="javax.swing.JMenu" name="jMenu6">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Report"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem11">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generate Report"/>
+>>>>>>> origin/master
 =======
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>

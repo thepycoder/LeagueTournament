@@ -17,9 +17,15 @@ public class DatabaseHandler {
     
 
    
+<<<<<<< HEAD
     //public String user = "BINFG16";
     //public String pass = "f9xff87y";
     //public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+=======
+//    public String user = "BINFG16";
+//    public String pass = "f9xff87y";
+//    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+>>>>>>> origin/master
     public String user = "root";
     public String pass = "";
     public String url = "jdbc:mysql://localhost/BINFG16";
