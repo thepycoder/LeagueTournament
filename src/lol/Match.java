@@ -37,7 +37,7 @@ public class Match implements Comparable<Match> {
         this.team1 = team1;
         this.team2 = team2;
         this.winner = null;
-        this.timeStamp = null;
+        this.timeStamp = "null";
         this.official = official;
         this.type = type;
         this.completed = "no";
