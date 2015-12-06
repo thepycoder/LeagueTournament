@@ -560,7 +560,7 @@ public class GuiSilke extends javax.swing.JFrame {
             @Override
             public Object getElementAt(int i) { return strings[i]; }
         });
-        
+         
         jList2.repaint();
     }
     
