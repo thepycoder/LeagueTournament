@@ -62,19 +62,20 @@ public class Tournament {
     }
     
     public void removeTeam(String teamName) {
-        Team wrongTeam = null;
+        Team wrongTeam = null;        
         for (Team team : teamlist) {
             if (team.getName().equals(teamName)) {
                 wrongTeam = team;
             }
         }
-        teamlist.remove(wrongTeam);
-        db.removeTeam(wrongTeam);
         for(Poule p: poulelist){
             if(p.getTeams().contains(wrongTeam)){
                 p.getTeams().remove(wrongTeam);
             }
         }
+        teamlist.remove(wrongTeam);
+        db.removeTeam(wrongTeam);
+        
     }
     
     public Team searchTeam (String teamName) 
@@ -116,8 +117,7 @@ public class Tournament {
             db.storePlayer(member);
         }
         db.storeTeam(name, members, coach, region);
-        generatePoules(teamlist, poulelist.size());
-        generatePouleMatches();
+       
     }
     
     public void addTeams(ArrayList<Team> teams) {

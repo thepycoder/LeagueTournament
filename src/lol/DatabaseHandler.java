@@ -18,13 +18,13 @@ public class DatabaseHandler {
 
    
 
-//    public String user = "BINFG16";
-//    public String pass = "f9xff87y";
-//    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "BINFG16";
+    public String pass = "f9xff87y";
+    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-    public String user = "root";
-    public String pass = "";
-    public String url = "jdbc:mysql://localhost/BINFG16";
+ //   public String user = "root";
+  //  public String pass = "";
+  //  public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -842,9 +842,10 @@ public void updateMatch(Match match) {
     public void removeTeam(Team team){
        try {
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();        
-            
-            String query = "DELETE FROM teams WHERE name = '" + team.getName() + "'";
+            Statement stmt = conn.createStatement();      
+            String query = "DELETE FROM poulescores WHERE team = '" + team.getName() + "'";
+           // String query2 = "DELETE FROM bracketscores WHERE team = '" + team.getName() + "'";
+            String query1 = "DELETE FROM teams WHERE name = '" + team.getName() + "'";            
             System.out.println(query);
             stmt.executeUpdate(query);
         }

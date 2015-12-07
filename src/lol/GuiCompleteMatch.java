@@ -73,6 +73,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox();
         jButton4 = new javax.swing.JButton();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
