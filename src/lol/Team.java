@@ -73,6 +73,18 @@ public class Team implements Comparable<Team> {
         this.tieBreakerLosses = tieBreakerLosses;
         
     }
+
+    public double getBarons() {
+        return barons;
+    }
+
+    public double getGold() {
+        return gold;
+    }
+
+    public double getDragons() {
+        return dragons;
+    }
     
     public void addWin() {
         this.pouleWins += 1;
@@ -112,19 +124,6 @@ public class Team implements Comparable<Team> {
         } else {
             this.setGold(amount);
         }
-    }
-    
-    public double getBarons() {
-        return barons;
-    }
-
-    public double getGold() {
-        return gold;
-    }
-
-    //getters
-    public double getDragons() {    
-        return dragons;
     }
 
     public int getTieBreakerWins() {

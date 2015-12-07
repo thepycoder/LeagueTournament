@@ -105,8 +105,12 @@ public class GuiRemoveTeam extends javax.swing.JFrame {
                                   "Are you sure you want to remove the team?","", 
                                   JOptionPane.YES_NO_OPTION); 
      if (selectedOption == JOptionPane.YES_OPTION) {
-                t.removeTeam(t.searchTeam(jComboBox1.getSelectedItem().toString()).getName());
+                t.removeTeam(t.searchTeam(jComboBox1.getSelectedItem().toString()).getName());                   
                 parent.updateList1();
+                parent.updateList2();
+                parent.updateList3();
+                parent.updateTable();
+                parent.updateBrackets();
                 this.dispose();
      }
 

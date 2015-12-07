@@ -22,9 +22,13 @@ public class DatabaseHandler {
 //    public String pass = "f9xff87y";
 //    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-    public String user = "root";
-    public String pass = "";
-    public String url = "jdbc:mysql://localhost/BINFG16";
+    public String user = "BINFG16";
+    public String pass = "f9xff87y";
+    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+
+ //   public String user = "root";
+  //  public String pass = "";
+  //  public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -62,8 +66,7 @@ public class DatabaseHandler {
     public void storeTeam(String name, ArrayList<Player> members, String coach, String region){
         try {
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();
-            
+            Statement stmt = conn.createStatement();            
             String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
@@ -79,7 +82,8 @@ public class DatabaseHandler {
             }
         }
     }
-  public void storeMatch(Match match){
+    
+    public void storeMatch(Match match){
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -112,7 +116,7 @@ public class DatabaseHandler {
     }
   
   
-public void updateMatch(Match match) {
+    public void updateMatch(Match match) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -144,7 +148,7 @@ public void updateMatch(Match match) {
         }
 }
   
-  public void updateBracket(Bracket bracket) {
+    public void updateBracket(Bracket bracket) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -179,9 +183,9 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
-  public void storePoule(Poule poule){
+    public void storePoule(Poule poule){
         try {            
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -204,7 +208,7 @@ public void updateMatch(Match match) {
         }
     }
   
-  public ArrayList<Poule> retrievePoules() {
+    public ArrayList<Poule> retrievePoules() {
       ArrayList<Poule> poules = new ArrayList<>();
        
         try {
@@ -245,9 +249,9 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
-  public ArrayList<Bracket> retrieveBrackets() {
+    public ArrayList<Bracket> retrieveBrackets() {
       ArrayList<Bracket> brackets = new ArrayList<>();
        
         try {
@@ -293,7 +297,7 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
     public void storeBracket(Bracket bracket){
         try {            
@@ -347,10 +351,10 @@ public void updateMatch(Match match) {
                     System.out.println("Couldn't close the connection: " + ex);
                 }
             }
-        }
-       
-   }
-     public ArrayList<String> retrieveOfficials() {
+        }   
+    }
+    
+    public ArrayList<String> retrieveOfficials() {
        
         ArrayList<String> officials = new ArrayList<>();
        
@@ -860,14 +864,32 @@ public void updateMatch(Match match) {
         }
     }
    
-    public void removeTeam(Team team){
-       try {
+    public void removeTeam(Team team, ArrayList<Player> players){
+       try {           
+            String a = "DELETE FROM players WHERE name = '" + players.get(0).getName() +"'";
+            String b = "DELETE FROM players WHERE name = '" + players.get(1).getName() +"'";
+            String c = "DELETE FROM players WHERE name = '" + players.get(2).getName() +"'";
+            String d = "DELETE FROM players WHERE name = '" + players.get(3).getName() +"'";
+            String e = "DELETE FROM players WHERE name = '" + players.get(4).getName() +"'";           
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();        
-            
-            String query = "DELETE FROM teams WHERE name = '" + team.getName() + "'";
+            Statement stmt = conn.createStatement();      
+            String query = "DELETE FROM poulescores WHERE team = '" + team.getName() + "'";
+           // String query2 = "DELETE FROM bracketscores WHERE team = '" + team.getName() + "'";
+            String query1 = "DELETE FROM teams WHERE name = '" + team.getName() + "'";            
             System.out.println(query);
             stmt.executeUpdate(query);
+            System.out.println(query1);
+            stmt.executeUpdate(query1);
+            System.out.println(a);
+            stmt.executeUpdate(a);
+            System.out.println(b);
+            stmt.executeUpdate(b);
+            System.out.println(c);
+            stmt.executeUpdate(c);
+            System.out.println(d);
+            stmt.executeUpdate(d);
+            System.out.println(e);
+            stmt.executeUpdate(e);            
         }
         catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);

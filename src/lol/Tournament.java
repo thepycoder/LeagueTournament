@@ -62,19 +62,24 @@ public class Tournament {
     }
     
     public void removeTeam(String teamName) {
-        Team wrongTeam = null;
+        Team wrongTeam = null;        
         for (Team team : teamlist) {
             if (team.getName().equals(teamName)) {
                 wrongTeam = team;
             }
         }
-        teamlist.remove(wrongTeam);
-        db.removeTeam(wrongTeam);
         for(Poule p: poulelist){
             if(p.getTeams().contains(wrongTeam)){
                 p.getTeams().remove(wrongTeam);
             }
         }
+        ArrayList<Player> players = wrongTeam.getMembers();        
+        teamlist.remove(wrongTeam);
+        this.resetMatches();
+        db.removeTeam(wrongTeam,players);
+        this.generatePoules(teamlist, poulelist.size());
+        this.generatePouleMatches();
+        
     }
     
     public Team searchTeam (String teamName) 
@@ -91,6 +96,8 @@ public class Tournament {
     public void addTeam(String name) {
         Team team = new Team(name);
         teamlist.add(team);
+        db.storeTeam(name, null, name, name);
+       
     }
     public void addOfficial(String name) {
         officials.add(name);
@@ -109,13 +116,16 @@ public class Tournament {
     }
     public void addTeam(String name, ArrayList<Player> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
-        teamlist.add(team);
-        db.storeTeam(name, members, coach, region);
+        teamlist.add(team);       
+        
         for (Player member : members) {
             db.storePlayer(member);
-        }
-        generatePoules(teamlist, poulelist.size());
-        generatePouleMatches();
+        }       
+        
+        this.resetMatches();
+        this.generatePoules(teamlist,poulelist.size());
+        this.generatePouleMatches();   
+        db.storeTeam(name, members, coach, region);
     }
     
     public void addTeams(ArrayList<Team> teams) {
@@ -322,14 +332,14 @@ public class Tournament {
                 winner = team2;
                 matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                bracket.addLossTeam2();
+                //bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
                 matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam2();
-                bracket.addLossTeam1();
+                //bracket.addLossTeam1();
                 //db.addBracketWin(bracket, 1);
                 //db.addBracketLoss(bracket, 2);
             }
@@ -911,13 +921,47 @@ public class Tournament {
 
             Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
             Team team2 = poule.getSortedTeams().get(1);
-            int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
-            bracketlist.get(pouleNr).setTeam1(team1);
-            if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
-                bracketlist.get(pouleNr - 1).setTeam2(team2);
-            } else {
-                bracketlist.get(pouleNr + 1).setTeam2(team2);
+            int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)); // because we generated with i + 1
+            
+            if (this.poulelist.size() == 4) {
+                switch (pouleNr) {
+                    case 1:
+                        bracketlist.get(0).setTeam1(team1);
+                        bracketlist.get(1).setTeam2(team2);
+                        break;
+                    case 2:
+                        bracketlist.get(1).setTeam1(team1);
+                        bracketlist.get(0).setTeam2(team2);
+                        break;
+                    case 3:
+                        bracketlist.get(2).setTeam1(team1);
+                        bracketlist.get(3).setTeam2(team2);
+                        break;
+                    case 4:
+                        bracketlist.get(3).setTeam1(team1);
+                        bracketlist.get(2).setTeam2(team2);
+                        break;
+                }
+            } else if (this.poulelist.size() == 2) {
+                switch (pouleNr) {
+                    case 1:
+                        bracketlist.get(4).setTeam1(team1);
+                        bracketlist.get(5).setTeam2(team2);
+                        break;
+                    case 2:
+                        bracketlist.get(5).setTeam1(team1);
+                        bracketlist.get(4).setTeam2(team2);
+                        break;
+                }
             }
+//            bracketlist.get(pouleNr).setTeam1(team1);
+//            if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
+//                bracketlist.get(pouleNr - 1).setTeam2(team2);
+//            } else {
+//                bracketlist.get(pouleNr + 1).setTeam2(team2);
+//            }
+
+            
 
             //System.out.println(bracketlist);
 

@@ -47,23 +47,34 @@ public class ReportHandler {
         }
     }
     
-    public void generate() {
+    public void generate(Boolean a, Boolean b, Boolean c, Boolean d, Boolean e) {       
         builder.append("<!DOCTYPE html>");
         builder.append("<html lang=\"en\">");
         builder.append("<head>");
         builder.append("<title>Tournament Overview</title>");
         builder.append("<style>table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}</style>");
         builder.append("</head>");
-        builder.append("<body>");
-        genTeams();
+        builder.append("<body>");  
         builder.append("<br>");
-        genMatches();
-        builder.append("<br>");
-        genPoules();
-        builder.append("<br>");
-        genPlayerStats();
-        builder.append("<br>");
-        genBrackets();
+        if(a == true){
+            genMatches();        
+            builder.append("<br>");
+        }
+        if(e == true){
+            genTeams();
+            builder.append("<br>");
+        }
+        if(b == true){
+            genPoules();
+            builder.append("<br>");
+        }
+        if (c == true){
+            genPlayerStats();
+            builder.append("<br>");
+        }
+        if(d == true){
+            genBrackets();
+        }
         builder.append("</body>");
         builder.append("</html>");
         writeToFile(builder.toString());
@@ -294,9 +305,10 @@ public class ReportHandler {
     }
     
     public void genPlayerStats() {
-        builder.append("<h1>Player overview</h1>");
+        builder.append("<h1>Statistics overview</h1>");
         for (Team team : t.getTeamlist()) {
             builder.append("<h2>" + team.getName() + "</h2>");
+            builder.append("<p>" + "Gold: " + team.getGold() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "Dragons: " + team.getDragons() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "Barons: " + team.getBarons() + "</p>");            
             builder.append("<table border=\"1\" style=\"width:100%\">");
             builder.append("<tr><th>Username</th><th>Average KDA</th><th>Average Kill Participation</th><th>Average CS-score</th>");
             for (Player player : team.getMembers()) {
