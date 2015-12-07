@@ -297,7 +297,7 @@ public class ReportHandler {
         builder.append("<h1>Statistics overview</h1>");
         for (Team team : t.getTeamlist()) {
             builder.append("<h2>" + team.getName() + "</h2>");
-            builder.append("<p>" + "Gold: " + team.getGold() + "&nbsp" + "Dragons: " + team.getDragons() + "&nbsp" + "Barons: " + team.getBarons() + "</p>");            
+            builder.append("<p>" + "Gold: " + team.getGold() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "Dragons: " + team.getDragons() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "Barons: " + team.getBarons() + "</p>");            
             builder.append("<table border=\"1\" style=\"width:100%\">");
             builder.append("<tr><th>Username</th><th>Average KDA</th><th>Average Kill Participation</th><th>Average CS-score</th>");
             for (Player player : team.getMembers()) {

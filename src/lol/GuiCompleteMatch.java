@@ -72,16 +72,7 @@ public class GuiCompleteMatch extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
         jButton4 = new javax.swing.JButton();
-<<<<<<< HEAD
 
-        jButton1.setText("End Match");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-=======
->>>>>>> origin/master
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
