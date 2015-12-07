@@ -849,6 +849,8 @@ public class DatabaseHandler {
             String query1 = "DELETE FROM teams WHERE name = '" + team.getName() + "'";            
             System.out.println(query);
             stmt.executeUpdate(query);
+            System.out.println(query1);
+            stmt.executeUpdate(query1);
         }
         catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
