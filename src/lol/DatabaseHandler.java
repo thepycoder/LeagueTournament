@@ -79,7 +79,8 @@ public class DatabaseHandler {
             }
         }
     }
-  public void storeMatch(Match match){
+    
+    public void storeMatch(Match match){
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -112,7 +113,7 @@ public class DatabaseHandler {
     }
   
   
-public void updateMatch(Match match) {
+    public void updateMatch(Match match) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -144,7 +145,7 @@ public void updateMatch(Match match) {
         }
 }
   
-  public void updateBracket(Bracket bracket) {
+    public void updateBracket(Bracket bracket) {
       try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -179,9 +180,9 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
-  public void storePoule(Poule poule){
+    public void storePoule(Poule poule){
         try {            
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
@@ -204,7 +205,7 @@ public void updateMatch(Match match) {
         }
     }
   
-  public ArrayList<Poule> retrievePoules() {
+    public ArrayList<Poule> retrievePoules() {
       ArrayList<Poule> poules = new ArrayList<>();
        
         try {
@@ -245,9 +246,9 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
-  public ArrayList<Bracket> retrieveBrackets() {
+    public ArrayList<Bracket> retrieveBrackets() {
       ArrayList<Bracket> brackets = new ArrayList<>();
        
         try {
@@ -293,7 +294,7 @@ public void updateMatch(Match match) {
                 }
             }
         }
-  }
+    }
   
     public void storeBracket(Bracket bracket){
         try {            
@@ -347,10 +348,10 @@ public void updateMatch(Match match) {
                     System.out.println("Couldn't close the connection: " + ex);
                 }
             }
-        }
-       
-   }
-     public ArrayList<String> retrieveOfficials() {
+        }   
+    }
+    
+    public ArrayList<String> retrieveOfficials() {
        
         ArrayList<String> officials = new ArrayList<>();
        
