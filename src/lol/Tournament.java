@@ -112,10 +112,10 @@ public class Tournament {
     public void addTeam(String name, ArrayList<Player> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
         teamlist.add(team);
-        db.storeTeam(name, members, coach, region);
         for (Player member : members) {
             db.storePlayer(member);
         }
+        db.storeTeam(name, members, coach, region);
         generatePoules(teamlist, poulelist.size());
         generatePouleMatches();
     }
