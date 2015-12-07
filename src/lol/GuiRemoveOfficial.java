@@ -23,11 +23,7 @@ public class GuiRemoveOfficial extends javax.swing.JFrame {
         initComponents();
         setTitle("remove an official");
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        ArrayList<String> officials = new ArrayList<>();
-        
-        for (String k : t.getOfficials()) {
-               officials.add(k);
-        }        
+        ArrayList<String> officials = t.getOfficials();
         items = officials.toArray(new String[officials.size()]);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(items));
     }

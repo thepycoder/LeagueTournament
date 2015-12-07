@@ -47,23 +47,34 @@ public class ReportHandler {
         }
     }
     
-    public void generate() {
+    public void generate(Boolean a, Boolean b, Boolean c, Boolean d, Boolean e) {       
         builder.append("<!DOCTYPE html>");
         builder.append("<html lang=\"en\">");
         builder.append("<head>");
         builder.append("<title>Tournament Overview</title>");
         builder.append("<style>table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}</style>");
         builder.append("</head>");
-        builder.append("<body>");
-        genTeams();
+        builder.append("<body>");  
         builder.append("<br>");
-        genMatches();
-        builder.append("<br>");
-        genPoules();
-        builder.append("<br>");
-        genPlayerStats();
-        builder.append("<br>");
-        genBrackets();
+        if(a == true){
+            genMatches();        
+            builder.append("<br>");
+        }
+        if(e == true){
+            genTeams();
+            builder.append("<br>");
+        }
+        if(b == true){
+            genPoules();
+            builder.append("<br>");
+        }
+        if (c == true){
+            genPlayerStats();
+            builder.append("<br>");
+        }
+        if(d == true){
+            genBrackets();
+        }
         builder.append("</body>");
         builder.append("</html>");
         writeToFile(builder.toString());

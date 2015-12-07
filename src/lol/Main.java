@@ -23,7 +23,7 @@ public class Main {
         
         //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
-        //t.addOfficials(db.retrieveOfficials());
+        t.addOfficials(db.retrieveOfficials());
         //t.completeMatch("Poule2_H2K_Koo Tigers");
 //        HashMap<String, Map<String, String>> blub = api.getMatchSummary("Krepo");
 //        System.out.println(blub);
@@ -53,7 +53,6 @@ public class Main {
         }
 //
 //
-        rh.generate();
         //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
         //t.completePoule(t.getPoulelist().get(0));

@@ -109,26 +109,12 @@ public class GuiReportGen extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         ReportHandler rp = new ReportHandler(t);
-        rp.generate();
-        if(jCheckBox1.isSelected()){
-            rp.genTeams();            
-        }
-        else if(jCheckBox3.isSelected()){
-            rp.genMatches();
-                 
-        }
-        else if(jCheckBox4.isSelected()){
-            rp.genPoules();
-           
-        }
-        else if(jCheckBox5.isSelected()){
-           rp.genPlayerStats();
-          
-        }
-        else if(jCheckBox6.isSelected()){
-            rp.genBrackets();
-           
-        }
+        Boolean a = jCheckBox1.isSelected();
+        Boolean b = jCheckBox3.isSelected();
+        Boolean c = jCheckBox4.isSelected();
+        Boolean d = jCheckBox5.isSelected();
+        Boolean e = jCheckBox6.isSelected();
+        rp.generate(b, c, d, e, a);
         this.dispose();
         
     }//GEN-LAST:event_jButton2ActionPerformed
