@@ -39,7 +39,7 @@ public class GuiReportGen extends javax.swing.JFrame {
         jCheckBox6 = new javax.swing.JCheckBox();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jCheckBox1.setText("Team Overview");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
