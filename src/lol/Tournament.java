@@ -433,20 +433,31 @@ public class Tournament {
         Date date = new Date();
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        
-        allPlayers.addAll(team1.getMembers());
         
         HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
-        allPlayers.addAll(team2.getMembers());
-        int index = 0;
+        
+        int index1 = 0;
+        int index2 = 0;
+        Team blue;
+        Team purple;
+        
+        System.out.println(team1mem + ": " + matchDump);
+        if (matchDump.get(team1mem).get("team").equals("1")) {
+            blue = team1;
+            purple = team2;
+        } else {
+            blue = team2;
+            purple = team1;
+        }
+        
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            if (!allPlayers.get(index).getName().equals(team1mem)) {  //if statement to make sure the existing player gets the right stats to prove that it works
-                newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
-            } else {
-                newMatchDump.put(team1mem, entry.getValue());
+            if (entry.getValue().get("team").equals("1")) {
+                newMatchDump.put(blue.getMembers().get(index1).getName(), entry.getValue());
+                index1++;
+            } else if (entry.getValue().get("team").equals("2")) {
+                newMatchDump.put(purple.getMembers().get(index2).getName(), entry.getValue());
+                index2++;
             }
-            index++;
         }
         matchDump = newMatchDump;
         //end testing part
@@ -617,11 +628,7 @@ public class Tournament {
         allPlayers.addAll(team2.getMembers());
         int index = 0;
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            if (!allPlayers.get(index).getName().equals(team1mem)) {  //if statement to make sure the existing player gets the right stats to prove that it works
-                newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
-            } else {
-                newMatchDump.put(team1mem, entry.getValue());
-            }
+            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
             index++;
         }
         matchDump = newMatchDump;
@@ -785,6 +792,9 @@ public class Tournament {
         }
         
         for (Player player : team1.getMembers()) {
+            
+            System.out.println(player.getName() + ": " + matchDump.get(player.getName()));
+            
             teststat += player + ": ";
             double KDA = 0;
             int CS = 0;
@@ -827,6 +837,8 @@ public class Tournament {
             double KDA = 0;
             int CS = 0;
             double KP = 0;
+            
+            System.out.println(player.getName() + ": " + matchDump.get(player.getName()));
             
             totalGoldTeam2 += Integer.parseInt(matchDump.get(player.getName()).get("goldEarned"));
             
