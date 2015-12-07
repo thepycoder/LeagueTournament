@@ -925,11 +925,11 @@ public class Tournament {
                 switch (pouleNr) {
                     case 1:
                         bracketlist.get(4).setTeam1(team1);
-                        bracketlist.get(5).setTeam1(team2);
+                        bracketlist.get(5).setTeam2(team2);
                         break;
                     case 2:
                         bracketlist.get(5).setTeam1(team1);
-                        bracketlist.get(4).setTeam1(team2);
+                        bracketlist.get(4).setTeam2(team2);
                         break;
                 }
             }
