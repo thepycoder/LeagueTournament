@@ -53,7 +53,6 @@ public class Main {
         }
 //
 //
-        rh.generate();
         //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
         //t.completePoule(t.getPoulelist().get(0));
