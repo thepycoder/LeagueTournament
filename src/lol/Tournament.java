@@ -324,14 +324,14 @@ public class Tournament {
                 winner = team2;
                 matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
-                bracket.addLossTeam2();
+                //bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
             } else {
                 winner = team1;
                 matchPlayed.setWinner(winner.getName());
                 bracket.addWinTeam2();
-                bracket.addLossTeam1();
+                //bracket.addLossTeam1();
                 //db.addBracketWin(bracket, 1);
                 //db.addBracketLoss(bracket, 2);
             }
@@ -906,19 +906,19 @@ public class Tournament {
                 switch (pouleNr) {
                     case 1:
                         bracketlist.get(0).setTeam1(team1);
-                        bracketlist.get(1).setTeam1(team2);
+                        bracketlist.get(1).setTeam2(team2);
                         break;
                     case 2:
                         bracketlist.get(1).setTeam1(team1);
-                        bracketlist.get(0).setTeam1(team2);
+                        bracketlist.get(0).setTeam2(team2);
                         break;
                     case 3:
                         bracketlist.get(2).setTeam1(team1);
-                        bracketlist.get(3).setTeam1(team2);
+                        bracketlist.get(3).setTeam2(team2);
                         break;
                     case 4:
                         bracketlist.get(3).setTeam1(team1);
-                        bracketlist.get(2).setTeam1(team2);
+                        bracketlist.get(2).setTeam2(team2);
                         break;
                 }
             } else if (this.poulelist.size() == 2) {
