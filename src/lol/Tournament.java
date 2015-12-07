@@ -91,6 +91,8 @@ public class Tournament {
     public void addTeam(String name) {
         Team team = new Team(name);
         teamlist.add(team);
+        db.storeTeam(name, null, name, name);
+       
     }
     public void addOfficial(String name) {
         officials.add(name);
