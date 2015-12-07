@@ -441,7 +441,11 @@ public class Tournament {
         allPlayers.addAll(team2.getMembers());
         int index = 0;
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            if (!allPlayers.get(index).getName().equals(team1mem)) {  //if statement to make sure the existing player gets the right stats to prove that it works
+                newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            } else {
+                newMatchDump.put(team1mem, entry.getValue());
+            }
             index++;
         }
         matchDump = newMatchDump;
@@ -452,7 +456,7 @@ public class Tournament {
         db.setCompleted(matchPlayed, dateFormat.format(date));
         
         //Statistics part
-        updateStats(matchDump, team1, team2);
+        updateStats(matchDump, team1, team2, matchPlayed);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -613,7 +617,11 @@ public class Tournament {
         allPlayers.addAll(team2.getMembers());
         int index = 0;
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            if (!allPlayers.get(index).getName().equals(team1mem)) {  //if statement to make sure the existing player gets the right stats to prove that it works
+                newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
+            } else {
+                newMatchDump.put(team1mem, entry.getValue());
+            }
             index++;
         }
         matchDump = newMatchDump;
@@ -623,7 +631,7 @@ public class Tournament {
         //end testing part
         
         //Statistics part
-        updateStats(matchDump, team1, team2);
+        updateStats(matchDump, team1, team2, matchPlayed);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -764,7 +772,7 @@ public class Tournament {
         db.updateMatch(matchPlayed);
     }
     
-    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
+    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2, Match match) {
         String teststat = "";
         int kills1 = 0;
         int kills2 = 0;
@@ -860,8 +868,17 @@ public class Tournament {
         team1.addGold(totalGoldTeam1);
         team2.addGold(totalGoldTeam2);
         
+        match.setKillsTeam1(kills1);
+        match.setKillsTeam2(kills2);
+        match.setGoldTeam1(totalGoldTeam1);
+        match.setGoldTeam2(totalGoldTeam2);
+        match.setTowersTeam1(Integer.parseInt(matchDump.get(team1.getMembers().get(0).getName()).get("towers")));
+        match.setTowersTeam2(Integer.parseInt(matchDump.get(team2.getMembers().get(0).getName()).get("towers")));
+        
         db.updateTeamStats(team1);
         db.updateTeamStats(team2);
+        
+        db.updateMatchStats(match);
         
         System.out.println(teststat);
         System.out.println(kills1);

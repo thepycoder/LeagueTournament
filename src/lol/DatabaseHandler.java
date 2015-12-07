@@ -14,21 +14,14 @@ import java.util.HashMap;
  * @author Temp
  */
 public class DatabaseHandler {
-    
 
-   
-//
 //    public String user = "BINFG16";
 //    public String pass = "f9xff87y";
 //    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
-
- //   public String user = "root";
-  //  public String pass = "";
-  //  public String url = "jdbc:mysql://localhost/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -529,6 +522,31 @@ public class DatabaseHandler {
             }
         }
     }
+    
+    public void updateMatchStats(Match match) {
+        try {
+            conn = createConnection(url);
+            Statement stmt = conn.createStatement();
+            String query;
+            if (match.getType().startsWith("Bracket")) {
+                query = "UPDATE poulematches SET killsTeam1=" + match.getKillsTeam1() + ", killsTeam2=" + match.getKillsTeam2() + ", goldTeam1= " + match.getGoldTeam1() + ", goldTeam2=" + match.getGoldTeam2() + ", towersTeam1= " + match.getTowersTeam1() + ", towersTeam2= " + match.getTowersTeam2()+ " WHERE matchID='" + match.getMatchID()+ "'";
+            } else {
+                query = "UPDATE bracketmatches SET killsTeam1=" + match.getKillsTeam1() + ", killsTeam2=" + match.getKillsTeam2() + ", goldTeam1= " + match.getGoldTeam1() + ", goldTeam2=" + match.getGoldTeam2() + ", towersTeam1= " + match.getTowersTeam1() + ", towersTeam2= " + match.getTowersTeam2()+ " WHERE matchID='" + match.getMatchID()+ "'";
+            }
+            System.out.println(query);
+            stmt.executeUpdate(query);
+        } catch (SQLException ex) {
+            System.out.println("Something went wrong with the database query: " + ex);
+        } finally {
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Couldn't close the connection: " + ex);
+                }
+            }
+        }
+    }
    
     public void addPouleWin(Team team) {
        try {
@@ -754,7 +772,7 @@ public class DatabaseHandler {
                 if (rs.getString("tiebreaker").equals("yes")) {
                     type += "_TB";
                 }
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), rs.getString("timestamp"), type, rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"), rs.getInt("killsTeam1"), rs.getInt("killsTeam2"), rs.getInt("goldTeam1"), rs.getInt("goldTeam2"), rs.getInt("towersTeam1"), rs.getInt("towersTeam2"));
                 matches.add(match);
             }
             return matches;
@@ -848,8 +866,11 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
             String query = "UPDATE players SET KDA=0, KP=0, CS=0";
+            String query2 = "UPDATE teams SET barons=0, dragons=0, gold=0";
             System.out.println(query);
             stmt.executeUpdate(query);
+            System.out.println(query2);
+            stmt.executeUpdate(query2);
         } catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);
         } finally {
