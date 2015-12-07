@@ -62,8 +62,7 @@ public class DatabaseHandler {
     public void storeTeam(String name, ArrayList<Player> members, String coach, String region){
         try {
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();
-            
+            Statement stmt = conn.createStatement();            
             String query = "INSERT INTO teams (name, region, member1, member2, member3, member4, member5, coach) VALUES ('" + name + "', '" + region + "', '" + members.get(0) + "', '" + members.get(1) + "', '" + members.get(2) + "', '" + members.get(3) + "', '" + members.get(4) + "', '" + coach + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
@@ -840,8 +839,13 @@ public class DatabaseHandler {
         }
     }
    
-    public void removeTeam(Team team){
-       try {
+    public void removeTeam(Team team, ArrayList<Player> players){
+       try {           
+            String a = "DELETE FROM players WHERE name = '" + players.get(0).getName() +"'";
+            String b = "DELETE FROM players WHERE name = '" + players.get(1).getName() +"'";
+            String c = "DELETE FROM players WHERE name = '" + players.get(2).getName() +"'";
+            String d = "DELETE FROM players WHERE name = '" + players.get(3).getName() +"'";
+            String e = "DELETE FROM players WHERE name = '" + players.get(4).getName() +"'";           
             conn = createConnection(url);
             Statement stmt = conn.createStatement();      
             String query = "DELETE FROM poulescores WHERE team = '" + team.getName() + "'";
@@ -851,6 +855,16 @@ public class DatabaseHandler {
             stmt.executeUpdate(query);
             System.out.println(query1);
             stmt.executeUpdate(query1);
+            System.out.println(a);
+            stmt.executeUpdate(a);
+            System.out.println(b);
+            stmt.executeUpdate(b);
+            System.out.println(c);
+            stmt.executeUpdate(c);
+            System.out.println(d);
+            stmt.executeUpdate(d);
+            System.out.println(e);
+            stmt.executeUpdate(e);            
         }
         catch (SQLException ex) {
             System.out.println("Something went wrong with the database query: " + ex);

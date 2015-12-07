@@ -73,8 +73,12 @@ public class Tournament {
                 p.getTeams().remove(wrongTeam);
             }
         }
+        ArrayList<Player> players = wrongTeam.getMembers();        
         teamlist.remove(wrongTeam);
-        db.removeTeam(wrongTeam);
+        this.resetMatches();
+        db.removeTeam(wrongTeam,players);
+        this.generatePoules(teamlist, poulelist.size());
+        this.generatePouleMatches();
         
     }
     
@@ -112,12 +116,16 @@ public class Tournament {
     }
     public void addTeam(String name, ArrayList<Player> members, String region, String coach) {
         Team team = new Team(name, region, coach, members);
-        teamlist.add(team);
+        teamlist.add(team);       
+        
         for (Player member : members) {
             db.storePlayer(member);
-        }
+        }       
+        
+        this.resetMatches();
+        this.generatePoules(teamlist,poulelist.size());
+        this.generatePouleMatches();   
         db.storeTeam(name, members, coach, region);
-       
     }
     
     public void addTeams(ArrayList<Team> teams) {

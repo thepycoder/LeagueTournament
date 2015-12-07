@@ -305,14 +305,13 @@ public class GuiChangeTeam extends javax.swing.JFrame {
         namen[3] = getjTextField6();
         namen[4] = getjTextField7();
         boolean h = true;
-        for(String k: namen){
+        for(String k: namen){            
             if(k.isEmpty()){
                 h = false;
             }
         }
         if(h == false) {
-            jOptionPane1.showMessageDialog(null, "Not all teammembers entered");
-                
+            jOptionPane1.showMessageDialog(null, "Not all teammembers entered");                
             }
         else {
         t.searchTeam(jComboBox1.getSelectedItem().toString()).getMembers().get(0);

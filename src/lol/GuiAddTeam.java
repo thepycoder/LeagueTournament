@@ -253,9 +253,8 @@ public class GuiAddTeam extends javax.swing.JFrame {
         GuiMembers.add(new Player(getjTextField6()));
         GuiMembers.add(new Player(getjTextField7()));
         GuiMembers.add(new Player(getjTextField8()));
-        t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());        
-        t.generatePoules(t.getTeamlist(),t.getPoulelist().size());
-        t.generatePouleMatches();       
+        t.addTeam(getjTextField1(), GuiMembers, getjTextField2(), getjTextField3());       
+           
         parent.updateList1();
         parent.updateList2();
         parent.updateList3();
