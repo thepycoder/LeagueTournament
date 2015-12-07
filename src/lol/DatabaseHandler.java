@@ -394,7 +394,6 @@ public class DatabaseHandler {
             String query = "SELECT * FROM teams LEFT JOIN poulescores ON teams.name=poulescores.team";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
-                System.out.println(rs.getString("name"));
                 //Retrieve by column name
                 ArrayList<Player> members = new ArrayList<>();
                 ArrayList<Double> stats = null;
