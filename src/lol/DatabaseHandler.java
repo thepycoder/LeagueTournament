@@ -842,9 +842,10 @@ public void updateMatch(Match match) {
     public void removeTeam(Team team){
        try {
             conn = createConnection(url);
-            Statement stmt = conn.createStatement();        
-            
-            String query = "DELETE FROM teams WHERE name = '" + team.getName() + "'";
+            Statement stmt = conn.createStatement();      
+            String query = "DELETE FROM poulescores WHERE team = '" + team.getName() + "'";
+           // String query2 = "DELETE FROM bracketscores WHERE team = '" + team.getName() + "'";
+            String query1 = "DELETE FROM teams WHERE name = '" + team.getName() + "'";            
             System.out.println(query);
             stmt.executeUpdate(query);
         }

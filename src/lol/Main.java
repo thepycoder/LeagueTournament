@@ -23,7 +23,7 @@ public class Main {
         
         //System.out.println(db.retrieveTeams());
         t.addTeams(db.retrieveTeams());
-        t.addOfficials(db.retrieveOfficials());
+        //t.addOfficials(db.retrieveOfficials());
         //t.completeMatch("Poule2_H2K_Koo Tigers");
 //        HashMap<String, Map<String, String>> blub = api.getMatchSummary("Krepo");
 //        System.out.println(blub);
@@ -53,7 +53,7 @@ public class Main {
         }
 //
 //
-//        rh.generate();
+        rh.generate();
         //System.out.println(db.getMatchDump("Poule2_H2K_Koo Tigers")); 
         //t.completeMatch("Poule2_H2K_Fnatic");
         //t.completePoule(t.getPoulelist().get(0));
@@ -64,8 +64,8 @@ public class Main {
         // GuiRemoveOfficial sk = new GuiRemoveOfficial(t);
         //sk.show();
         // System.out.println(t.getOfficials());
-        GuiSilke sg = new GuiSilke(t);
-        sg.show();
+       // GuiSilke sg = new GuiSilke(t);
+       // sg.show();
         //GuiSilke sg = new GuiSilke(t);
         //sg.show();
 //        GuiChangeMatch k = new GuiChangeMatch(t);
