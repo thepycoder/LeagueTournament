@@ -900,13 +900,47 @@ public class Tournament {
 
             Team team1 = poule.getSortedTeams().get(0); //select the first two of the poule, these teams made it to the knockout stage
             Team team2 = poule.getSortedTeams().get(1);
-            int pouleNr = 7 - Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)) - 1; // because we generated with i + 1
-            bracketlist.get(pouleNr).setTeam1(team1);
-            if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
-                bracketlist.get(pouleNr - 1).setTeam2(team2);
-            } else {
-                bracketlist.get(pouleNr + 1).setTeam2(team2);
+            int pouleNr = Integer.parseInt(poule.getName().substring(poule.getName().length() - 1)); // because we generated with i + 1
+            
+            if (this.poulelist.size() == 4) {
+                switch (pouleNr) {
+                    case 1:
+                        bracketlist.get(0).setTeam1(team1);
+                        bracketlist.get(1).setTeam1(team2);
+                        break;
+                    case 2:
+                        bracketlist.get(1).setTeam1(team1);
+                        bracketlist.get(0).setTeam1(team2);
+                        break;
+                    case 3:
+                        bracketlist.get(2).setTeam1(team1);
+                        bracketlist.get(3).setTeam1(team2);
+                        break;
+                    case 4:
+                        bracketlist.get(3).setTeam1(team1);
+                        bracketlist.get(2).setTeam1(team2);
+                        break;
+                }
+            } else if (this.poulelist.size() == 2) {
+                switch (pouleNr) {
+                    case 1:
+                        bracketlist.get(4).setTeam1(team1);
+                        bracketlist.get(5).setTeam1(team2);
+                        break;
+                    case 2:
+                        bracketlist.get(5).setTeam1(team1);
+                        bracketlist.get(4).setTeam1(team2);
+                        break;
+                }
             }
+//            bracketlist.get(pouleNr).setTeam1(team1);
+//            if ((pouleNr + 1) % 2 == 0) { //if poulenr is even, put team in bracket under it else bracket above. crossmatching
+//                bracketlist.get(pouleNr - 1).setTeam2(team2);
+//            } else {
+//                bracketlist.get(pouleNr + 1).setTeam2(team2);
+//            }
+
+            
 
             //System.out.println(bracketlist);
 

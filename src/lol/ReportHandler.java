@@ -294,7 +294,7 @@ public class ReportHandler {
     }
     
     public void genPlayerStats() {
-        builder.append("<h1>Player overview</h1>");
+        builder.append("<h1>Statistics overview</h1>");
         for (Team team : t.getTeamlist()) {
             builder.append("<h2>" + team.getName() + "</h2>");
             builder.append("<table border=\"1\" style=\"width:100%\">");
