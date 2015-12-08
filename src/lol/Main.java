@@ -4,11 +4,6 @@
  * and open the template in the editor.
  */
 package lol;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 /**
  *
  * @author Temp
@@ -63,10 +58,10 @@ public class Main {
         // GuiRemoveOfficial sk = new GuiRemoveOfficial(t);
         //sk.show();
         // System.out.println(t.getOfficials());
+//        GuiSilke sg = new GuiSilke(t);
+//        sg.show();
         GuiSilke sg = new GuiSilke(t);
         sg.show();
-        //GuiSilke sg = new GuiSilke(t);
-        //sg.show();
 //        GuiChangeMatch k = new GuiChangeMatch(t);
 //        k.show();
 //        

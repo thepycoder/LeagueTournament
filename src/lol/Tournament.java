@@ -264,7 +264,7 @@ public class Tournament {
         DateFormat dateFormat = new SimpleDateFormat("yyyy MM dd");
         Date date = new Date();
         matchPlayed.setTimeStamp(dateFormat.format(date));
-        db.setCompleted(matchPlayed, "forfeit", dateFormat.format(date));
+        db.setCompleted(matchPlayed, dateFormat.format(date));
 
         
         if (matchPlayed.getType().startsWith("Poule")) {
@@ -445,11 +445,11 @@ public class Tournament {
             index++;
         }
         matchDump = newMatchDump;
+        //end testing part
         
         matchPlayed.setCompleted("yes");
         matchPlayed.setTimeStamp(dateFormat.format(date));
-        db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
-        //end testing part
+        db.setCompleted(matchPlayed, dateFormat.format(date));
         
         //Statistics part
         updateStats(matchDump, team1, team2);
@@ -619,7 +619,7 @@ public class Tournament {
         matchDump = newMatchDump;
         
         matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed, convertHashMapToString(matchDump), dateFormat.format(date));
+        db.setCompleted(matchPlayed, dateFormat.format(date));
         //end testing part
         
         //Statistics part
@@ -766,9 +766,10 @@ public class Tournament {
     
     public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
         String teststat = "";
-        System.out.println(team2.getMembers());
         int kills1 = 0;
         int kills2 = 0;
+        int totalGoldTeam1 = 0;
+        int totalGoldTeam2 = 0;
         
         for (Player player : team1.getMembers()) { // first calc the total amount of kills for each team
             kills1 += Integer.parseInt(matchDump.get(player.getName()).get("kills"));
@@ -780,6 +781,8 @@ public class Tournament {
             double KDA = 0;
             int CS = 0;
             double KP = 0;
+            
+            totalGoldTeam1 += Integer.parseInt(matchDump.get(player.getName()).get("goldEarned"));
             
             if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
                 KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
@@ -800,12 +803,10 @@ public class Tournament {
             teststat += "KP: " + KP + "\n";
             
             if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
-                System.out.println("hey");
                 player.setKDA_ratio(KDA);
                 player.setCS_ratio(CS);
                 player.setKill_part(KP);
             } else {
-                System.out.println("hey2");
                 player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
                 player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
                 player.setKill_part((player.getKill_part() + KP) / 2);
@@ -818,6 +819,8 @@ public class Tournament {
             double KDA = 0;
             int CS = 0;
             double KP = 0;
+            
+            totalGoldTeam2 += Integer.parseInt(matchDump.get(player.getName()).get("goldEarned"));
             
             if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
                 KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
@@ -837,18 +840,28 @@ public class Tournament {
             teststat += "KP: " + KP + "\n";
             
             if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
-                System.out.println("hey");
                 player.setKDA_ratio(KDA);
                 player.setCS_ratio(CS);
                 player.setKill_part(KP);
             } else {
-                System.out.println("hey2");
                 player.setKDA_ratio((player.getKDA_ratio() + KDA) / 2);
                 player.setCS_ratio((player.getCS_ratio()+ CS) / 2);
                 player.setKill_part((player.getKill_part() + KP) / 2);
             }
             db.updatePlayerStats(player);
         }
+        
+        System.out.println(matchDump);
+        System.out.println(team1.getMembers().get(0).getName());
+        team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("dragons")));
+        team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("dragons")));
+        team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("barons")));
+        team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("barons")));
+        team1.addGold(totalGoldTeam1);
+        team2.addGold(totalGoldTeam2);
+        
+        db.updateTeamStats(team1);
+        db.updateTeamStats(team2);
         
         System.out.println(teststat);
         System.out.println(kills1);
