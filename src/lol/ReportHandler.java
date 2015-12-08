@@ -53,14 +53,6 @@ public class ReportHandler {
         builder.append("<head>");
         builder.append("<title>Tournament Overview</title>");
         builder.append("<style>table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}</style>");
-        builder.append("<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\" type=\"text/javascript\"></script>");
-        builder.append("<script>$(\"#report tr:odd\").addClass(\"master\");\n" +
-            "$(\"#report tr:not(.master)\").hide();\n" +
-            "$(\"#report tr:first-child\").show();\n" +
-            "$(\"#report tr.master\").click(function(){\n" +
-            "    $(this).next(\"tr\").toggle();\n" +
-            "    $(this).find(\".arrow\").toggleClass(\"up\");\n" +
-            "}); </script>");
         builder.append("</head>");
         builder.append("<body>");  
         builder.append("<br>");
@@ -344,11 +336,24 @@ public class ReportHandler {
             builder.append("<table border=\"1\" style=\"width:100%\">");
             builder.append("<tr><th>Username</th><th>Average KDA</th><th>Average Kill Participation</th><th>Average CS-score</th>");
             for (Player player : team.getMembers()) {
+                
+                double KDA = player.getKDA_ratio();
+                KDA = Math.round(KDA * 100);
+                KDA = KDA / 100;
+                
+                double KP = player.getKill_part();
+                KP = Math.round(KP * 100);
+                KP = KP / 100;
+                
+                double CS = player.getCS_ratio();
+                CS = Math.round(CS * 100);
+                CS = CS / 100;
+                
                 builder.append("<tr>");
                 builder.append("<td>" + player.getName() + "</td>");
-                builder.append("<td>" + player.getKDA_ratio() + "</td>");
-                builder.append("<td>" + player.getKill_part() + "</td>");
-                builder.append("<td>" + player.getCS_ratio() + "</td>");
+                builder.append("<td>" + KDA + "</td>");
+                builder.append("<td>" + KP + "</td>");
+                builder.append("<td>" + CS + "</td>");
                 builder.append("</tr>");
             }
             builder.append("</table>");
