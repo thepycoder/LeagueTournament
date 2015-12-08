@@ -15,13 +15,13 @@ import java.util.HashMap;
  */
 public class DatabaseHandler {
 
-    public String user = "BINFG16";
-    public String pass = "f9xff87y";
-    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+//    public String user = "BINFG16";
+//    public String pass = "f9xff87y";
+//    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-//    public String user = "root";
-//    public String pass = "";
-//    public String url = "jdbc:mysql://localhost/BINFG16";
+    public String user = "root";
+    public String pass = "";
+    public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -212,11 +212,11 @@ public class DatabaseHandler {
             while (rs.next()) {
                 ArrayList<Team> pouleTeams = new ArrayList<>();
                 ArrayList<Team> storedTeams = t.getTeamlist();
-                String query2 = "SELECT teamname FROM poulescores WHERE poule='" + rs.getString("name") + "'";
+                String query2 = "SELECT team FROM poulescores WHERE poule='" + rs.getString("name") + "'";
                 Statement stmt2 = conn.createStatement();
                 ResultSet rs2 = stmt2.executeQuery(query2);
                 while (rs2.next()) {
-                    String pouleTeam = rs2.getString("teamname");
+                    String pouleTeam = rs2.getString("team");
                     for (Team storedTeam : storedTeams) {
                         if (storedTeam.getName().equals(pouleTeam)) { //team have already been added. We get the names of the teams in a certain poule, select those out of the complete list of teams and then divide thos into the right pouleobjects
                             pouleTeams.add(storedTeam);
@@ -249,7 +249,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT * FROM brackets LEFT JOIN bracketscores ON brackets.name=bracketscores.bracketname";
+            String query = "SELECT * FROM brackets LEFT JOIN bracketscores ON brackets.name=bracketscores.bracket";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -355,7 +355,7 @@ public class DatabaseHandler {
             String query = "SELECT * FROM officials";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                officials.add(rs.getString("officialname"));
+                officials.add(rs.getString("name"));
             }
             return officials;
 
@@ -381,7 +381,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT * FROM teams LEFT JOIN poulescores ON teams.name=poulescores.teamname";
+            String query = "SELECT * FROM teams LEFT JOIN poulescores ON teams.name=poulescores.team";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 //Retrieve by column name
@@ -767,7 +767,7 @@ public class DatabaseHandler {
                 if (rs.getString("tiebreaker").equals("yes")) {
                     type += "_TB";
                 }
-                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), type, rs.getString("timestamp"), rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"), rs.getInt("killsteam1"), rs.getInt("killsteam2"), rs.getInt("goldteam1"), rs.getInt("goldteam2"), rs.getInt("towersteam1"), rs.getInt("towersteam2"));
+                Match match = new Match(rs.getString("matchID"), rs.getString("team1"), rs.getString("team2"), rs.getString("winner"), type, rs.getString("timestamp"), rs.getString("official"), rs.getString("completed"), rs.getString("tiebreaker"), rs.getInt("killsTeam1"), rs.getInt("killsTeam2"), rs.getInt("goldTeam1"), rs.getInt("goldTeam2"), rs.getInt("towersTeam1"), rs.getInt("towersTeam2"));
                 matches.add(match);
             }
             return matches;

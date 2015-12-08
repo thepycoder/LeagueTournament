@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -98,8 +98,6 @@ public class ApiHandler {
         HashMap<String, Map<String, String>> summary = new HashMap<>();
         HashMap<String, String> champSummID = getMembers(playerID);
         HashMap<String, String> champSummName = getSummNames(champSummID);
-        
-        System.out.println("http://matchhistory.euw.leagueoflegends.com/en/#match-details/EUW1/" + matchID + "/" + playerID + "?tab=overview");
         
         JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
         
