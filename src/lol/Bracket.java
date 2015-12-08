@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author stephan
+ * @author silke
  */
 public class Bracket implements Comparable<Bracket> {
     private String name;

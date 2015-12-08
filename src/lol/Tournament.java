@@ -176,9 +176,15 @@ public class Tournament {
         db.resetPoules();
         db.resetBrackets();
         db.resetScores();
+       
         
-        for (Team team : teamlist) { // reset all local scores
+        for (Team team : teamlist)
+        { 
+            team.setBarons(0);
+            team.setDragons(0);
+            team.setGold(0);            
             for (Player player : team.getMembers()) {
+                
                 player.setCS_ratio(0);
                 player.setKDA_ratio(0);
                 player.setKill_part(0);
@@ -232,7 +238,7 @@ public class Tournament {
     }
     
     public void generateBrackets() {
-        for (int i = 0; i < 4; i++) { //generate a bracket for each poule, this will be just right
+        for (int i = 0; i < 4; i++) { //generate a bracket for each poule
             Bracket bracket = new Bracket("Bracket" + (i + 1), 4);
             bracketlist.add(bracket);
             db.storeBracket(bracket);
@@ -331,7 +337,7 @@ public class Tournament {
             if (teamName.equals(team1.getName())) { //team 1 forfeited
                 winner = team2;
                 matchPlayed.setWinner(winner.getName());
-                bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                bracket.addWinTeam1(); 
                 //bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
@@ -422,7 +428,7 @@ public class Tournament {
         bracket.addMatch(match.getMatchID()); 
     }
     
-    public void manualCompleteMatch(String matchID, String winnerr) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
+    public void manualCompleteMatch(String matchID, String winnerr) { 
         Match matchPlayed = getMatchById(matchID);
         String[] ID = matchID.split("_");
         Team team1 = searchTeam(ID[ID.length - 2]);
@@ -535,7 +541,7 @@ public class Tournament {
             if (matchPlayed.getTeam2().equals(winnerr)) { //team 1 lost
                 winner = team2;
                 matchPlayed.setWinner(winner.getName());
-                bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                bracket.addWinTeam1(); 
                 bracket.addLossTeam2();
                 //db.addBracketWin(bracket, 2);
                 //db.addBracketLoss(bracket, 1);
@@ -609,7 +615,7 @@ public class Tournament {
     }
     
     
-    public void completeMatch(String matchID) { //I know this could've been more elegant than just copy the forfeit method and change some vars, but I like sleep
+    public void completeMatch(String matchID) { 
         Match matchPlayed = getMatchById(matchID);
         String[] ID = matchID.split("_");
         Team team1 = searchTeam(ID[ID.length - 2]);
@@ -650,7 +656,7 @@ public class Tournament {
                     db.addTieBreakerWin(team2);
                     db.addTieBreakerLoss(team1);
                 } else {
-                    team2.addWin(); //once inside the tournament teamlist, once inside the poule teamlist. this should've been made better but hey, it works right?
+                    team2.addWin(); 
                     team1.addLoss();
                     matchPlayed.setWinner(team2.getName());
                     //poule.addWin(team2);
@@ -705,7 +711,7 @@ public class Tournament {
             //step 1: add win to right team
             if (!matchDump.get(team1mem).get("winner").equals("true")) { //team 1 lost
                 winner = team2;
-                bracket.addWinTeam1(); //sucks but apparently team1 of the GUI and team1 of the bracket aren't the same
+                bracket.addWinTeam1();
                 bracket.addLossTeam2();
                 matchPlayed.setWinner(winner.getName());
                 db.addBracketWin(bracket, 2);

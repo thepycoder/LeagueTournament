@@ -139,6 +139,11 @@ public class GuiSilke extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         jList2.setModel(new javax.swing.AbstractListModel() {
@@ -508,6 +513,10 @@ public class GuiSilke extends javax.swing.JFrame {
         GuiReportGen rg = new GuiReportGen(t,this);
         rg.show();
     }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jList1MouseClicked
 
         
     public void updateTable() {

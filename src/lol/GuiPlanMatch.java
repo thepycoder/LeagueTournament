@@ -64,12 +64,7 @@ public class GuiPlanMatch extends javax.swing.JFrame {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(items2));
     }
     
-//    public GuiPlanMatch(Tournament t) {
-//        this.to = t;
-//        initComponents();
-//    }
-    
-//getters
+
 
     public JComboBox getjComboBox1() {
         return jComboBox1;
