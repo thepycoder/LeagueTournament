@@ -539,7 +539,6 @@ public class GuiSilke extends javax.swing.JFrame {
         ArrayList<Match> matchlist = t.getMatchlist();
         for (Match match : matchlist) {
             if (!(match.getTimeStamp() == null || match.getTimeStamp().equals("null") || match.getCompleted().equals("yes"))) {
-                    //items[i] = to.getMatchlist().get(i).getMatchID();
                 plannedMatches.add(match.getTimeStamp() + "  -  " + match.getType() + ": " + match.getTeam1() + " vs " + match.getTeam2());
             }
         }
