@@ -875,8 +875,8 @@ public class Tournament {
         System.out.println(team1.getMembers().get(0).getName());
         team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("dragons")));
         team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("dragons")));
-        team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("barons")));
-        team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("barons")));
+        team1.addBarons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("barons")));
+        team2.addBarons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("barons")));
         team1.addGold(totalGoldTeam1);
         team2.addGold(totalGoldTeam2);
         
