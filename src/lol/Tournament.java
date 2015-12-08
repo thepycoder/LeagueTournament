@@ -433,16 +433,31 @@ public class Tournament {
         Date date = new Date();
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = new ArrayList<>();
-        
-        allPlayers.addAll(team1.getMembers());
         
         HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
-        allPlayers.addAll(team2.getMembers());
-        int index = 0;
+        
+        int index1 = 0;
+        int index2 = 0;
+        Team blue;
+        Team purple;
+        
+        System.out.println(team1mem + ": " + matchDump);
+        if (matchDump.get(team1mem).get("team").equals("1")) {
+            blue = team1;
+            purple = team2;
+        } else {
+            blue = team2;
+            purple = team1;
+        }
+        
         for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
-            index++;
+            if (entry.getValue().get("team").equals("1")) {
+                newMatchDump.put(blue.getMembers().get(index1).getName(), entry.getValue());
+                index1++;
+            } else if (entry.getValue().get("team").equals("2")) {
+                newMatchDump.put(purple.getMembers().get(index2).getName(), entry.getValue());
+                index2++;
+            }
         }
         matchDump = newMatchDump;
         //end testing part
@@ -452,7 +467,7 @@ public class Tournament {
         db.setCompleted(matchPlayed, dateFormat.format(date));
         
         //Statistics part
-        updateStats(matchDump, team1, team2);
+        updateStats(matchDump, team1, team2, matchPlayed);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -623,7 +638,7 @@ public class Tournament {
         //end testing part
         
         //Statistics part
-        updateStats(matchDump, team1, team2);
+        updateStats(matchDump, team1, team2, matchPlayed);
         
         if (matchPlayed.getType().startsWith("Poule")) {
             
@@ -764,7 +779,7 @@ public class Tournament {
         db.updateMatch(matchPlayed);
     }
     
-    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2) {
+    public void updateStats(HashMap<String,Map<String,String>> matchDump, Team team1, Team team2, Match match) {
         String teststat = "";
         int kills1 = 0;
         int kills2 = 0;
@@ -777,6 +792,9 @@ public class Tournament {
         }
         
         for (Player player : team1.getMembers()) {
+            
+            System.out.println(player.getName() + ": " + matchDump.get(player.getName()));
+            
             teststat += player + ": ";
             double KDA = 0;
             int CS = 0;
@@ -820,6 +838,8 @@ public class Tournament {
             int CS = 0;
             double KP = 0;
             
+            System.out.println(player.getName() + ": " + matchDump.get(player.getName()));
+            
             totalGoldTeam2 += Integer.parseInt(matchDump.get(player.getName()).get("goldEarned"));
             
             if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
@@ -855,13 +875,22 @@ public class Tournament {
         System.out.println(team1.getMembers().get(0).getName());
         team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("dragons")));
         team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("dragons")));
-        team1.addDragons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("barons")));
-        team2.addDragons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("barons")));
+        team1.addBarons(Double.parseDouble(matchDump.get(team1.getMembers().get(0).getName()).get("barons")));
+        team2.addBarons(Double.parseDouble(matchDump.get(team2.getMembers().get(0).getName()).get("barons")));
         team1.addGold(totalGoldTeam1);
         team2.addGold(totalGoldTeam2);
         
+        match.setKillsTeam1(kills1);
+        match.setKillsTeam2(kills2);
+        match.setGoldTeam1(totalGoldTeam1);
+        match.setGoldTeam2(totalGoldTeam2);
+        match.setTowersTeam1(Integer.parseInt(matchDump.get(team1.getMembers().get(0).getName()).get("towers")));
+        match.setTowersTeam2(Integer.parseInt(matchDump.get(team2.getMembers().get(0).getName()).get("towers")));
+        
         db.updateTeamStats(team1);
         db.updateTeamStats(team2);
+        
+        db.updateMatchStats(match);
         
         System.out.println(teststat);
         System.out.println(kills1);

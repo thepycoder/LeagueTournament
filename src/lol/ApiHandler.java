@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -99,6 +99,8 @@ public class ApiHandler {
         HashMap<String, String> champSummID = getMembers(playerID);
         HashMap<String, String> champSummName = getSummNames(champSummID);
         
+        System.out.println("http://matchhistory.euw.leagueoflegends.com/en/#match-details/EUW1/" + matchID + "/" + playerID + "?tab=overview");
+        
         JsonObject rootobj = API(matchID, 2); //by now the requested matchID is in the variable
         
         
@@ -119,12 +121,16 @@ public class ApiHandler {
                     
                     if (p.get("teamId").getAsString().equals("100")) {
                         JsonObject team1 = rootobj.get("teams").getAsJsonArray().get(0).getAsJsonObject();
+                        stats.put("team", "1");
                         stats.put("dragons", team1.get("dragonKills").getAsString());
                         stats.put("barons", team1.get("baronKills").getAsString());
+                        stats.put("towers", team1.get("towerKills").getAsString());
                     } else {
                         JsonObject team2 = rootobj.get("teams").getAsJsonArray().get(1).getAsJsonObject();
                         stats.put("dragons", team2.get("dragonKills").getAsString());
                         stats.put("barons", team2.get("baronKills").getAsString());
+                        stats.put("towers", team2.get("towerKills").getAsString());
+                        stats.put("team", "2");
                     }
                     
                     summary.put(entry.getValue(), stats);
