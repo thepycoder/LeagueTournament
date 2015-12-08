@@ -15,13 +15,13 @@ import java.util.HashMap;
  */
 public class DatabaseHandler {
 
-//    public String user = "BINFG16";
-//    public String pass = "f9xff87y";
-//    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
+    public String user = "BINFG16";
+    public String pass = "f9xff87y";
+    public String url = "jdbc:mysql://mysqlha2.ugent.be/BINFG16";
 
-    public String user = "root";
-    public String pass = "";
-    public String url = "jdbc:mysql://localhost/BINFG16";
+//    public String user = "root";
+//    public String pass = "";
+//    public String url = "jdbc:mysql://localhost/BINFG16";
 
     Connection conn = null;
     public Tournament t;
@@ -158,7 +158,7 @@ public class DatabaseHandler {
             }
 
             String query = "UPDATE brackets SET completed='" + bracket.getCompleted() + "', type='" + bracket.getType() + "' WHERE name='" + bracket.getName() + "'";
-            String query2 = "UPDATE bracketscores SET team1=" + team1 + ", team2=" + team2 + ", team1score=" + bracket.getTeam1score() + ", team2score=" + bracket.getTeam2score() + " WHERE bracket='" + bracket.getName() + "'";
+            String query2 = "UPDATE bracketscores SET team1=" + team1 + ", team2=" + team2 + ", team1score=" + bracket.getTeam1score() + ", team2score=" + bracket.getTeam2score() + " WHERE bracketname='" + bracket.getName() + "'";
             System.out.println(query);
             System.out.println(query2);
             stmt.executeUpdate(query);
@@ -183,7 +183,7 @@ public class DatabaseHandler {
             String query = "INSERT INTO poules (name, completed) VALUES ('" + poule.getName() + "', 'no')";
             stmt.executeUpdate(query);
             for (Team team : poule.getTeams()) {
-                stmt.executeUpdate("INSERT INTO poulescores (team, poule, wins, losses, tiebreakerwins) VALUES ('" + team.getName() + "', '" + poule.getName() + "', 0, 0, 0)");
+                stmt.executeUpdate("INSERT INTO poulescores (teamname, poule, wins, losses, tiebreakerwins) VALUES ('" + team.getName() + "', '" + poule.getName() + "', 0, 0, 0)");
             }
             System.out.println(query);
         } catch (SQLException ex) {
@@ -212,11 +212,11 @@ public class DatabaseHandler {
             while (rs.next()) {
                 ArrayList<Team> pouleTeams = new ArrayList<>();
                 ArrayList<Team> storedTeams = t.getTeamlist();
-                String query2 = "SELECT team FROM poulescores WHERE poule='" + rs.getString("name") + "'";
+                String query2 = "SELECT teamname FROM poulescores WHERE poule='" + rs.getString("name") + "'";
                 Statement stmt2 = conn.createStatement();
                 ResultSet rs2 = stmt2.executeQuery(query2);
                 while (rs2.next()) {
-                    String pouleTeam = rs2.getString("team");
+                    String pouleTeam = rs2.getString("teamname");
                     for (Team storedTeam : storedTeams) {
                         if (storedTeam.getName().equals(pouleTeam)) { //team have already been added. We get the names of the teams in a certain poule, select those out of the complete list of teams and then divide thos into the right pouleobjects
                             pouleTeams.add(storedTeam);
@@ -249,7 +249,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT * FROM brackets LEFT JOIN bracketscores ON brackets.name=bracketscores.bracket";
+            String query = "SELECT * FROM brackets LEFT JOIN bracketscores ON brackets.name=bracketscores.bracketname";
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
@@ -296,7 +296,7 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();
             //String query = "INSERT INTO brackets (name, team1, team2, matches, completed, type) VALUES('" + bracket.getName() + "', '" + bracket.getTeam1Name() + "', '" + bracket.getTeam2Name() + "', '" + matches + "', '" + bracket.getCompleted() + "', " +  bracket.getType() + ")";
             String query = "INSERT INTO brackets (name, completed, type) VALUES('" + bracket.getName() + "', '" + bracket.getCompleted() + "', " + bracket.getType() + ")";
-            String query2 = "INSERT INTO bracketscores (bracket) VALUES ('" + bracket.getName() + "')";
+            String query2 = "INSERT INTO bracketscores (bracketname) VALUES ('" + bracket.getName() + "')";
             System.out.println(query);
             stmt.executeUpdate(query);
             stmt.executeUpdate(query2);
@@ -381,7 +381,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "SELECT * FROM teams LEFT JOIN poulescores ON teams.name=poulescores.team";
+            String query = "SELECT * FROM teams LEFT JOIN poulescores ON teams.name=poulescores.teamname";
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()){
                 //Retrieve by column name
@@ -439,7 +439,7 @@ public class DatabaseHandler {
             Statement stmt = conn.createStatement();
 
             String query = "UPDATE teams SET region='" + team.getRegion() + "', coach='" + team.getCoach() + "', poulewins=" + team.getPouleWins() + ", tiebreakerwins=" + team.getTieBreakerWins() + ", member1='" + team.getMembers().get(0) + "', member2='" + team.getMembers().get(1) + "', member3='" + team.getMembers().get(2) + "', member4='" + team.getMembers().get(3) + "', member5='" + team.getMembers().get(4) + "' WHERE name='" + team.getName() + "'";
-            String query2 = "UPDATE poulescores SET wins=" + team.getPouleWins() + ", losses=" + team.getPouleLosses() + ", tiebreakerwins=" + team.getTieBreakerWins() + " WHERE team='" + team.getName() + "'";
+            String query2 = "UPDATE poulescores SET wins=" + team.getPouleWins() + ", losses=" + team.getPouleLosses() + ", tiebreakerwins=" + team.getTieBreakerWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
             System.out.println(query2);
@@ -550,7 +550,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "UPDATE poulescores SET wins=" + team.getPouleWins() + " WHERE team='" + team.getName() + "'";
+            String query = "UPDATE poulescores SET wins=" + team.getPouleWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -613,7 +613,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "UPDATE poulescores SET losses=" + team.getPouleLosses() + " WHERE team='" + team.getName() + "'";
+            String query = "UPDATE poulescores SET losses=" + team.getPouleLosses() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -634,7 +634,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "UPDATE poulescores SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE team='" + team.getName() + "'";
+            String query = "UPDATE poulescores SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -655,7 +655,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "UPDATE poulescores SET tiebreakerlosses=" + team.getTieBreakerWins() + " WHERE team='" + team.getName() + "'";
+            String query = "UPDATE poulescores SET tiebreakerlosses=" + team.getTieBreakerWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
         } catch (SQLException ex) {
@@ -678,9 +678,9 @@ public class DatabaseHandler {
             String query = "";
 
             if (teamNr == 1) {
-                query = "UPDATE bracketscores SET team1score=" + bracket.getTeam1score() + " WHERE name='" + bracket.getName() + "'";
+                query = "UPDATE bracketscores SET team1score=" + bracket.getTeam1score() + " WHERE bracketname='" + bracket.getName() + "'";
             } else if (teamNr == 2) { //team 2
-                query = "UPDATE bracketscores SET team2score=" + bracket.getTeam2score() + " WHERE name='" + bracket.getName() + "'";
+                query = "UPDATE bracketscores SET team2score=" + bracket.getTeam2score() + " WHERE bracketname='" + bracket.getName() + "'";
             }
             System.out.println(query);
             stmt.executeUpdate(query);
@@ -888,7 +888,7 @@ public class DatabaseHandler {
             String e = "DELETE FROM players WHERE name = '" + players.get(4).getName() + "'";
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-            String query = "DELETE FROM poulescores WHERE team = '" + team.getName() + "'";
+            String query = "DELETE FROM poulescores WHERE teamname = '" + team.getName() + "'";
             // String query2 = "DELETE FROM bracketscores WHERE team = '" + team.getName() + "'";
             String query1 = "DELETE FROM teams WHERE name = '" + team.getName() + "'";
             System.out.println(query);
