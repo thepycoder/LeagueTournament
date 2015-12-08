@@ -111,8 +111,7 @@ public class Team implements Comparable<Team> {
     }
     
     public void addBarons(double amount) {
-        if ((this.pouleLosses + this.pouleWins) > 0) { //aka if the team already played matches, so we don't count the 0 it is from the start
-            System.out.println("HEYOOOOOO");
+        if ((this.pouleLosses + this.pouleWins) > 0) { //aka if the team already played matches, so we don't count the 0 it is from the start            
             this.setBarons((barons + amount) / 2.0);
         } else {
             this.setBarons(amount);

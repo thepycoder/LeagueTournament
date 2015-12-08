@@ -31,14 +31,7 @@ public class GuiAddTeam extends javax.swing.JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
     
-//    Tournament to = new Tournament();
-    //as a test we use a new tournament, in real life we'll get the tournament from the constructor
-//    public GuiTeam(Tournament t) {
-//        this.to = t;
-//        initComponents();
-//    }
 
-    //getters
 
     public String getjTextField1() {
         return jTextField1.getText();

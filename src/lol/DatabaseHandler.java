@@ -218,7 +218,7 @@ public class DatabaseHandler {
                 while (rs2.next()) {
                     String pouleTeam = rs2.getString("teamname");
                     for (Team storedTeam : storedTeams) {
-                        if (storedTeam.getName().equals(pouleTeam)) { //team have already been added. We get the names of the teams in a certain poule, select those out of the complete list of teams and then divide thos into the right pouleobjects
+                        if (storedTeam.getName().equals(pouleTeam)) { //teams have already been added. We get the names of the teams in a certain poule, select those out of the complete list of teams and then divide thos into the right pouleobjects
                             pouleTeams.add(storedTeam);
                         }
                     }
@@ -255,7 +255,7 @@ public class DatabaseHandler {
             while (rs.next()) {
                 ArrayList<String> bracketMatches = new ArrayList<>();
                 ArrayList<Match> storedMatches = this.retrieveBracketMatches();
-                for (Match storedMatch : storedMatches) { //fore bracketmatch, store it in the arraylist
+                for (Match storedMatch : storedMatches) { //before bracketmatch, store it in the arraylist
                     bracketMatches.add(storedMatch.getMatchID());
                 }
 
@@ -918,50 +918,7 @@ public class DatabaseHandler {
         }
    }
    
-//    public HashMap<String, HashMap<String, String>> getMatchDump(String matchID) {
-//        try {
-//            conn = createConnection(url);
-//            Statement stmt = conn.createStatement();
-//            
-//            String query = "SELECT datadump FROM matches WHERE matchID = '" + matchID + "'";
-//            ResultSet rs = stmt.executeQuery(query);
-//            while(rs.next()) {
-//                if (!"to be played".equals(rs.getString("datadump"))) {
-//                    HashMap<String, HashMap<String, String>> matchSumm = new HashMap<>();
-//                    
-//                    String dump = rs.getString("datadump");
-//                    
-//                    dump = dump.substring(1, dump.length() - 1); //substring is to get rid of the brackets
-//                    
-//                    for (String player : dump.split(", ")) {
-//                        HashMap<String, String> stats = new HashMap<>();
-//                        String[] nameStats = player.split("=");
-//                        System.out.println(nameStats[0]);
-//                        //matchSumm.put(player, stats);
-//                    }
-//                    
-//                    return matchSumm;
-//                    
-//                }
-//            }
-//            
-//            }  
-//        catch (SQLException ex) {
-//            System.out.println("Probleem bij ophalen teams: " + ex);
-//            return null;
-//        } finally {
-//            if(conn != null) {
-//                try {
-//                    conn.close();
-//                } catch (SQLException ex) {
-//                    System.out.println("Couldn't close the connection: " + ex);
-//                }
-//            }
-//        }
-//       
-//        return null;
-//   }
-    
+   
     
     public ResultSet CustomSQL(String query){
        try {
