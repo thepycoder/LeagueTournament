@@ -53,6 +53,14 @@ public class ReportHandler {
         builder.append("<head>");
         builder.append("<title>Tournament Overview</title>");
         builder.append("<style>table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}</style>");
+        builder.append("<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\" type=\"text/javascript\"></script>");
+        builder.append("<script>$(\"#report tr:odd\").addClass(\"master\");\n" +
+            "$(\"#report tr:not(.master)\").hide();\n" +
+            "$(\"#report tr:first-child\").show();\n" +
+            "$(\"#report tr.master\").click(function(){\n" +
+            "    $(this).next(\"tr\").toggle();\n" +
+            "    $(this).find(\".arrow\").toggleClass(\"up\");\n" +
+            "}); </script>");
         builder.append("</head>");
         builder.append("<body>");  
         builder.append("<br>");
@@ -129,7 +137,7 @@ public class ReportHandler {
         builder.append("<h1>Match overview</h1>");
         
         builder.append("<h2>Played Today</h2>");
-        builder.append("<table border=\"1\" style=\"width:100%\">");
+        builder.append("<table border=\"1\" style=\"width:100%\" id='report'>");
         builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>timestamp</th><th>official</th><th>tiebreaker</th>");
         for (Match match : today) {
             builder.append("<tr>");
@@ -148,18 +156,21 @@ public class ReportHandler {
             } else {
                 builder.append("<td>N/A</td>");
             }
-            builder.append("</tr>");
             
+            builder.append("</tr>");
             
             builder.append("<tr>");
-            builder.append("<td>" + match.getKillsTeam1() + "</td>");
-            builder.append("<td>" + match.getKillsTeam2() + "</td>");
-            builder.append("<td>" + match.getGoldTeam1() + "</td>");
-            builder.append("<td>" + match.getGoldTeam2() + "</td>");
-            builder.append("<td>" + match.getTowersTeam1() + "</td>");
-            builder.append("<td>" + match.getTowersTeam2() + "</td>");
-            
+            builder.append("<td colspan='6'>");
+            builder.append("<p> TEST LAN </p>");
+//            builder.append("<td>" + match.getKillsTeam1() + "</td>");
+//            builder.append("<td>" + match.getKillsTeam2() + "</td>");
+//            builder.append("<td>" + match.getGoldTeam1() + "</td>");
+//            builder.append("<td>" + match.getGoldTeam2() + "</td>");
+//            builder.append("<td>" + match.getTowersTeam1() + "</td>");
+//            builder.append("<td>" + match.getTowersTeam2() + "</td>");
+            builder.append("</td>");
             builder.append("</tr>");
+
             
         }
         builder.append("</table>");
