@@ -816,9 +816,13 @@ public class Tournament {
             
             //System.out.println(player.getName() + " " + matchDump.get(player.getName()).get("kills") + " " + matchDump.get(player.getName()).get("assists") + " " + kills1 + ((11 + 7)/27));
             KP = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / (double) (kills1);
+            teststat += "KP: " + KP + "\n";
+            
+            KDA = Math.round(KDA * 100);
+            KDA = KDA / 100;
             KP = Math.round(KP * 100);
             KP = KP / 100;
-            teststat += "KP: " + KP + "\n";
+            
             
             if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
                 player.setKDA_ratio(KDA);
@@ -844,8 +848,6 @@ public class Tournament {
             
             if (Double.parseDouble(matchDump.get(player.getName()).get("deaths")) != 0) {
                 KDA = ((Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / Double.parseDouble(matchDump.get(player.getName()).get("deaths")));
-                KDA = Math.round(KDA * 100);
-                KDA = KDA / 100;
             } else {
                 KDA = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists")));
             }
@@ -855,9 +857,14 @@ public class Tournament {
             teststat += "CS: " + CS + " ";
             
             KP = (Double.parseDouble(matchDump.get(player.getName()).get("kills")) + Double.parseDouble(matchDump.get(player.getName()).get("assists"))) / (double) kills2;
+            teststat += "KP: " + KP + "\n";
+            
+            
+            KDA = Math.round(KDA * 100);
+            KDA = KDA / 100;
             KP = Math.round(KP * 100);
             KP = KP / 100;
-            teststat += "KP: " + KP + "\n";
+            
             
             if (player.getKDA_ratio() == 0) { //for the first time, don't use previous (0) value
                 player.setKDA_ratio(KDA);
