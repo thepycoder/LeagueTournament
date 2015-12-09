@@ -73,7 +73,7 @@ public class Tournament {
             }
         }
         ArrayList<Player> players = wrongTeam.getMembers();        
-        teamlist.remove(wrongTeam);
+        teamlist.remove(wrongTeam);        
         this.resetMatches();
         db.removeTeam(wrongTeam,players);
         this.generatePoules(teamlist, poulelist.size());
