@@ -143,6 +143,7 @@ public class ApiHandler {
     
     
     public HashMap<String, String> getMembers(String player) {
+        player = player.replace(" ", "%20");
         JsonObject rootobj = API(player, 0);
         //ArrayList<String> result = new ArrayList<>();
         HashMap<String, String> champSummID = new HashMap<>();

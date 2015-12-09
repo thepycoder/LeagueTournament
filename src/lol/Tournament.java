@@ -73,7 +73,7 @@ public class Tournament {
             }
         }
         ArrayList<Player> players = wrongTeam.getMembers();        
-        teamlist.remove(wrongTeam);
+        teamlist.remove(wrongTeam);        
         this.resetMatches();
         db.removeTeam(wrongTeam,players);
         this.generatePoules(teamlist, poulelist.size());
@@ -444,6 +444,7 @@ public class Tournament {
         int index2 = 0;
         Team blue;
         Team purple;
+        
         
         System.out.println(team1mem + ": " + matchDump);
         if (matchDump.get(team1mem).get("team").equals("1")) {
