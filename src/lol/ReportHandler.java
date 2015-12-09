@@ -56,6 +56,8 @@ public class ReportHandler {
         builder.append("</head>");
         builder.append("<body>");  
         builder.append("<br>");
+        builder.append("<h1>Esports: Tournament League of Legends</h1>");
+        
         if(a == true){
             genMatches();        
             builder.append("<br>");

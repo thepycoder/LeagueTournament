@@ -23,16 +23,15 @@ public class Tournament {
     
     //private static String matchID = "2370414822"; //als voorbeeld
     
-    ArrayList<Team> teamlist = new ArrayList<>();
-    ArrayList<Poule> poulelist = new ArrayList<>();
-    ArrayList<Match> matchlist = new ArrayList<>();
-    ArrayList<Bracket> bracketlist = new ArrayList<>();
-    ArrayList<String> officials = new ArrayList<>();
-    DatabaseHandler db = new DatabaseHandler(this);
-    ApiHandler api = new ApiHandler();
+    public ArrayList<Team> teamlist = new ArrayList<>();
+    public ArrayList<Poule> poulelist = new ArrayList<>();
+    public ArrayList<Match> matchlist = new ArrayList<>();
+    public ArrayList<Bracket> bracketlist = new ArrayList<>();
+    public ArrayList<String> officials = new ArrayList<>();
+    public DatabaseHandler db = new DatabaseHandler(this);
+    public ApiHandler api = new ApiHandler();
     
-    public Tournament() {
-    }
+    
     
     public void changeTeam (String name, String region, String coach, ArrayList<Player> members) {
         Team newTeam = new Team(name, region, coach, members);
