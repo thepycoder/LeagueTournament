@@ -52,12 +52,11 @@ public class ReportHandler {
         builder.append("<html lang=\"en\">");
         builder.append("<head>");
         builder.append("<title>Tournament Overview</title>");
-        builder.append("<style>table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}</style>");
+        builder.append("<style>body {font: 200 20px/1.5 Helvetica, Verdana, sans-serif;} table {border-collapse: collapse;width: 100%;}th, td {text-align: left;padding: 8px;}tr:nth-child(even){background-color: #f2f2f2}th {background-color: #4CAF50;color: white;}ul {list-style-type: none;margin: 0;padding: 0;}li{font: 200 20px/1.5 Helvetica, Verdana, sans-serif;border-bottom: 1px solid #ccc;}li:last-child {border: none;}li a {text-decoration: none;color: #000;display: block;width: 200px;-webkit-transition: font-size 0.3s ease, background-color 0.3s ease;-moz-transition: font-size 0.3s ease, background-color 0.3s ease;-o-transition: font-size 0.3s ease, background-color 0.3s ease;-ms-transition: font-size 0.3s ease, background-color 0.3s ease;transition: font-size 0.3s ease, background-color 0.3s ease;}li a:hover {font-size: 30px;background: #f6f6f6;} div{width: 200px;}</style>");
         builder.append("</head>");
-        builder.append("<body>");  
-        builder.append("<br>");
+        builder.append("<body>");
         builder.append("<h1>Esports: Tournament League of Legends</h1>");
-        
+        genTournament();
         if(a == true){
             genMatches();        
             builder.append("<br>");
@@ -83,10 +82,47 @@ public class ReportHandler {
         builder = new StringBuilder();
     }
     
+    public void genTournament() {
+        builder.append("<h1>Tournament overview</h1>");
+        builder.append("<table>");
+        builder.append("<tr>");
+        builder.append("<td>");
+        builder.append("<div>");
+        builder.append("<p>Officials</p>");
+        builder.append("<ul>");
+        for (String official : t.getOfficials()) {
+            builder.append("<li><a href=#>" + official + "</a></li>");
+        }
+        builder.append("</ul>");
+        builder.append("</div>");
+        builder.append("</td>");
+        
+        builder.append("<td>");
+        builder.append("<div>");
+        builder.append("<p>Coaches</p>");
+        builder.append("<ul>");
+        for (Team team : t.getTeamlist()) {
+            if (!team.getCoach().equals("")) {
+                builder.append("<li><a href=#>" + team.getCoach() + "</a></li>");
+            }
+        }
+        builder.append("</ul>");
+        builder.append("</div>");
+        builder.append("</td>");
+        
+        builder.append("<td>");
+        builder.append("<div>");
+        builder.append("</div>");
+        builder.append("</td>");
+        
+        builder.append("</tr>");
+        builder.append("</table>");
+    }
+    
     public void genTeams() {
         builder.append("<h1>Team overview</h1>");
         builder.append("<table border=\"1\" style=\"width:100%\">");
-        builder.append("<tr><th>Name</th><th>Coach</th><th>Region</th><th>members</th><th></th><th></th><th></th><th></th>");
+        builder.append("<tr><th>Name</th><th>Coach</th><th>Region</th><th>Members</th><th></th><th></th><th></th><th></th>");
         for (Team team : t.getTeamlist()) {
             builder.append("<tr>");
             builder.append("<td>" + team.getName() + "</td>");
@@ -132,7 +168,7 @@ public class ReportHandler {
         
         builder.append("<h2>Played Today</h2>");
         builder.append("<table border=\"1\" style=\"width:100%\" id='report'>");
-        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>timestamp</th><th>official</th><th>tiebreaker</th>");
+        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>Timestamp</th><th>Official</th><th>Tiebreaker</th>");
         for (Match match : today) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
@@ -169,7 +205,7 @@ public class ReportHandler {
         
         builder.append("<h2>Planned</h2>");
         builder.append("<table border=\"1\" style=\"width:100%\">");
-        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>timestamp</th><th>official</th><th>tiebreaker</th>");
+        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>Timestamp</th><th>Official</th><th>Tiebreaker</th>");
         for (Match match : planned) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
@@ -190,7 +226,7 @@ public class ReportHandler {
         
         builder.append("<h2>To Be Played</h2>");
         builder.append("<table border=\"1\" style=\"width:100%\">");
-        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>timestamp</th><th>official</th><th>tiebreaker</th>");
+        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>Timestamp</th><th>Official</th><th>Tiebreaker</th>");
         for (Match match : toplay) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
@@ -210,7 +246,7 @@ public class ReportHandler {
         
         builder.append("<h2>History</h2>");
         builder.append("<table border=\"1\" style=\"width:100%\">");
-        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>timestamp</th><th>official</th><th>tiebreaker</th>");
+        builder.append("<tr><th>MatchID</th><th>Team1</th><th>Team2</th><th>Timestamp</th><th>Official</th><th>Tiebreaker</th>");
         for (Match match : history) {
             builder.append("<tr>");
             builder.append("<td>" + match.getMatchID()+ "</td>");
@@ -248,7 +284,7 @@ public class ReportHandler {
         for (Poule poule : t.getPoulelist()) {
             builder.append("<h2>" + poule.getName() + "</h2>");
             builder.append("<table border=\"1\" style=\"width:100%\">");
-            builder.append("<tr><th>Team</th><th>wins</th><th>losses</th><th>tiebreakerwins</th><th>tiebreakerlosses</th>");
+            builder.append("<tr><th>Team</th><th>Wins</th><th>Losses</th><th>Tiebreakerwins</th><th>Tiebreakerlosses</th>");
             for (Team team : poule.getSortedTeams()) {
                 builder.append("<tr>");
                 builder.append("<td>" + team.getName()+ "</td>");
