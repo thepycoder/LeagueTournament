@@ -23,7 +23,7 @@ public class DatabaseHandler {
 //    public String pass = "";
 //    public String url = "jdbc:mysql://localhost/BINFG16";
 
-    Connection conn = null;
+    public Connection conn = null;
     public Tournament t;
 
     public DatabaseHandler(Tournament t) {
