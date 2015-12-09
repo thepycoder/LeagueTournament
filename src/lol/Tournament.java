@@ -120,11 +120,10 @@ public class Tournament {
         for (Player member : members) {
             db.storePlayer(member);
         }       
-        
+        db.storeTeam(name, members, coach, region);
         this.resetMatches();
         this.generatePoules(teamlist,poulelist.size());
-        this.generatePouleMatches();   
-        db.storeTeam(name, members, coach, region);
+        this.generatePouleMatches();
     }
     
     public void addTeams(ArrayList<Team> teams) {
@@ -625,21 +624,33 @@ public class Tournament {
         Date date = new Date();
         
         //this part is for testing puposes. It sets the names of the members to the ones in the database.
-        ArrayList<Player> allPlayers = new ArrayList<>();
         
-        allPlayers.addAll(team1.getMembers());
-        
-        HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
-        allPlayers.addAll(team2.getMembers());
-        int index = 0;
-        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
-            newMatchDump.put(allPlayers.get(index).getName(), entry.getValue());
-            index++;
-        }
-        matchDump = newMatchDump;
-        
-        matchPlayed.setCompleted("yes");
-        db.setCompleted(matchPlayed, dateFormat.format(date));
+//        HashMap<String,Map<String,String>> newMatchDump = new HashMap<>();
+//        
+//        int index1 = 0;
+//        int index2 = 0;
+//        ArrayList<Player> blue;
+//        ArrayList<Player> purple;
+//        
+//        System.out.println(team1mem + ": " + matchDump);
+//        if (matchDump.get(team1mem).get("team").equals("1")) {
+//            blue = team1.getMembers();
+//            purple = team2.getMembers();
+//        } else {
+//            blue = team2.getMembers();
+//            purple = team1.getMembers();
+//        }
+//        
+//        for (Entry<String, Map<String, String>> entry : matchDump.entrySet()) {
+//            if (entry.getValue().get("team").equals("1")) {
+//                newMatchDump.put(blue.get(index1).getName(), entry.getValue());
+//                index1++;
+//            } else if (entry.getValue().get("team").equals("2")) {
+//                newMatchDump.put(purple.get(index2).getName(), entry.getValue());
+//                index2++;
+//            }
+//        }
+//        matchDump = newMatchDump;
         //end testing part
         
         //Statistics part
