@@ -438,7 +438,7 @@ public class DatabaseHandler {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
 
-            String query = "UPDATE teams SET region='" + team.getRegion() + "', coach='" + team.getCoach() + "', poulewins=" + team.getPouleWins() + ", tiebreakerwins=" + team.getTieBreakerWins() + ", member1='" + team.getMembers().get(0) + "', member2='" + team.getMembers().get(1) + "', member3='" + team.getMembers().get(2) + "', member4='" + team.getMembers().get(3) + "', member5='" + team.getMembers().get(4) + "' WHERE name='" + team.getName() + "'";
+            String query = "UPDATE teams SET region='" + team.getRegion() + "', coach='" + team.getCoach() + "', member1='" + team.getMembers().get(0) + "', member2='" + team.getMembers().get(1) + "', member3='" + team.getMembers().get(2) + "', member4='" + team.getMembers().get(3) + "', member5='" + team.getMembers().get(4) + "' WHERE name='" + team.getName() + "'";
             String query2 = "UPDATE poulescores SET wins=" + team.getPouleWins() + ", losses=" + team.getPouleLosses() + ", tiebreakerwins=" + team.getTieBreakerWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
@@ -612,7 +612,6 @@ public class DatabaseHandler {
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-
             String query = "UPDATE poulescores SET losses=" + team.getPouleLosses() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);
@@ -633,7 +632,6 @@ public class DatabaseHandler {
         try {
             conn = createConnection(url);
             Statement stmt = conn.createStatement();
-
             String query = "UPDATE poulescores SET tiebreakerwins=" + team.getTieBreakerWins() + " WHERE teamname='" + team.getName() + "'";
             System.out.println(query);
             stmt.executeUpdate(query);

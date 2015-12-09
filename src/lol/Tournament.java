@@ -120,11 +120,11 @@ public class Tournament {
         for (Player member : members) {
             db.storePlayer(member);
         }       
-        
+        db.storeTeam(name, members, coach, region);
         this.resetMatches();
         this.generatePoules(teamlist,poulelist.size());
         this.generatePouleMatches();   
-        db.storeTeam(name, members, coach, region);
+        
     }
     
     public void addTeams(ArrayList<Team> teams) {
@@ -445,6 +445,7 @@ public class Tournament {
         int index2 = 0;
         Team blue;
         Team purple;
+        
         
         System.out.println(team1mem + ": " + matchDump);
         if (matchDump.get(team1mem).get("team").equals("1")) {
