@@ -58,7 +58,7 @@ public class Main {
         // GuiRemoveOfficial sk = new GuiRemoveOfficial(t);
         //sk.show();
         // System.out.println(t.getOfficials());
-//        GuiSilke sg = new GuiSilke(t);
+//      GuiSilke sg = new GuiSilke(t);
 //        sg.show();
         GuiSilke sg = new GuiSilke(t);
         sg.show();
