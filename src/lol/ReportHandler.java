@@ -75,6 +75,7 @@ public class ReportHandler {
         }
         if(d == true){
             genBrackets();
+            
         }
         builder.append("</body>");
         builder.append("</html>");
